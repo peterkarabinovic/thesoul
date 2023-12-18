@@ -14,6 +14,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Mobile: Story = {
     parameters:{
-        layout: 'mobile'
+        viewport:{
+            defaultViewport: 'mobile2'
+        } 
     },
 }
+
+export const Desktop: Story = {}

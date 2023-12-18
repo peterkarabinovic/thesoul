@@ -11,7 +11,7 @@ type BreadcrumbsProps = {
 export function Breadcrumbs({ parents, lastTitle }: BreadcrumbsProps){
 
     return (
-        <ul className="p-2 flex flex-wrap items-center justify-start space-x-1 text-dark text-sm">
+        <ul className="p-2 flex items-center justify-start space-x-1 text-dark text-sm overflow-x-auto">
             
             {parents.map((item) => (
                 

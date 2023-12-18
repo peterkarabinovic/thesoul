@@ -26,3 +26,23 @@ export const Main: Story = {
     }
 };
 
+export const Long: Story = {
+    args: {
+        parents: [
+            {
+                title: 'Головна',
+                path: '/'
+            },
+            {
+                title: 'Чоловикам',
+                path: '/man'
+            },
+            {
+                title: 'Одяг',
+                path: "/clothes"
+            }
+        ],
+        lastTitle: 'Костюми'
+    }
+};
+

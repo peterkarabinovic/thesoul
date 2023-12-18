@@ -9,13 +9,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-    //   fontFamily: {
-    //     sans: ['var(--font-geist-sans)']
-    //   },
+      //   fontFamily: {
+      //     sans: ['var(--font-geist-sans)']
+      //   },
+      aspectRatio: {
+        '2/1': '2 / 1',
+        '3/4': '3 / 4',
+      },
       colors: {
-
-
-        "primary": {
+        primary: {
           DEFAULT: '#606c38',
           100: '#13160b',
           200: '#262b16',
@@ -27,7 +29,7 @@ module.exports = {
           800: '#c5d0a3',
           900: '#e2e7d1'
         },
-        "dark": {
+        dark: {
           DEFAULT: '#283618',
           100: '#080b05',
           200: '#101509',
@@ -51,7 +53,7 @@ module.exports = {
           800: '#fffdf3',
           900: '#fffef9'
         },
-        "accent2": {
+        accent2: {
           DEFAULT: '#dda15e',
           100: '#34210b',
           200: '#684216',
@@ -63,7 +65,7 @@ module.exports = {
           800: '#f1dabf',
           900: '#f8ecdf'
         },
-        "accent": {
+        accent: {
           DEFAULT: '#bc6c25',
           100: '#251507',
           200: '#4b2b0f',

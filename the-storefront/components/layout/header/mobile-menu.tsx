@@ -14,8 +14,9 @@ type MobileMenuProps = {
 
 export default function MobileMenu({ menu, className = '' }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const openMobileMenu = () => setIsOpen(true);
+//   const openMobileMenu = () => setIsOpen(true);
   const closeMobileMenu = () => setIsOpen(false);
+  const togleMobileMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const handleResize = () => setIsOpen(false);
@@ -27,7 +28,7 @@ export default function MobileMenu({ menu, className = '' }: MobileMenuProps) {
 
   return (
     <>
-      <button type="button" className={clazz} onClick={openMobileMenu}>
+      <button type="button" className={clazz} onClick={togleMobileMenu}>
         <span className="sr-only">Open menu</span>
         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         {/* <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

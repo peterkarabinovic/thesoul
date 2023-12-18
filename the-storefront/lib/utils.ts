@@ -1,4 +1,5 @@
 import { ReadonlyURLSearchParams } from 'next/navigation';
+import { Money } from './medusa/types';
 
 export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
   const paramsString = params.toString();
@@ -37,3 +38,13 @@ export const validateEnvironmentVariables = () => {
     );
   }
 };
+
+
+// eslint-disable-next-line no-unused-vars
+export function groupBy<T>(xs: T[], fn: (x: T) => string  ) {
+  return xs.reduce((rv, x) => {
+    const groupName = fn(x); 
+    (rv[groupName] = rv[groupName] || []).push(x);
+    return rv;
+  }, {} as Record<string, T[]>);
+}
