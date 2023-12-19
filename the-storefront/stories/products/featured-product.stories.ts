@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FeaturedProduct } from 'components/product-2';
+import { FeaturedProduct } from 'components/product';
 
 const meta = {
-    title: 'Components/Product/FeaturedProduct',
+    title: 'Product/FeaturedProduct',
     component: FeaturedProduct
 } satisfies Meta<typeof FeaturedProduct>;
 
@@ -20,12 +20,11 @@ export const Mobile: Story = {
     },
     args: {
         product: { 
+            id: '1',
             title: 'Солодкі Враження',
             description: "Поглибіться у світ солодких насолод і неймовірних вражень. Ідеальні подарунки для справжніх гурманів.",
-            images: [
-                { url: 'https://via.placeholder.com/1000x1000', altText: 'Product image' } as any,
-            ],
-            priceRange: { maxVariantPrice: { amount: "1000", currencyCode: 'UAH' } },
+            featuredImageSrc: 'https://via.placeholder.com/1000x1000',
+            price: { amount: "1000", currencyCode: 'UAH' } ,
         }
     }
 }
@@ -33,12 +32,11 @@ export const Mobile: Story = {
 export const Desktop: Story = {
     args: {
         product: { 
+            id: '2',
             title: 'Енергія Позитиву',
             description: "Подарунки, що принесуть у ваш день світлу енергію та позитив. Оберіть радість для ваших близьких.",
-            images: [
-                { url: 'https://via.placeholder.com/1000x1000', altText: 'Product image' } as any,
-            ],
-            priceRange: { maxVariantPrice: { amount: "1000", currencyCode: 'UAH' } },
+            featuredImageSrc: 'https://via.placeholder.com/1000x1000',
+            price: { amount: "1000", currencyCode: 'UAH' } ,
         }
     }
 }

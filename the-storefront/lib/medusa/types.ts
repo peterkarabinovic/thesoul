@@ -1,3 +1,8 @@
+export type RequestError = {
+    message: string;
+    status: number;
+};
+
 export type MedusaProductCollection = {
   name: any;
   description: string | undefined;

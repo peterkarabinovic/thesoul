@@ -1,12 +1,10 @@
-import { Carousel } from 'components/carousel';
-import { ThreeItemGrid } from 'components/grid/three-items';
-import Footer from 'components/layout/footer';
-import { Suspense } from 'react';
+import { ProductList } from 'components/product'; 
+import { productListQuery } from "lib/data/product-requests";
 
 export const runtime = 'edge';
 
 export const metadata = {
-  description: 'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
+  description: `Знайди у магазині подарунків TheSoul широкий вибір подарункових комплектів для будь-якого випадку - від свят і днів народження до особливих життєвих подій`,
   openGraph: {
     type: 'website'
   }
@@ -14,14 +12,6 @@ export const metadata = {
 
 export default async function HomePage() {
   return (
-    <>
-      <ThreeItemGrid />
-      <Suspense>
-        <Carousel />
-        <Suspense>
-          <Footer />
-        </Suspense>
-      </Suspense>
-    </>
+    <ProductList getProductListQuery={productListQuery}/>
   );
 }

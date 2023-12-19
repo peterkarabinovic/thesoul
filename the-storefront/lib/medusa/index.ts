@@ -25,8 +25,8 @@ import {
   SelectedOption
 } from './types';
 
+
 const ENDPOINT = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_API ?? 'http://localhost:9000';
-const MEDUSA_API_KEY = process.env.MEDUSA_API_KEY ?? '';
 
 export default async function medusaRequest({
   cache = 'force-cache',
@@ -45,7 +45,6 @@ export default async function medusaRequest({
     method,
     headers: {
       'Content-Type': 'application/json',
-    //   'x-publishable-key': MEDUSA_API_KEY
     },
     cache,
     ...(tags && { next: { tags } })
@@ -201,7 +200,7 @@ const reshapeProduct = (product: MedusaProduct): Product => {
   let currencyCode = 'USD';
   if (variant && variant.prices?.[0]?.amount) {
     currencyCode = variant.prices?.[0]?.currency_code.toUpperCase() ?? 'USD';
-    amount = convertToDecimal(variant.prices[0].amount, currencyCode).toString();
+    amount = String(convertToDecimal(variant.prices[0].amount, currencyCode).toString());
   }
 
   const priceRange = {
@@ -249,7 +248,7 @@ const reshapeProductOption = (productOption: MedusaProductOption): ProductOption
   const availableForSale = productOption.product?.variants?.[0]?.purchasable || true;
   const name = productOption.title;
   let values = productOption.values?.map((option) => option.value) || [];
-  values = [...new Set(values)];
+  values = Array.from(new Set(values));
 
   return {
     ...productOption,
@@ -455,7 +454,7 @@ export async function getProducts({
     return [];
   }
 
-  let products: Product[] = res?.body.products.map((product: MedusaProduct) =>
+  const products: Product[] = res?.body.products.map((product: MedusaProduct) =>
     reshapeProduct(product)
   );
 

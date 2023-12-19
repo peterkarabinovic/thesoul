@@ -1,5 +1,5 @@
 import { ReadonlyURLSearchParams } from 'next/navigation';
-import { Money } from './medusa/types';
+import { MedusaProductOption } from './medusa/types';
 
 export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyURLSearchParams) => {
   const paramsString = params.toString();
@@ -8,43 +8,34 @@ export const createUrl = (pathname: string, params: URLSearchParams | ReadonlyUR
   return `${pathname}${queryString}`;
 };
 
-export const ensureStartsWith = (stringToCheck: string, startsWith: string) =>
-  stringToCheck.startsWith(startsWith) ? stringToCheck : `${startsWith}${stringToCheck}`;
-
-export const validateEnvironmentVariables = () => {
-  const requiredEnvironmentVariables = ['SHOPIFY_STORE_DOMAIN', 'SHOPIFY_STOREFRONT_ACCESS_TOKEN'];
-  const missingEnvironmentVariables = [] as string[];
-
-  requiredEnvironmentVariables.forEach((envVar) => {
-    if (!process.env[envVar]) {
-      missingEnvironmentVariables.push(envVar);
-    }
+export const mapOptionIds = (productOptions: MedusaProductOption[]) => {
+  // Maps the option titles to their respective ids
+  const map: Record<string, string> = {};
+  productOptions.forEach((option) => {
+    map[option.id] = option.title;
   });
+  return map;
+};
 
-  if (missingEnvironmentVariables.length) {
-    throw new Error(
-      `The following environment variables are missing. Your site will not work without them. Read more: https://vercel.com/docs/integrations/shopify#configure-environment-variables\n\n${missingEnvironmentVariables.join(
-        '\n'
-      )}\n`
-    );
-  }
+export const isObject = (input: any) => input instanceof Object;
+export const isArray = (input: any) => Array.isArray(input);
 
-  if (
-    process.env.SHOPIFY_STORE_DOMAIN?.includes('[') ||
-    process.env.SHOPIFY_STORE_DOMAIN?.includes(']')
-  ) {
-    throw new Error(
-      'Your `SHOPIFY_STORE_DOMAIN` environment variable includes brackets (ie. `[` and / or `]`). Your site will not work with them there. Please remove them.'
-    );
-  }
+export const isEmpty = (input: any) => {
+  return (
+    input === null ||
+    input === undefined ||
+    (isObject(input) && Object.keys(input).length === 0) ||
+    (isArray(input) && (input as any[]).length === 0) ||
+    (typeof input === 'string' && input.trim().length === 0)
+  );
 };
 
 
 // eslint-disable-next-line no-unused-vars
 export function groupBy<T>(xs: T[], fn: (x: T) => string  ) {
-  return xs.reduce((rv, x) => {
-    const groupName = fn(x); 
-    (rv[groupName] = rv[groupName] || []).push(x);
-    return rv;
-  }, {} as Record<string, T[]>);
-}
+    return xs.reduce((rv, x) => {
+      const groupName = fn(x); 
+      (rv[groupName] = rv[groupName] || []).push(x);
+      return rv;
+    }, {} as Record<string, T[]>);
+  }

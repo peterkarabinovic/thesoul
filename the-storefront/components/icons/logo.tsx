@@ -1,5 +1,6 @@
 
 export function LogoIcon(props: React.ComponentProps<'svg'>) {
+  // eslint-disable-next-line prefer-const
   let { className = "", ...rest } = props;
   if( !className.includes("fill-") )
     className = `fill-black-800 ${className}`

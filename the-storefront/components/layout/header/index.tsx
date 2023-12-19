@@ -29,7 +29,7 @@ const subTitle = 'магазин подарунків'
 export default function Header() {
   return (
     <header className="max-w-full bg-primary">
-      <div className="mx-auto max-w-full border-b border-accent px-4 py-4  sm:max-w-4xl sm:px-8 lg:max-w-7xl">
+      <div className="mx-auto max-w-full px-4 py-4  sm:max-w-4xl sm:px-8 lg:max-w-7xl">
         <div className="flex items-center justify-start  sm:space-x-8 sm:justify-center">
           <MobileMenu menu={menu} className="sm:hidden bg-primary text-light pr-4" />
           <LogoIcon className="h-6 w-auto fill-light sm:h-8" />

@@ -8,6 +8,10 @@ module.exports = {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
+        protocol: 'http',
+        hostname: 'localhost'
+      },
+      {
         protocol: 'https',
         hostname: 'cdn.shopify.com',
         pathname: '/s/files/**'
