@@ -38,17 +38,52 @@ resource "aws_instance" "thesoul_server" {
   security_groups = [aws_security_group.thesoul-sg.name]
   key_name = "thesoul-online"
   associate_public_ip_address = true // TODO: use Elastic IP
+  iam_instance_profile = aws_iam_instance_profile.s3_access_profile.name
+}
 
-  provisioner "file" {
-    source = "${path.module}/docker-compose.yml"
-    destination = "/home/ec2-user/docker-compose.yml"
-    connection {
-      type = "ssh"
-      user = "ec2-user"
-      private_key = file("~/.ssh/thesoul-online.pem")
-      host = self.public_ip
-    }
-  }
+# Access to S3
+resource "aws_iam_role" "s3_access_role" {
+  name = "S3AccessRole"
+
+  assume_role_policy = jsonencode({
+    "Version" = "2012-10-17"
+    "Statement" = [
+      {
+        "Action" = "sts:AssumeRole"
+        "Effect" = "Allow"
+        "Sid"    = ""
+        "Principal" = {
+          "Service" = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "s3_access_policy" {
+  name = "S3AccessPolicy"
+  role = aws_iam_role.s3_access_role.id
+
+  policy = jsonencode({
+    "Version" = "2012-10-17"
+    "Statement" = [
+      {
+        "Action" = [
+          "s3:*",
+        ]
+        "Effect"  = "Allow"
+        "Resource" = [
+          "arn:aws:s3:::the-soul",
+          "arn:aws:s3:::the-soul/*"
+        ]
+      }
+    ]
+  }) 
+}
+
+resource "aws_iam_instance_profile" "s3_access_profile" {
+  name = "S3AccessProfile"
+  role = aws_iam_role.s3_access_role.name
 }
 
 
