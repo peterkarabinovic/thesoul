@@ -38,8 +38,8 @@ const plugins = [
       s3_url: "https://the-soul.s3.eu-central-1.amazonaws.com",
       bucket: "the-soul",
       region: "eu-central-1",
-      access_key_id: "AKIAUNWZZ67ZVE4WGPVC",
-      secret_access_key: "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",      
+      access_key_id: "xxxxxxxxxxxxxxxxxxxx",
+      secret_access_key: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",      
     },
   },
   {

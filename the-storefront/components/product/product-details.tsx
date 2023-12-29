@@ -18,11 +18,7 @@ const images = [
 ];
 
 export function ProductDetails({ product }: ProductDetailsProps) {
-  const [indx, setIndx] = useState(0);
 
-  const handleClick = () => {
-    setIndx((i) => (i + 1) % images.length);
-  };
 
   return (
     <div className="container mx-auto grid grid-cols-1 gap-y-4 lg:max-w-6xl lg:grid-cols-2 lg:gap-x-8">
@@ -32,7 +28,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
       <div className="w-ful p-4 lg:p-8">
         <div>
           <h2 className="tracking-widest text-neutral-500 lg:text-base uppercase">Subtitile</h2>
-          <h1 className="mb-1 text-3xl font-medium text-neutral-900">Product Name</h1>
+          <h1 className="mb-1 text-3xl font-medium text-base-content">Product Name</h1>
         </div>
         <div className="border-secondary grid grid-cols-1 gap-y-4 border-b-2 py-4">
           <span className="text-info leading-relaxed">Sold Out</span>
@@ -44,8 +40,8 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           </p>
         </div>
         <div className="grid grid-cols-1 items-center justify-between gap-8 py-8 lg:grid-cols-2 lg:py-8 ">
-          <h1 className="text-3xl font-medium text-neutral-900">1000 UAH</h1>
-          <button className="btn btn-secondary max-w-96" onClick={handleClick}>
+          <h1 className="text-3xl font-medium text-base-content">1000 UAH</h1>
+          <button className="btn btn-secondary max-w-96 rounded-xl">
             Add to Cart
           </button>
         </div>

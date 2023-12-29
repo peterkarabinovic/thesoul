@@ -21,6 +21,7 @@ export function Carousel({ images, fullWidth }: CarouselProps) {
 
   const full = fullWidth ? 'w-full' : 'h-full';
   const decoration = "rounded-xl bg-secondary text-secondary-content opacity-80 border-0"
+  const isOne = images.length === 1;
 
   const handleScroll = () => {
     const element = carouselRef.current as unknown as HTMLDivElement;
@@ -62,21 +63,23 @@ export function Carousel({ images, fullWidth }: CarouselProps) {
           </div>
         ))}
       </div>
-      <div className={clsx("absolute top-3 right-3 py-1 px-2 text-xs font-bold", decoration)}>
-        {indx+1}/{images.length}
-      </div>
+      <div className={clsx({ "hidden": isOne })}>
+        <div className={clsx("absolute top-3 right-3 py-1 px-2 text-xs font-bold", decoration)}>
+            {indx+1}/{images.length}
+        </div>
 
-      <div className='hidden lg:flex absolute justify-between transform -translate-y-1/2 left-3 right-3 top-1/2'>
-          <button className={clsx("btn", decoration, { "invisible": indx === 0 } )} 
-                  onClick={() => handleClick(-1)}>❮</button> 
-          <button className={clsx("btn", decoration, { "invisible": indx === images.length - 1 })} 
-                  onClick={() => handleClick(1)} >❯</button> 
-      </div>
- 
-      <div className="flex flex-wrap justify-center gap-1">
-        {images.map((_, i) => (
-          <div key={i} className={clsx("h-2 w-2 rounded-full", i === indx ? "bg-secondary" : "bg-base-200")} />
-        ))}
+        <div className='hidden lg:flex absolute justify-between transform -translate-y-1/2 left-3 right-3 top-1/2'>
+            <button className={clsx("btn", decoration, { "invisible": indx === 0 } )} 
+                    onClick={() => handleClick(-1)}>❮</button> 
+            <button className={clsx("btn", decoration, { "invisible": indx === images.length - 1 })} 
+                    onClick={() => handleClick(1)} >❯</button> 
+        </div>
+    
+        <div className="flex flex-wrap justify-center gap-1">
+            {images.map((_, i) => (
+            <div key={i} className={clsx("h-2 w-2 rounded-full", i === indx ? "bg-secondary" : "bg-base-200")} />
+            ))}
+        </div>
       </div>
     </div>
   );
