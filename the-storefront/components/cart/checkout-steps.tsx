@@ -1,6 +1,8 @@
 import { MapPinIcon, ShoppingCartIcon, CreditCardIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
+// Taken from here
+// https://www.hyperui.dev/components/application-ui/steps
 
 type CheckoutStepsProps = {
   onClick: (step: number) => void;
@@ -48,7 +50,7 @@ export function CheckoutSteps({ step, onClick, disabledSteps }: CheckoutStepsPro
               )}
               onClick={() => isClickable(index) && onClick(index)}
             >
-              <item.icon className="h-7 w-7" />
+              <item.icon className="h-7 w-7 opacity-80" />
 
               <p className="leading-none">
                 <strong className="block font-medium"> {item.title} </strong>

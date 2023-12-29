@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+
 
 type MobileMenuProps = {
   menu: {
@@ -26,7 +26,7 @@ export default function MobileMenu({ menu, className = '' }: MobileMenuProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, [isOpen]);
 
-  const clazz = twMerge('rounded-md p-2 bg-primary text-light', className);
+  const clazz = 'rounded-md p-2 bg-secondary text-neutral ' + className;
 
   return (
     <>
@@ -76,7 +76,7 @@ export default function MobileMenu({ menu, className = '' }: MobileMenuProps) {
                   <ul className="flex w-full flex-col">
                     {menu.map( item => (
                       <li
-                        className="py-2 text-xl transition-colors bg-primary text-light hover:text-light-500"
+                        className="py-2 text-xl transition-colors bg-secondary text-neutral hover:text-neutral-500"
                         key={item.title}
                       >
                         <Link href={item.path} onClick={closeMobileMenu}>

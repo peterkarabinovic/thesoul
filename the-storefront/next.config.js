@@ -13,8 +13,7 @@ module.exports = {
       },
       {
         protocol: 'https',
-        hostname: 'cdn.shopify.com',
-        pathname: '/s/files/**'
+        hostname: 'the-soul.s3.eu-central-1.amazonaws.com',
       }
     ]
   },

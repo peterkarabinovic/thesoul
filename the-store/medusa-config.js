@@ -26,10 +26,20 @@ try {
 const plugins = [
   `medusa-fulfillment-manual`,
   `medusa-payment-manual`,
+//   {
+//     resolve: `@medusajs/file-local`,
+//     options: {
+//       upload_dir: "uploads",
+//     },
+//   },
   {
-    resolve: `@medusajs/file-local`,
+    resolve: `medusa-file-s3`,
     options: {
-      upload_dir: "uploads",
+      s3_url: "https://the-soul.s3.eu-central-1.amazonaws.com",
+      bucket: "the-soul",
+      region: "eu-central-1",
+      access_key_id: "AKIAUNWZZ67ZVE4WGPVC",
+      secret_access_key: "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",      
     },
   },
   {

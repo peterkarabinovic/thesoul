@@ -18,3 +18,7 @@ export async function productListQuery(): Promise<Result<ProductBrief[], Request
 
     return Result.of(listItems);
 }
+
+export async function productQuery(id: string): Promise<Result<ProductBrief, RequestError>> {
+    
+}

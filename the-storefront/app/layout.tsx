@@ -2,7 +2,7 @@ import Header from 'components/layout/header';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 
-const SITE_NAME = "TheSoul"
+const SITE_NAME = process.env.SITE_NAME || "TheSoul"
 const baseUrl = process.env.STOREFRONT_PUBLIC_URL || 'http://localhost:3000'
 
 export const metadata = {

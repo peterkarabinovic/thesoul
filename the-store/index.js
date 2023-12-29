@@ -1,5 +1,6 @@
 const express = require("express")
 const { GracefulShutdownServer } = require("medusa-core-utils")
+const { setTelemetryEnabled } = require("medusa-telemetry")
 
 const loaders = require("@medusajs/medusa/dist/loaders/index").default
 
@@ -9,6 +10,7 @@ const loaders = require("@medusajs/medusa/dist/loaders/index").default
     const directory = process.cwd()
 
     try {
+        setTelemetryEnabled(false);
       const { container } = await loaders({
         directory,
         expressApp: app

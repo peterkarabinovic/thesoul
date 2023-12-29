@@ -23,7 +23,14 @@ newgrp docker
 
 
 # Clone the repository
-git clone https://github.com/peterkarabinovic/thesoul.git /home/ec2-user/thesoul
+su ec2-user
+sudo -u ec2-user git clone https://github.com/peterkarabinovic/thesoul.git /home/ec2-user/thesoul
+
+# Install dependencies
+cd /home/ec2-user/thesoul/the-store
+pnpm install
+cd ../the-storefront
+pnpm install
 
 
 

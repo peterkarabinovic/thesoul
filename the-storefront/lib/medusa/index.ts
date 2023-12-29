@@ -26,6 +26,8 @@ import {
 } from './types';
 
 
+export * from "./types"
+
 const ENDPOINT = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_API ?? 'http://localhost:9000';
 
 export default async function medusaRequest({

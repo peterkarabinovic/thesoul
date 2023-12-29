@@ -2,6 +2,50 @@ version: '3.8'
 
 services:
   
+  store:
+    image: node:18-alpine
+    container_name: store
+    restart: unless-stopped
+    volumes:
+      - ./the-store/node_modules:/app/node_modules
+      - ./the-store/uploads:/app/uploads
+      - ./the-store/dist:/app/dist
+      - ./the-store/medusa-config.js:/app/medusa-config.js
+      - ./the-store/package.json:/app/package.json
+      - ./the-store/index.js:/app/index.js
+    working_dir: /app
+    environment:
+      DATABASE_URL: postgres://root:root-user@database:5432/thesoul
+      DATABASE_TYPE: postgres
+      # NODE_ENV: prodction
+      NPM_CONFIG_PRODUCTION: false
+    ports:
+      - 9000:9000
+    command: node index.js
+    networks:
+      - thesoul
+
+  storefront:
+    image: node:18-alpine
+    container_name: storefront
+    restart: unless-stopped
+    volumes:
+      - ./the-storefront/node_modules:/app/node_modules
+      - ./the-storefront/.next:/app/.next
+      - ./the-storefront/package.json:/app/package.json
+      - ./the-storefront/next.config.js:/app/next.config.js
+    environment:
+      - SITE_NAME=TheSoul
+      - NEXT_PUBLIC_MEDUSA_BACKEND_API=http://localhost:9000
+      - NEXT_INTERNAL_MEDUSA_BACKEND_API=http://store:9000
+    working_dir: /app
+    ports:
+      - 3000:3000
+    command: npm run start
+    networks:
+      - thesoul
+    
+
   #The postgres database: 
   database:
     image: postgres:16

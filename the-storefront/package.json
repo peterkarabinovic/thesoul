@@ -30,8 +30,7 @@
     "geist": "^1.2.0",
     "next": "^14.0.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "tailwind-merge": "^2.1.0"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.6.6",
@@ -49,6 +48,7 @@
     "@types/react-dom": "18.2.14",
     "@vercel/git-hooks": "^1.0.0",
     "autoprefixer": "^10.4.16",
+    "daisyui": "^4.4.24",
     "eslint": "^8.55.0",
     "eslint-config-next": "^14.0.4",
     "eslint-config-prettier": "^9.1.0",

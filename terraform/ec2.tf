@@ -34,11 +34,14 @@ resource "aws_instance" "thesoul_server" {
   tags = {
     Name = "thesoul-online"
   }
-  user_data = file("${path.module}/../scripts/user-data.sh")
+  user_data = file("${path.module}/user-data.sh")
   security_groups = [aws_security_group.thesoul-sg.name]
   key_name = "thesoul-online"
   associate_public_ip_address = true // TODO: use Elastic IP
   iam_instance_profile = aws_iam_instance_profile.s3_access_profile.name
+  root_block_device {
+    volume_size = 12
+  }
 }
 
 # Access to S3

@@ -1,5 +1,6 @@
-import { Money, MedusaProduct } from '../medusa/types';
+import { Money, MedusaProduct} from '../medusa';
 
+export { type Product } from "../medusa"
 
 /****************************************************************************************
  * 

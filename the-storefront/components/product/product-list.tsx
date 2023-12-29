@@ -53,7 +53,7 @@ export async function ProductList( {getProductListQuery}: ProductListProps ){
                 <div key={i} className="w-full pb-4">
                     <FeaturedProduct product={group.featured!} />
                     <div className="mx-auto p-8 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 
-                                    lg:grid-cols-3 sm:max-w-4xl sm:p-16 lg:max-w-7xl md:gap-x-16">
+                                    lg:grid-cols-3 container  lg:max-w-6xl md:gap-x-16">
                     {group.rest.map( product => (
                         <ProductListItem key={product.id} product={product} />
                     ))}
