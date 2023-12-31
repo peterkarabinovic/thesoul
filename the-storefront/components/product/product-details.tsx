@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Image from 'next/image';
 import { Product } from 'lib/data/types';
 import { Carousel } from "components/carousel";
+import { AddToCartBtn } from './add-to-cart-btn';
 
 type ProductDetailsProps = {
   product: Pick<Product, 'images'>;
@@ -41,9 +41,10 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         </div>
         <div className="grid grid-cols-1 items-center justify-between gap-8 py-8 lg:grid-cols-2 lg:py-8 ">
           <h1 className="text-3xl font-medium text-base-content">1000 UAH</h1>
-          <button className="btn btn-secondary max-w-96 rounded-xl">
-            Add to Cart
-          </button>
+          <AddToCartBtn
+                addToCart={() => {}}
+                removeFromCart={() => {}}
+            />
         </div>
       </div>
     </div>
