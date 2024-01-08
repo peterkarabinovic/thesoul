@@ -1,16 +1,14 @@
 module.exports = {
-  extends: ['next', 'prettier', 'plugin:storybook/recommended'],
-  plugins: ['unicorn'],
+  extends: [
+    'next', 
+    'prettier',
+    'eslint:recommended', 
+    'plugin:@typescript-eslint/recommended',
+    'plugin:storybook/recommended'],
+  plugins: ['unicorn', '@typescript-eslint'],
   rules: {
-    'no-unused-vars': [
-      'error',
-      {
-        args: 'after-used',
-        caughtErrors: 'none',
-        ignoreRestSiblings: true,
-        vars: 'all'
-      }
-    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
     'prefer-const': 'error',
     'react-hooks/exhaustive-deps': 'error',
     'unicorn/filename-case': [

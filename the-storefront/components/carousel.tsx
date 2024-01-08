@@ -1,11 +1,13 @@
+'use client'
+
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import clsx from 'clsx';
 
 type CarouselProps = {
   images: {
-    src: string;
-    alt: string;
+    url: string;
+    altText: string;
   }[];
   fullWidth: boolean;
 };
@@ -13,9 +15,9 @@ type CarouselProps = {
 export function Carousel({ images, fullWidth }: CarouselProps) {
   const [indx, setIndx] = useState(0);
 
-  // Not  for all Image Components we set the right src, only for visible + on both sides
+  // Not for all Image Components we set the right src, only for visible + on both sides
   // see at 'handleScroll'
-  const [srcs, setSrcs] = useState(images.map((img, i) => i === 0 || i === 1 ? img.src : '' ));
+  const [srcs, setSrcs] = useState(images.map((img, i) => i === 0 || i === 1 ? img.url : '' ));
 
   const carouselRef = useRef(null);
 
@@ -33,9 +35,9 @@ export function Carousel({ images, fullWidth }: CarouselProps) {
     // load images for visible + on both sides
     srcs[_indx] || setSrcs((srcs) => {
       const _srcs = [...srcs];
-      _srcs[_indx] = images[_indx]?.src || "";
-      _indx - 1 >= 0 && (_srcs[_indx - 1] = images[_indx - 1]?.src || "");
-      _indx + 1 < images.length && (_srcs[_indx + 1] = images[_indx + 1]?.src || "");
+      _srcs[_indx] = images[_indx]?.url || "";
+      _indx - 1 >= 0 && (_srcs[_indx - 1] = images[_indx - 1]?.url || "");
+      _indx + 1 < images.length && (_srcs[_indx + 1] = images[_indx + 1]?.url || "");
       return _srcs;
     })
   }
@@ -59,7 +61,7 @@ export function Carousel({ images, fullWidth }: CarouselProps) {
           <div key={i} className="carousel-item relative aspect-3/4">
             <Image fill={true} 
                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                   src={String(srcs[i])} alt={img.alt} />
+                   src={String(srcs[i])} alt={img.altText} />
           </div>
         ))}
       </div>

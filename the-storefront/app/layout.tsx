@@ -1,5 +1,5 @@
-import Header from 'components/layout/header';
 import { ReactNode, Suspense } from 'react';
+import Header from 'components/layout/header';
 import './globals.css';
 
 const SITE_NAME = process.env.SITE_NAME || "TheSoul"

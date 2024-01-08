@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ProductListItem } from 'components/product';
+import { ProductListItem } from 'components/product-list/product-item';
 
 const meta = {
-    title: 'Product/ProductListItem',
+    title: "Product List/Item",
     component: ProductListItem
 } satisfies Meta<typeof ProductListItem>;
 
@@ -20,7 +20,7 @@ export const Mobile: Story = {
     },
     args: {
         product: { 
-            id: '1',
+            handle: '1',
             title: 'Солодкі Враження',
             description: "Поглибіться у світ солодких насолод і неймовірних вражень. Ідеальні подарунки для справжніх гурманів.",
             featuredImageSrc: 'https://via.placeholder.com/1000x1000',

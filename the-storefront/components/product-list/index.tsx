@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { ProductBrief, RequestError } from "lib/data"
 import { Result } from "lib/result"
 import { groupBy } from "lib/utils";
-import { FeaturedProduct, ProductListItem } from "./product";
+import { FeaturedProduct, ProductListItem } from "./product-item";
 
 
 // type ProductView = Pick<Product, 'title' | 'description' | 'images' | 'priceRange'|'updatedAt'| 'collection_id' | 'tags' | 'id' >

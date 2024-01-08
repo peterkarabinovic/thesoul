@@ -4,12 +4,12 @@ import { ProductBrief } from 'lib/data/types';
 import { formatPrice } from 'lib/medusa/helpers';
 
 type ProductProps = {
-  product: Pick<ProductBrief, 'title' | 'description' | 'featuredImageSrc' | 'price' | 'id'>;
+  product: Pick<ProductBrief, "handle" | "title" | "featuredImageSrc" | "description" | "price">;
 };
 
 export function FeaturedProduct({ product }: ProductProps) {
   return (
-    <Link href={`/product/${product.id}`} className="">
+    <Link href={`/product/${product.handle}`} className="">
       <div className="relative aspect-3/4 w-full sm:aspect-2/1">
         <Image
           className="object-cover object-center"
@@ -30,7 +30,7 @@ export function FeaturedProduct({ product }: ProductProps) {
 
 export function ProductListItem({ product }: ProductProps) {
   return (
-    <Link className="group overflow-hidden" href={`/product/${product.id}`}>
+    <Link className="group overflow-hidden" href={`/product/${product.handle}`}>
       <div className="bg-red relative aspect-3/4  w-full">
         <Image
           className="rounded-lg object-cover object-center group-hover:opacity-75"

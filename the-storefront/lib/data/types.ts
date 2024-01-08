@@ -1,6 +1,7 @@
-import { Money, MedusaProduct} from '../medusa';
+import * as M from '../medusa';
 
-export { type Product } from "../medusa"
+export { type Product, type MedusaProduct, type Cart, type MedusaCart } from "../medusa"
+
 
 /****************************************************************************************
  * 
@@ -10,18 +11,19 @@ export { type Product } from "../medusa"
  ****************************************************************************************/
 export type ProductBrief = {
     id: string;
+    handle: string,
     title: string, 
     description: string
     featuredImageSrc: string,
     updatedAt: Date
     collection_id: string
     tags: string[]  
-    price: Money
+    price: M.Money
 }
 
 
 
-export function medusaProductToBrief(prod: MedusaProduct): ProductBrief {
+export function medusaProductToBrief(prod: M.MedusaProduct): ProductBrief {
 
     const variant = prod.variants?.[0];
 
@@ -34,6 +36,7 @@ export function medusaProductToBrief(prod: MedusaProduct): ProductBrief {
             
     return {
         id: prod.id,
+        handle: prod.handle || prod.id,
         title: prod.title,
         description: prod.description || "",
         featuredImageSrc: prod.thumbnail || prod.images?.[0]?.url || `https://via.placeholder.com/1000x1000`,
@@ -42,4 +45,12 @@ export function medusaProductToBrief(prod: MedusaProduct): ProductBrief {
         tags: prod.tags?.map( t => t.value ) || [],
         price: { amount, currencyCode }
     }
+}
+
+export function medusaProductToProduct(prod: M.MedusaProduct): M.Product {
+    return M.reshapeProduct(prod)
+}
+
+export function medusaCartToCart(cart: M.MedusaCart): M.Cart {
+    return M.reshapeCart(cart);
 }

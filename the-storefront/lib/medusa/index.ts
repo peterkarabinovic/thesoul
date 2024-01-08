@@ -1,10 +1,6 @@
 import { isMedusaError } from 'lib/type-guards';
 
-import { TAGS } from 'lib/constants';
 import { mapOptionIds } from 'lib/utils';
-import { revalidateTag } from 'next/cache';
-import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
 import { calculateVariantAmount, computeAmount, convertToDecimal } from './helpers';
 import {
   Cart,
@@ -87,10 +83,10 @@ export default async function medusaRequest({
   }
 }
 
-const reshapeCart = (cart: MedusaCart): Cart => {
+export const reshapeCart = (cart: MedusaCart): Cart => {
   const lines = cart?.items?.map((item) => reshapeLineItem(item)) || [];
   const totalQuantity = lines.reduce((a, b) => a + b.quantity, 0);
-  const checkoutUrl = '/checkout'; // todo: implement medusa checkout flow
+//   const checkoutUrl = '/checkout'; // todo: implement medusa checkout flow
   const currencyCode = cart.region?.currency_code.toUpperCase() || 'USD';
 
   let subtotalAmount = '0';
@@ -126,7 +122,7 @@ const reshapeCart = (cart: MedusaCart): Cart => {
   return {
     ...cart,
     totalQuantity,
-    checkoutUrl,
+    // checkoutUrl,
     lines,
     cost
   };
@@ -152,18 +148,18 @@ const reshapeLineItem = (lineItem: MedusaLineItem): CartItem => {
     options: [] as ProductOption[]
   };
 
-  const selectedOptions =
-    lineItem.variant?.options?.map((option) => ({
-      name: option.option?.title ?? '',
-      value: option.value
-    })) || [];
+//   const selectedOptions =
+//     lineItem.variant?.options?.map((option) => ({
+//       name: option.option?.title ?? '',
+//       value: option.value
+//     })) || [];
 
-  const merchandise = {
-    id: lineItem.variant_id || lineItem.id,
-    selectedOptions,
-    product,
-    title: lineItem.description ?? ''
-  };
+//   const merchandise = {
+//     id: lineItem.variant_id || lineItem.id,
+//     selectedOptions,
+//     product,
+//     title: lineItem.description ?? ''
+//   };
 
   const cost = {
     totalAmount: {
@@ -178,7 +174,8 @@ const reshapeLineItem = (lineItem: MedusaLineItem): CartItem => {
 
   return {
     ...lineItem,
-    merchandise,
+    variant_id: lineItem.variant_id || lineItem.variant?.id,
+    // merchandise,
     cost,
     quantity
   };
@@ -195,22 +192,7 @@ const reshapeImages = (images?: MedusaImage[], productTitle?: string): Image[] =
   });
 };
 
-const reshapeProduct = (product: MedusaProduct): Product => {
-  const variant = product.variants?.[0];
-
-  let amount = '0';
-  let currencyCode = 'USD';
-  if (variant && variant.prices?.[0]?.amount) {
-    currencyCode = variant.prices?.[0]?.currency_code.toUpperCase() ?? 'USD';
-    amount = String(convertToDecimal(variant.prices[0].amount, currencyCode).toString());
-  }
-
-  const priceRange = {
-    maxVariantPrice: {
-      amount,
-      currencyCode: product.variants?.[0]?.prices?.[0]?.currency_code.toUpperCase() ?? ''
-    }
-  };
+export const reshapeProduct = (product: MedusaProduct): Product => {
 
   const updatedAt = product.updated_at;
   const createdAt = product.created_at;
@@ -227,6 +209,18 @@ const reshapeProduct = (product: MedusaProduct): Product => {
   const variants = product.variants.map((variant) =>
     reshapeProductVariant(variant, product.options)
   );
+  
+  const currencyCode = variants[0]?.price.currencyCode || "UAH";
+  const priceRange = {
+    maxVariantPrice: {
+        amount: String(Math.max(...variants.map( v => +v.price.amount ))),
+        currencyCode
+    },
+    minVariantPrice: {
+        amount: String(Math.min(...variants.map( v => +v.price.amount ))),
+        currencyCode
+    }
+  }
 
   let options = [] as ProductOption[];
   product.options && (options = product.options.map((option) => reshapeProductOption(option)));
@@ -493,36 +487,4 @@ export async function getMenu(menu: string): Promise<any[]> {
   }
 
   return [];
-}
-
-// This is called from `app/api/revalidate.ts` so providers can control revalidation logic.
-export async function revalidate(req: NextRequest): Promise<NextResponse> {
-  // We always need to respond with a 200 status code to Medusa,
-  // otherwise it will continue to retry the request.
-  const collectionWebhooks = ['categories/create', 'categories/delete', 'categories/update'];
-  const productWebhooks = ['products/create', 'products/delete', 'products/update'];
-  const topic = headers().get('x-medusa-topic') || 'unknown';
-  const secret = req.nextUrl.searchParams.get('secret');
-  const isCollectionUpdate = collectionWebhooks.includes(topic);
-  const isProductUpdate = productWebhooks.includes(topic);
-
-  if (!secret || secret !== process.env.MEDUSA_REVALIDATION_SECRET) {
-    console.error('Invalid revalidation secret.');
-    return NextResponse.json({ status: 200 });
-  }
-
-  if (!isCollectionUpdate && !isProductUpdate) {
-    // We don't need to revalidate anything for any other topics.
-    return NextResponse.json({ status: 200 });
-  }
-
-  if (isCollectionUpdate) {
-    revalidateTag(TAGS.categories);
-  }
-
-  if (isProductUpdate) {
-    revalidateTag(TAGS.products);
-  }
-
-  return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
 }

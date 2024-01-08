@@ -3,10 +3,10 @@ import { Suspense } from 'react';
 import { Result } from 'lib/result';
 
 
-import { ProductList } from 'components/product';
+import { ProductList } from 'components/product-list';
 
 const meta = {
-    title: 'Product/ProductList',
+    title: "Product List/List",
     component: ProductList,
     decorators: [ (Story) => (
         <Suspense>
@@ -41,6 +41,7 @@ export const Desktop: Story = {
 const products = [
     {
         id: "1",
+        handle: "product-1",
         title: 'Солодкі Враження',
         description: "Поглибіться у світ солодких насолод і неймовірних вражень. Ідеальні подарунки для справжніх гурманів.",
         featuredImageSrc: 'https://via.placeholder.com/1000x1000',
@@ -52,6 +53,7 @@ const products = [
 
     {
         id: "2",
+        handle: "product-2",
         title: 'Мить Радості',
         description: "Неповторні подарункові комплекти, які здатні створити миті радості та враження. Виберіть унікальний подарунок, щоб зробити день особливим.",
         featuredImageSrc: 'https://via.placeholder.com/1000x1000',
@@ -63,6 +65,7 @@ const products = [
 
     {
         id: "3",
+        handle: "product-3",
         title: 'Магія Дотику',
         description: "Почуття тепла та ласки в кожному подарунковому наборі. Завдяки вишуканій упаковці та неперевершеному вмінню робити подарунки особливими.",
         featuredImageSrc: 'https://via.placeholder.com/1000x1000',
@@ -73,6 +76,7 @@ const products = [
     },
     {
         id: "4",
+        handle: "product-4",
         title: 'Мить Радості',
         description: "Неповторні подарункові комплекти, які здатні створити миті радості та враження. Виберіть унікальний подарунок, щоб зробити день особливим.",
         featuredImageSrc: 'https://via.placeholder.com/1000x1000',
@@ -84,6 +88,7 @@ const products = [
 
     {
         id: "5",
+        handle: "product-5",
         title: 'Магія Дотику',
         description: "Почуття тепла та ласки в кожному подарунковому наборі. Завдяки вишуканій упаковці та неперевершеному вмінню робити подарунки особливими.",
         featuredImageSrc: 'https://via.placeholder.com/1000x1000',
@@ -94,6 +99,7 @@ const products = [
     },
     {
         id: "6",
+        handle: "product-6",
         title: 'Мить Радості',
         description: "Неповторні подарункові комплекти, які здатні створити миті радості та враження. Виберіть унікальний подарунок, щоб зробити день особливим.",
         featuredImageSrc: 'https://via.placeholder.com/1000x1000',
@@ -105,6 +111,7 @@ const products = [
 
     {
         id: "7",
+        handle: "product-7",
         title: 'Магія Дотику',
         description: "Почуття тепла та ласки в кожному подарунковому наборі. Завдяки вишуканій упаковці та неперевершеному вмінню робити подарунки особливими.",
         featuredImageSrc: 'https://via.placeholder.com/1000x1000',
@@ -115,6 +122,7 @@ const products = [
     },
     {
         id: "8",
+        handle: "product-8",
         title: 'Зіркові Моменти',
         description: "Підкресліть особливі моменти у ваших життях з подарунковими комплектами, які роблять кожен день як зіркову подію..",
         featuredImageSrc: 'https://via.placeholder.com/1000x1000',
