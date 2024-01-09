@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { CheckoutSteps } from 'components/cart/checkout-steps';
 
 const meta = {
-    title: 'Components/CheckoutSteps',
+    title: 'Cart/CheckoutSteps',
     component: CheckoutSteps
 } satisfies Meta<typeof CheckoutSteps>;
 

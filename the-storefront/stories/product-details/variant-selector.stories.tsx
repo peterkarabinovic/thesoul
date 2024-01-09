@@ -2,7 +2,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { VariantSelector } from 'components/product-derails/variant-selector';
-import { useCartState } from '../test-cart-state'
 import * as D from "../test-data"
 
 const meta = {
@@ -19,7 +18,8 @@ export const Mobile: Story = {
     parameters:{
         viewport:{
             defaultViewport: 'mobile2'
-        } 
+        },
+        nextjs: { appDirectory: true }
     },
     args:{
         product: D.productTwoVariants
@@ -28,7 +28,6 @@ export const Mobile: Story = {
 
         return <VariantSelector 
             product={D.productTwoVariants}
-            useCart={useCartState}
          />
     }
 }

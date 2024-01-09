@@ -15,6 +15,7 @@ export const Mobile: Story = {
     viewport: {
       defaultViewport: 'mobile2'
     }
+    ,nextjs: { appDirectory: true }
   },
   args: {
     product: D.productOneVariant
@@ -26,6 +27,7 @@ export const MobileWithVariants: Story = {
     viewport: {
       defaultViewport: 'mobile2'
     }
+    ,nextjs: { appDirectory: true }
   },
   args: {
     product: D.productThreeVariants
@@ -33,6 +35,9 @@ export const MobileWithVariants: Story = {
 };
 
 export const Desktop: Story = {
+    parameters:{
+        nextjs: { appDirectory: true }
+    },
   args: {
     product: D.productTwoVariants
   }

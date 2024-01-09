@@ -21,13 +21,13 @@ export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnPr
 
   if (count === 0 || loading )
     return (
-        <button className="btn btn-secondary w-full rounded-xl" onClick={() => !loading && addItem(variantId, 1) }>
+        <button className="btn btn-secondary w-full max-w-72 rounded-xl" onClick={() => !loading && addItem(variantId, 1) }>
           { loading ? <span className="loading loading-ring loading-md" /> : add_to_cart }
         </button>
     );
 
   return (
-    <div className="flex w-full items-center justify-between rounded-xl bg-secondary">
+    <div className="flex w-full max-w-72 items-center justify-between rounded-xl bg-secondary">
       <button className="btn btn-secondary rounded-xl" onClick={() => removeItem(variantId)}>
         -
       </button>

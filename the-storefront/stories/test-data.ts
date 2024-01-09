@@ -1,3 +1,4 @@
+import { Cart } from "lib/medusa"
 
 export const productOneVariant = {
     id: '1',
@@ -76,4 +77,41 @@ export const productThreeVariants = {
             availableForSale: true
         }
     ]
+}
+
+
+export const cartWithTwoItems: Cart = {
+    id: '123',
+    created_at: '2021-02-02T12:12:12Z',
+    updated_at: '2021-02-02T12:12:12Z',
+    email: 'dsdsadsad@dasdsa.com',
+    region_id: '1',
+    lines: [
+        { 
+            id: '1',
+            variant_id: 'Variant_123213213',
+            title: 'Variant',
+            quantity: 1,
+            thumbnail: productOneVariant.images[0]?.url || '',
+            cost: {
+                totalAmount: { amount: '10000', currencyCode: 'UAH' },
+            }
+        },
+        { 
+            id: '2',
+            variant_id: 'Variant_850349589034',
+            title: 'Variant #2',
+            quantity: 1,
+            thumbnail: productTwoVariants.images[1]?.url || '',
+            cost: {
+                totalAmount: { amount: '12000', currencyCode: 'UAH' },
+            }
+        }
+    ],
+    totalQuantity: 10000,
+    cost: {
+        subtotalAmount: { amount: '22000', currencyCode: 'UAH' },
+        totalAmount: { amount: '22000', currencyCode: 'UAH'},
+        totalTaxAmount: { amount: '0', currencyCode: 'UAH'}
+    }
 }
