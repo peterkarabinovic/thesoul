@@ -54,3 +54,9 @@ export function medusaProductToProduct(prod: M.MedusaProduct): M.Product {
 export function medusaCartToCart(cart: M.MedusaCart): M.Cart {
     return M.reshapeCart(cart);
 }
+
+export type NonEmptyArray<T> = [T, ...T[]];
+
+export function isNonEmpty<T>(xs: T[]): xs is NonEmptyArray<T> {
+    return xs.length > 0;
+}

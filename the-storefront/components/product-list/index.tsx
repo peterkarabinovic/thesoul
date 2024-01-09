@@ -3,6 +3,7 @@ import { ProductBrief, RequestError } from "lib/data"
 import { Result } from "lib/result"
 import { groupBy } from "lib/utils";
 import { FeaturedProduct, ProductListItem } from "./product-item";
+import clsx from "clsx";
 
 
 // type ProductView = Pick<Product, 'title' | 'description' | 'images' | 'priceRange'|'updatedAt'| 'collection_id' | 'tags' | 'id' >
@@ -52,8 +53,10 @@ export async function ProductList( {getProductListQuery}: ProductListProps ){
             {featuredProducts.map( (group, i) => (
                 <div key={i} className="w-full pb-4">
                     <FeaturedProduct product={group.featured!} />
-                    <div className="mx-auto p-8 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 
-                                    lg:grid-cols-3 container  lg:max-w-6xl md:gap-x-16">
+                    <div className={clsx("mx-auto p-8 grid gap-x-8 gap-y-10 container lg:max-w-6xl md:gap-x-16",
+                                    "grid-cols-1",
+                                    group.rest.length > 1 && "sm:grid-cols-2", 
+                                    group.rest.length > 2 && "lg:grid-cols-3")}>
                     {group.rest.map( product => (
                         <ProductListItem key={product.id} product={product} />
                     ))}

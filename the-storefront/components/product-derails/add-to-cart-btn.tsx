@@ -2,16 +2,17 @@
 
 import { add_to_cart } from 'i18n';
 import { Product } from 'lib/data/types';
-import { TUseCartState, useCartState } from "lib/data"
+import { TCartState, useCartState } from "lib/data"
+import { useSelectedVariant } from 'lib/data';
 
 type AddToCartBtnProps = {
   product: Pick<Product, "variants">,
-  useCart?: TUseCartState;
+  useCart?: TCartState;
 };
 
 export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnProps) {
 
-  const selectedVariant = useCart( state => state.selectedVariant );  
+  const [selectedVariant] = useSelectedVariant();  
   const { id: variantId } = product.variants[selectedVariant] || { id: '0' };
   const loading = useCart( state => state.processedVariants.includes(variantId) );
   const count = useCart( state => state.variantQuantity(variantId) );  

@@ -1,17 +1,16 @@
 'use client';
 
 import { Product } from 'lib/data/types';
-import { TUseCartState, useCartState } from "lib/data"
+import { useSelectedVariant } from 'lib/data';
 import { formatPrice } from 'lib/medusa/helpers';
 
 type Props = {
     product: Pick<Product, "variants">,
-    useCart?: TUseCartState
 }
 
-export function VariantPrice({ product, useCart = useCartState}: Props) {
+export function VariantPrice({ product }: Props) {
 
-    const selectedVariant = useCart( state => state.selectedVariant );
+    const [ selectedVariant ] = useSelectedVariant();
 
     const variant = product.variants[selectedVariant];
     if( !variant )

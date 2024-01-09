@@ -35,6 +35,14 @@ export namespace Result {
         }
     }
 
+    export function chain<A, B, E>(fn: (a: A) => Result<B, E>): <EE>(res: Result<A, EE>) => Result<B, E|EE> {
+        return res => {
+            if (res.success)
+                return fn(res.data);
+            return res;
+        }
+    }
+
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace

@@ -29,12 +29,15 @@ const subTitle = 'магазин подарунків'
 export default function Header() {
   return (
     <header className="max-w-full bg-secondary">
-      <div className="mx-auto container lg:max-w-6xl px-4 py-4  sm:px-8">
-        <div className="flex items-center justify-start  sm:space-x-8 sm:justify-center">
-          <MobileMenu menu={menu} className="sm:hidden bg-secondary text-neutral pr-4" />
-          <LogoIcon className="h-6 w-auto fill-neutral sm:h-8" />
-          <span className='pl-4 text-neutral text-lg  overflow-hidden sm:hidden'>{subTitle}</span>
-          <div className="hidden items-center space-x-4 md:flex">
+      <div className="mx-auto container lg:max-w-6xl px-4 py-4">
+        <div className="flex items-center justify-start  sm:space-x-8 lg:space-x-16">
+          <MobileMenu menu={menu} className="md:hidden bg-secondary text-neutral pr-4" />
+          <Link href="/">
+            <LogoIcon className="h-6 w-auto fill-neutral sm:h-8" />
+          </Link>
+          <span className='pl-4 text-neutral text-lg  overflow-hidden md:hidden'>{subTitle}</span>
+          
+          <div className="hidden items-center space-x-8 md:flex">
             {menu.map((item) => (
               <Link
                 key={item.title}

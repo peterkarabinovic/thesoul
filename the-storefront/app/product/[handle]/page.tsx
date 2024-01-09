@@ -53,7 +53,10 @@ export async function generateMetadata({ params: { handle } }: ProductPageType):
 export default async function ProductPage({ params }: ProductPageType ) {
   const res = await productQuery(params.handle);
 
-  if (!res.success) return notFound();
+  if (!res.success) {
+    console.error("ProductPage", res.error);
+    return notFound();
+  }
 
   const product = res.data;
   const productJsonLd = {

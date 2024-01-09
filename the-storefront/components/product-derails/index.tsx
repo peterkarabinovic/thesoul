@@ -10,7 +10,7 @@ type ProductDetailsProps = {
 
 export function ProductDetails({ product }: ProductDetailsProps) {
   return (
-    <div className="container mx-auto grid grid-cols-1 gap-y-4 lg:max-w-6xl lg:grid-cols-2 lg:gap-x-8">
+    <div className="container mx-auto grid grid-cols-1 gap-y-4 lg:py-8 lg:max-w-6xl lg:grid-cols-2 lg:gap-x-8 sm:px-4">
       <div className="w-full">
         <Carousel images={product.images || []} fullWidth={true} />
       </div>

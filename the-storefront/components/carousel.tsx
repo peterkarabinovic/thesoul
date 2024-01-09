@@ -53,13 +53,14 @@ export function Carousel({ images, fullWidth }: CarouselProps) {
   return (
     <div className={clsx(full, "relative")}>
       <div
-        className={`carousel ${full} carousel-center rounded-box aspect-3/4`}
+        className={`carousel ${full} carousel-center lg:rounded-box aspect-3/4`}
         onScroll={handleScroll}
         ref={carouselRef}
       >
         {images.map((img, i) => (
-          <div key={i} className="carousel-item relative aspect-3/4">
+          <div key={i} className="carousel-item relative aspect-3/4 w-full">
             <Image fill={true} 
+                   className="object-cover object-center"
                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                    src={String(srcs[i])} alt={img.altText} />
           </div>

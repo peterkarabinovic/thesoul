@@ -17,6 +17,7 @@ services:
     environment:
       DATABASE_URL: postgres://root:root-user@database:5432/thesoul
       DATABASE_TYPE: postgres
+      STORE_CORS: http://localhost:7001,http://localhost:3001
       # NODE_ENV: prodction
       NPM_CONFIG_PRODUCTION: false
     ports:

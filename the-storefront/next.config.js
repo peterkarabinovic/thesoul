@@ -14,6 +14,10 @@ module.exports = {
       {
         protocol: 'https',
         hostname: 'the-soul.s3.eu-central-1.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
       }
     ]
   },
