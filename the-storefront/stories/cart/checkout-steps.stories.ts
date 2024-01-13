@@ -18,7 +18,12 @@ export const Main: Story = {
     }
 };
 
-export const Long: Story = {
+export const Mobile: Story = {
+    parameters: {
+        viewport: {
+            defaultViewport: 'mobile2'
+        },
+    },
     args: { 
         step: 1,
         onClick: () => {},

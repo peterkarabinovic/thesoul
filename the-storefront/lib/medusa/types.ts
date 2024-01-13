@@ -365,6 +365,7 @@ export type Cart = Partial<MedusaCart> & {
     totalQuantity: number;
     cost: {
         subtotalAmount: Money;
+        shippingAmount?: Money;
         totalAmount: Money;
         totalTaxAmount: Money;
     };
@@ -420,7 +421,7 @@ export type MedusaLineItem = {
     metadata?: { [key: string]: string } | null;
 };
 
-export type CartItem = Partial<MedusaLineItem> & {
+export type CartItem = Partial<Omit<MedusaLineItem,"unit_price">> & {
     id: string;
     variant_id: string;
     //   merchandise: {
@@ -433,6 +434,7 @@ export type CartItem = Partial<MedusaLineItem> & {
         totalAmount: Money;
     };
     quantity: number;
+    unit_price: Money
 };
 
 export type RegionInfo = Pick<Region, 'currency_code' | 'tax_code' | 'tax_rate'>;

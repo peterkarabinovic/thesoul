@@ -91,27 +91,32 @@ export const cartWithTwoItems: Cart = {
             id: '1',
             variant_id: 'Variant_123213213',
             title: 'Variant',
-            quantity: 1,
+            description: 'Variant description',
+            quantity: 2,
             thumbnail: productOneVariant.images[0]?.url || '',
             cost: {
-                totalAmount: { amount: '10000', currencyCode: 'UAH' },
-            }
+                totalAmount: { amount: '200000', currencyCode: 'UAH' },
+            },
+            unit_price: { amount: '100000', currencyCode: 'UAH' },
         },
         { 
             id: '2',
             variant_id: 'Variant_850349589034',
             title: 'Variant #2',
+            description: 'Variant description',
             quantity: 1,
             thumbnail: productTwoVariants.images[1]?.url || '',
             cost: {
                 totalAmount: { amount: '12000', currencyCode: 'UAH' },
-            }
+            },
+            unit_price: { amount: '12000', currencyCode: 'UAH' },
         }
     ],
-    totalQuantity: 10000,
+    totalQuantity: 2,
     cost: {
         subtotalAmount: { amount: '22000', currencyCode: 'UAH' },
         totalAmount: { amount: '22000', currencyCode: 'UAH'},
-        totalTaxAmount: { amount: '0', currencyCode: 'UAH'}
+        totalTaxAmount: { amount: '0', currencyCode: 'UAH'},
+        //shippingAmount: { amount: '1000', currencyCode: 'UAH'},
     }
 }

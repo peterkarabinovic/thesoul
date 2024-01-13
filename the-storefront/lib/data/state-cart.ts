@@ -8,8 +8,10 @@ export type TStore = {
     cart: Cart | null;
     cartId: string | null;
     processedVariants: string[];
+    checkout_step: "cart" | "shipping" | "payment" | "review";
+    step: (step: TStore["checkout_step"]) => void;
     addItem: (variant_id: string, quantity: number) => Promise<void>;
-    removeItem: (variant_id: string) => Promise<void>;
+    updateItem: (variant_id: string, quantity: number) => Promise<void>;
     deleteVariant: (variant_id: string) => Promise<void>;
     variantQuantity: (variant_id: string) => number;
 }
@@ -25,11 +27,14 @@ export type TStore = {
 //
 export type TCartState = UseBoundStore<StoreApi<TStore>>;
 
-export const CartStateLogic: StateCreator<TStore> = (set, get) => ({
+export const _CartStateBase: StateCreator<TStore> = (set, get) => ({
 
     cart: null,
     cartId: null,
     processedVariants: [],
+    checkout_step: "cart",
+
+    step: (step) => set(() => ({ checkout_step: step })),
 
     addItem: async (variant_id, quantity) => {
         const { cart, processedVariants } = get();
@@ -46,8 +51,10 @@ export const CartStateLogic: StateCreator<TStore> = (set, get) => ({
         );
     },
 
-    removeItem: async (variant_id) => {
+
+    updateItem: async (variant_id, quantity) => {
         const { cart, processedVariants } = get();
+        quantity = Math.max(0, quantity);
         if (cart === null || processedVariants.includes(variant_id))
             return;
         const item = cart.lines?.find((item) => item.variant_id === variant_id);
@@ -55,9 +62,9 @@ export const CartStateLogic: StateCreator<TStore> = (set, get) => ({
             return;
         set(() => ({ processedVariants: [...processedVariants, variant_id] }));
         pipe(
-            R.updateItem(cart.id, item.id, item.quantity - 1),
+            quantity == 0 ? R.deleteLineItem(cart.id, item.id) : R.updateItem(cart.id, item.id, quantity),
             AsyncResult.tap(cart => set({ cart })),
-            AsyncResult.tapError((error) => console.error('removing variant', error)),
+            AsyncResult.tapError((error) => console.error('updateItem line iten', error)),
             AsyncResult.then(() => set(() => ({ processedVariants: processedVariants.filter((id) => id !== variant_id) })))
         )
     },
@@ -92,7 +99,7 @@ export const CartStateLogic: StateCreator<TStore> = (set, get) => ({
 export const useCartState = create(
     persist<TStore>(
 
-        CartStateLogic
+        _CartStateBase
         ,
 
         // Persistance storage

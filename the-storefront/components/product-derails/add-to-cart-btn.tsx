@@ -15,11 +15,11 @@ export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnPr
   const [selectedVariant] = useSelectedVariant();  
   const { id: variantId } = product.variants[selectedVariant] || { id: '0' };
   const loading = useCart( state => state.processedVariants.includes(variantId) );
-  const count = useCart( state => state.variantQuantity(variantId) );  
+  const qt = useCart( state => state.variantQuantity(variantId) );  
   const addItem = useCart( state => state.addItem );
-  const removeItem = useCart( state => state.removeItem );
+  const updateItem = useCart( state => state.updateItem );
 
-  if (count === 0 || loading )
+  if (qt === 0 || loading )
     return (
         <button className="btn btn-secondary w-full max-w-72 rounded-xl" onClick={() => !loading && addItem(variantId, 1) }>
           { loading ? <span className="loading loading-ring loading-md" /> : add_to_cart }
@@ -28,12 +28,12 @@ export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnPr
 
   return (
     <div className="flex w-full max-w-72 items-center justify-between rounded-xl bg-secondary">
-      <button className="btn btn-secondary rounded-xl" onClick={() => removeItem(variantId)}>
+      <button className="btn btn-secondary rounded-xl" onClick={() => updateItem(variantId, qt - 1)}>
         -
       </button>
-      <span className="rounded-xl bg-secondary px-2">{count}</span>
+      <span className="rounded-xl bg-secondary px-2">{qt}</span>
       <button className="btn btn-secondary rounded-xl" onClick={() => addItem(variantId, 1)}>
-        +
+      +
       </button>
     </div>
   );

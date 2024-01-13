@@ -52,6 +52,12 @@ const plugins = [
       },
     },
   },
+  {
+    resolve: "novaposhta-fulfillment",
+    options: {
+      apiKey: process.env.NOVAPOSHTA_API_KEY
+    }
+  }
 ];
 
 const modules = {

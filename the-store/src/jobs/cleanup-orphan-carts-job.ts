@@ -13,7 +13,7 @@ export default async function cleanupOrphanCarts({ container }: ScheduledJobArgs
         WITH cartsToDelete AS (
             SELECT id, shipping_address_id
             FROM cart
-            WHERE updated_at < NOW() - '3 days'::interval
+            WHERE updated_at < NOW() - '12 hours'::interval
             AND customer_id IS NULL
         ),
         lineDeleting AS (

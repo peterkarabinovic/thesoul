@@ -1,6 +1,12 @@
 import * as M from '../medusa';
 
-export { type Product, type MedusaProduct, type Cart, type MedusaCart, type Money } from "../medusa"
+export { 
+    type Product, 
+    type MedusaProduct, 
+    type Cart,
+    type MedusaCart, 
+    type Money 
+} from "../medusa"
 
 
 /****************************************************************************************

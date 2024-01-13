@@ -87,7 +87,7 @@ export const reshapeCart = (cart: MedusaCart): Cart => {
   const lines = cart?.items?.map((item) => reshapeLineItem(item)) || [];
   const totalQuantity = lines.reduce((a, b) => a + b.quantity, 0);
 //   const checkoutUrl = '/checkout'; // todo: implement medusa checkout flow
-  const currencyCode = cart.region?.currency_code.toUpperCase() || 'USD';
+  const currencyCode = cart.region?.currency_code.toUpperCase() || 'UAH';
 
   let subtotalAmount = '0';
   if (cart.subtotal && cart.region) {
@@ -103,6 +103,10 @@ export const reshapeCart = (cart: MedusaCart): Cart => {
   if (cart.tax_total && cart.region) {
     totalTaxAmount = computeAmount({ amount: cart.tax_total, region: cart.region }).toString();
   }
+  let shippingAmount = '0';
+  if (cart.shipping_total && cart.region) {
+    shippingAmount = computeAmount({ amount: cart.shipping_total, region: cart.region }).toString();
+  }
 
   const cost = {
     subtotalAmount: {
@@ -115,6 +119,10 @@ export const reshapeCart = (cart: MedusaCart): Cart => {
     },
     totalTaxAmount: {
       amount: totalTaxAmount,
+      currencyCode: currencyCode
+    },
+    shippingAmount: {
+      amount: shippingAmount,
       currencyCode: currencyCode
     }
   };
@@ -177,7 +185,8 @@ const reshapeLineItem = (lineItem: MedusaLineItem): CartItem => {
     variant_id: lineItem.variant_id || lineItem.variant?.id,
     // merchandise,
     cost,
-    quantity
+    quantity,
+    unit_price: { amount: String(lineItem.unit_price), currencyCode: cost.totalAmount.currencyCode }
   };
 };
 

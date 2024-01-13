@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { AddToCartBtn } from 'components/product-derails/add-to-cart-btn';
-import { useCartState } from '../test-cart-state';
+import { createUseCart } from '../test-cart-state';
 import * as D from '../test-data';
 
 const meta = {
@@ -21,9 +21,6 @@ export const Mobile: Story = {
   },
   args: {
     product: D.productTwoVariants,
-    useCart: useCartState
+    useCart: createUseCart()
   },
-  render: () => {
-    return <AddToCartBtn product={D.productTwoVariants} useCart={useCartState} />;
-  }
 };

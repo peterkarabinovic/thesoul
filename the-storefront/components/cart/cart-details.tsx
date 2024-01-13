@@ -1,63 +1,110 @@
+'use client';
+
 import { TrashIcon } from '@heroicons/react/24/outline';
-import { Cart, Money } from "lib/data";
+import Image from 'next/image';
+import Link from 'next/link';
+import { got_to_home_page, cart_is_empty } from 'i18n';
+import { Money } from "lib/data/types";
+import { TCartState, useCartState } from "lib/data"
 import { formatPrice } from "lib/medusa/helpers"
+import { CartTotals } from "./cart-totals"
+import clsx from 'clsx';
 
 type CartDetailsProps = {
-    cart: Cart | null;        
+    useCart?: TCartState;        
 }
 
-export function CartDetails({cart}: CartDetailsProps){
+export function CartDetails({ useCart = useCartState}: CartDetailsProps){
+
+    const cart = useCart( state => state.cart );
+    const updateItem = useCart( state => state.updateItem );  
+    const deleteItem = useCart( state => state.deleteVariant );
+    const processing = useCart( state => state.processedVariants );  
 
     if(!cart || cart.lines.length === 0)
-        // TODO: Add a Empty Cart state
-        return null;
+        return (
+            <div className="flex flex-col items-center justify-center text-center h-96 mx-auto lg:p-8 lg:max-w-6xl">
+                <div className='text-lg text-neutral-500'>{cart_is_empty}</div>
+                <Link className='btn btn-primary mt-4' href="/">{got_to_home_page}</Link>
+            </div>
+        );
+
+    const handleQtChange = (variantId: string) => (qt: number) => {
+        updateItem(variantId, qt);
+    }
+
+    const handleRemove = (variantId: string) => () => {
+        deleteItem(variantId)
+    }
 
     return (
-        <div className="container mx-auto p-4 lg:p-8 lg:max-w-6xl">
-            { cart.lines.map( (line, i) => (
-                <div key={i} className='w-full flex gap-4 py-7'>
-                    <div className="shrink-0 bg-primary w-16 h-20 sm:w-24 sm:h-32"></div>
-                    <div className='grid grid-cols-1 w-full'>
-                        <div className="flex-1 justify-between flex gap-2 ">
-                            <div>
-                                <div className="text-base-content text-lg sm:text-2xl font-medium">Product Name</div>
-                                <div className="prose text-neutral-500 sm:prose-xl">Product Description</div>
+        <div className="container w-full">
+            <div className='flex flex-wrap justify-between'>
+                    { cart.lines.map( (line, i) => (
+                        <div key={i} className='w-full flex gap-4 py-7 border-t-2 border-base-200'>
+                            <div className="relative shrink-0 bg-primary w-16 h-20 md:w-24 md:h-32">
+                                <Image
+                                    className="object-cover object-center"
+                                    fill={true}
+                                    src={line.thumbnail || ""}
+                                    alt={line.title || ""}
+                                    />
                             </div>
-                            <div className="flex gap-8 items-center lg:gap-12">                        
-                                <QuantitySelection qt={5} className='hidden sm:block'/>
-                                <PriceBlock price={{amount:"200000", currencyCode: "UAH"}} className="hidden sm:block text-2xl" />
-                                <div className="mx-auto flex ">
-                                    <TrashIcon className="w-5 h-5 text-neutral-500 sm:w-6 sm:h-6" />      
+                            <div className='grid grid-cols-1 w-full'>
+                                <div className="flex-1 justify-between flex gap-2 ">
+                                    <div>
+                                        <div className="text-base-content text-lg md:text-2xl font-medium">{line.title}</div>
+                                        <div className="prose-sm text-neutral-500 md:prose-xl">{line.description}</div>
+                                        <div className="prose-sm text-neutral-500">{formatPrice(line.unit_price)}</div>
+                                    </div>
+                                    <div className="flex gap-8 items-center lg:gap-12">                        
+                                        <QuantitySelection qt={line.quantity} className='hidden md:block' onChange={handleQtChange(line.variant_id)}/>
+                                        <Price price={line.cost.totalAmount} className="hidden md:block text-2xl w-24" processing={processing.includes(line.variant_id)} />
+                                        <div className="mx-auto flex ">
+                                            <button className='btn btn-ghost' onClick={handleRemove(line.variant_id) }>
+                                                <TrashIcon className="w-5 h-5 text-neutral-500 md:w-6 md:h-6" />      
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <div className='pt-2 md:hidden justify-between flex gap-2 items-center'>
+                                    <QuantitySelection qt={line.quantity} className='select-sm' onChange={handleQtChange(line.variant_id)}/>
+                                    <Price price={line.cost.totalAmount} className="text-lg" processing={processing.includes(line.variant_id)}/>
+
+                                </div>                
                             </div>
+                            
                         </div>
-
-                        <div className='pt-2 sm:hidden justify-between flex gap-2 items-center'>
-                            <PriceBlock price={{amount:"200000", currencyCode: "UAH"}} className="text-lg" />
-                            <QuantitySelection qt={5} className='select-sm'/>
-                        </div>                
-                    </div>
-                </div>
-
-            ))}
+                    
+                    ))}
+            </div>
         </div>
     )
 }
 
-function PriceBlock({price, className}: {price: Money, className: string}){
+function Price({price, className, processing = false}: {price: Money, className: string, processing?: boolean}){
     return (
-        <p className={`text-base-content  font-medium whitespace-nowrap ${className}`}>
-            {formatPrice(price)}
+        <p className={`text-base-content text-center font-medium whitespace-nowrap ${className}`}>
+            { processing ? <span className="loading loading-ring loading-md" /> : formatPrice(price) }
         </p>
     );
 }
 
 
-function QuantitySelection({qt, range=[1,2,3,4,5,6,7,8,9,10], className=''}: {qt: number, range?: number[], className?: string}){
+type QuantitySelectionProps = {
+    qt: number;
+    range?: number[];
+    className?: string;
+    onChange: ( qt: number ) => void;
+}
+
+function QuantitySelection({qt, onChange, range=[1,2,3,4,5,6,7,8,9,10], className=''}: QuantitySelectionProps){
 
     return (
         <div className="">
-            <select className={`select select-bordered w-full max-w-xs ${className}`}>
+            <select className={`select select-bordered w-full max-w-xs ${className}`} 
+                    onChange={e => onChange(parseInt(e.target.value)) }>
                 { range.map( (v,i) => 
                     <option key={i} selected={v === qt} value={v}>{v}</option>    
                 )}

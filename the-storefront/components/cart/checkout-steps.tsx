@@ -35,14 +35,14 @@ export function CheckoutSteps({ step, onClick, disabledSteps }: CheckoutStepsPro
     <div>
       <div>
         <ol
-          className={clsx('flex w-full text-sm overflow-x-auto border-primary')}
+          className={clsx('flex w-full text-sm overflow-x-auto border-neutral')}
         >
           {steps.map((item, index) => (
             <li
               key={item.title}
-              className={clsx(`relative flex items-center justify-center gap-2 p-4 min-w-48 w-full`,
-                        step === index ? "bg-primary text-light" : "bg-light text-primary",
-                        step !== index ? "border-primary border-y border-r": "",
+              className={clsx(`relative flex items-center justify-center gap-2 p-4 min-w-32 w-full`,
+                        step === index ? "bg-neutral text-neutral-content" : "bg-neutral-content text-neutral",
+                        step !== index ? "border-neutral border-y border-r": "",
                         index === 0 ? "border-l" : "",
                         isDisabled(index) ? "cursor-not-allowed text-opacity-50" : "" ,
                         isClickable(index) ? "cursor-pointer" : ""
@@ -71,7 +71,7 @@ function Arrow({ selected }: { selected: boolean }) {
     <span
       className={clsx(
         'absolute -right-2 top-1/2 z-10 h-4 w-4 -translate-y-1/2 rotate-45',
-        selected ? 'bg-primary' : 'bg-light',
+        selected ? 'bg-neutral' : 'bg-light',
         {
           'border-r border-t': !selected,
           'border-primary': !selected

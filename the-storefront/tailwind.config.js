@@ -124,6 +124,6 @@ module.exports = {
     require('daisyui')
   ],
   daisyui: {
-    themes: ['retro']
+    themes: ['light']
   }
 };
