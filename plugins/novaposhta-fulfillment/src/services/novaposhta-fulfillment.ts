@@ -1,18 +1,22 @@
-import { AbstractFulfillmentService, Cart, Fulfillment, LineItem, Order, Logger, MedusaContainer } from "@medusajs/medusa"
+import { Lifetime } from "awilix"
+import { AbstractFulfillmentService, Cart, Fulfillment, LineItem, Order, Logger } from "@medusajs/medusa"
 import { CreateReturnType } from "@medusajs/medusa/dist/types/fulfillment-provider";
+import { NpApi, NpApiStub } from "../np-api"
 
 
 class NovaposhtaFulfillmentService extends AbstractFulfillmentService {
-
+    static LIFE_TIME = Lifetime.SINGLETON;
     static identifier = "novaposhta-fulfillment"
 
     logger: Logger;
     apiKey: string;
+    npApi = NpApiStub;
 
     constructor(container: any, options: Record<string, string>) {
         super(container);
         this.logger = container.logger;
         this.apiKey = options.apiKey;
+        NpApi(this.apiKey, this.logger).then( api => this.npApi = api);
     }
 
     async getFulfillmentOptions(): Promise<any[]> {
@@ -62,6 +66,10 @@ class NovaposhtaFulfillmentService extends AbstractFulfillmentService {
         throw new Error("Method not implemented. retrieveDocuments");
     }
 
+
+    async retrieveCities(q: string, limit: number): Promise<any> {
+
+    }
 }
 
 export default NovaposhtaFulfillmentService;
