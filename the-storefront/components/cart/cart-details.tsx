@@ -2,13 +2,10 @@
 
 import { TrashIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import Link from 'next/link';
-import { got_to_home_page, cart_is_empty } from 'i18n';
+
 import { Money } from "lib/data/types";
 import { TCartState, useCartState } from "lib/data"
 import { formatPrice } from "lib/medusa/helpers"
-import { CartTotals } from "./cart-totals"
-import clsx from 'clsx';
 
 type CartDetailsProps = {
     useCart?: TCartState;        
@@ -22,12 +19,7 @@ export function CartDetails({ useCart = useCartState}: CartDetailsProps){
     const processing = useCart( state => state.processedVariants );  
 
     if(!cart || cart.lines.length === 0)
-        return (
-            <div className="flex flex-col items-center justify-center text-center h-96 mx-auto lg:p-8 lg:max-w-6xl">
-                <div className='text-lg text-neutral-500'>{cart_is_empty}</div>
-                <Link className='btn btn-primary mt-4' href="/">{got_to_home_page}</Link>
-            </div>
-        );
+        return null;
 
     const handleQtChange = (variantId: string) => (qt: number) => {
         updateItem(variantId, qt);

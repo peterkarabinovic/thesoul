@@ -335,7 +335,7 @@ export type MedusaCart = {
     // payment_sessions?: PaymentSession[];
     payment_id?: string;
     // payment?: Payment;
-    // shipping_methods?: ShippingMethod[];
+    shipping_methods?: any[];
     type: 'default' | 'swap' | 'draft_order' | 'payment_link' | 'claim';
     completed_at?: string;
     payment_authorized_at?: string;

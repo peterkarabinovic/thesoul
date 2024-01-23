@@ -4,12 +4,20 @@ import { AsyncResult, pipe } from '../result';
 import { Cart } from './types';
 import * as R from './requests';
 
+
 export type TStore = {
     cart: Cart | null;
     cartId: string | null;
     processedVariants: string[];
-    checkout_step: "cart" | "shipping" | "payment" | "review";
-    step: (step: TStore["checkout_step"]) => void;
+    checkout: {
+        step: "cart" | "shipping" | "payment" | "review";
+        processing: boolean;
+        shipping_option: string | null;
+        shipping_city: string | null;
+        shipping_address: string | null;
+        shipping_data: Record<string, string|number> | null;
+        goto: (step: TStore["checkout"]["step"]) => void;
+    },
     addItem: (variant_id: string, quantity: number) => Promise<void>;
     updateItem: (variant_id: string, quantity: number) => Promise<void>;
     deleteVariant: (variant_id: string) => Promise<void>;
@@ -32,9 +40,15 @@ export const _CartStateBase: StateCreator<TStore> = (set, get) => ({
     cart: null,
     cartId: null,
     processedVariants: [],
-    checkout_step: "cart",
-
-    step: (step) => set(() => ({ checkout_step: step })),
+    checkout: {
+        step: "cart",
+        processing: false,
+        shipping_option: null,
+        shipping_city: null,
+        shipping_address: null,
+        shipping_data: null,
+        goto: (step) => set(() => ({ checkout: { ...get().checkout, step } }))
+    },
 
     addItem: async (variant_id, quantity) => {
         const { cart, processedVariants } = get();

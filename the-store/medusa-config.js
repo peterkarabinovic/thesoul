@@ -22,7 +22,6 @@ try {
 } catch (e) {}
 
 
-
 const plugins = [
   `medusa-fulfillment-manual`,
   `medusa-payment-manual`,
@@ -38,9 +37,9 @@ const plugins = [
       s3_url: "https://the-soul.s3.eu-central-1.amazonaws.com",
       bucket: "the-soul",
       region: "eu-central-1",
-      access_key_id: "xxxxxxxxxxxxxxxxxxxx",
-      secret_access_key: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",      
-    },
+      access_key_id: process.env.AWS_ACCESS_KEY_ID,
+      secret_access_key: process.env.AWS_SECRET_ACCESS_KEY
+    }
   },
   {
     resolve: "@medusajs/admin",
@@ -57,6 +56,9 @@ const plugins = [
     options: {
       apiKey: process.env.NOVAPOSHTA_API_KEY
     }
+  },
+  {
+    resolve: "auth-otp"
   }
 ];
 
@@ -76,7 +78,7 @@ const modules = {
 /** @type {import('@medusajs/medusa').ConfigModule["projectConfig"]} */
 const projectConfig = {
   jwtSecret: process.env.JWT_SECRET,
-  cookieSecret: process.env.COOKIE_SECRET,
+  cookie_secret: process.env.COOKIE_SECRET || "801f2d3c812e75306987a9617d4eba40dcac103ffa0d3f1b53b632d6dc054b96";
   store_cors: process.env.STORE_CORS,
   database_url: process.env.DATABASE_URL,
   admin_cors: process.env.STORE_CORS,

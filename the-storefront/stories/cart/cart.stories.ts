@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { createUseCart } from '../test-cart-state';
-import { Checkout } from 'components/cart/checkout';
+import { Cart } from 'components/cart';
 import { cartWithTwoItems } from '../test-data';
 
 const meta = {
-    title: 'Cart/Checkout',
-    component: Checkout
-} satisfies Meta<typeof Checkout>;
+    title: 'Cart/Cart',
+    component: Cart
+} satisfies Meta<typeof Cart>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

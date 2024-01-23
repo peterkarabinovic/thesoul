@@ -19,6 +19,8 @@ services:
       DATABASE_TYPE: postgres
       STORE_CORS: http://localhost:7001,http://localhost:3001,http://localhost:3000
       NOVAPOSHTA_API_KEY: 19467b3d870a2da13948cfe6aaa6fd54
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       # NODE_ENV: prodction
       NPM_CONFIG_PRODUCTION: false
     ports:

@@ -1,6 +1,6 @@
 'use client';
 
-import { add_to_cart } from 'i18n';
+import { i18n_add_to_cart } from 'i18n';
 import { Product } from 'lib/data/types';
 import { TCartState, useCartState } from "lib/data"
 import { useSelectedVariant } from 'lib/data';
@@ -22,7 +22,7 @@ export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnPr
   if (qt === 0 || loading )
     return (
         <button className="btn btn-secondary w-full max-w-72 rounded-xl" onClick={() => !loading && addItem(variantId, 1) }>
-          { loading ? <span className="loading loading-ring loading-md" /> : add_to_cart }
+          { loading ? <span className="loading loading-ring loading-md" /> : i18n_add_to_cart }
         </button>
     );
 

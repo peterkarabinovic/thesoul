@@ -25,8 +25,18 @@ class NovaposhtaFulfillmentService extends AbstractFulfillmentService {
             { id: "shipping-to-door", name: "Shipping to Door" },
         ] 
     }
-    validateFulfillmentData(optionData: Record<string, unknown>, data: Record<string, unknown>, cart: Cart): Promise<Record<string, unknown>> {
-        throw new Error("Method not implemented validateFulfillmentData: " + JSON.stringify({optionData, data, cart}));
+    async validateFulfillmentData(option: Record<string, unknown>, data: Record<string, unknown>, cart: Cart): Promise<Record<string, unknown>> {
+        if(option.id === "shipping-to-warehouse"){
+            if(!data.cityRef || data.warehouseRef === undefined){
+                throw new Error("CityRef and warehouseRef are required");
+            }
+        }
+        else if(option.id === "shipping-to-door"){
+            if(!data.cityRef || !data.streetRef || !data.buildingNumber){
+                throw new Error("CityRef, streetRef and buildingNumber are required");
+            }
+        }
+        return { ...option, ...data }; 
     }
     
     async validateOption(data: Record<string, unknown>): Promise<boolean> {
