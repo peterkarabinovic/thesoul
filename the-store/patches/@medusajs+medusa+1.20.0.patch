@@ -1,0 +1,13 @@
+diff --git a/node_modules/@medusajs/medusa/dist/loaders/express.js b/node_modules/@medusajs/medusa/dist/loaders/express.js
+index 2a38891..03fd5ca 100644
+--- a/node_modules/@medusajs/medusa/dist/loaders/express.js
++++ b/node_modules/@medusajs/medusa/dist/loaders/express.js
+@@ -84,7 +84,7 @@ exports.default = (function (_a) {
+             app.use((0, morgan_1.default)("combined", {
+                 skip: function () { return process.env.NODE_ENV === "test"; },
+             }));
+-            app.use((0, cookie_parser_1.default)());
++            app.use((0, cookie_parser_1.default)(sessionOpts.secret));
+             app.use((0, express_session_1.default)(sessionOpts));
+             app.get("/health", function (req, res) {
+                 res.status(200).send("OK");

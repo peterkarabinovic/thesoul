@@ -78,7 +78,7 @@ const modules = {
 /** @type {import('@medusajs/medusa').ConfigModule["projectConfig"]} */
 const projectConfig = {
   jwtSecret: process.env.JWT_SECRET,
-  cookie_secret: process.env.COOKIE_SECRET || "801f2d3c812e75306987a9617d4eba40dcac103ffa0d3f1b53b632d6dc054b96";
+  cookie_secret: process.env.COOKIE_SECRET || "801f2d3c812e75306987a9617d4eba40dcac103ffa0d3f1b53b632d6dc054b96",
   store_cors: process.env.STORE_CORS,
   database_url: process.env.DATABASE_URL,
   admin_cors: process.env.STORE_CORS,
