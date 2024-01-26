@@ -1,7 +1,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { VariantSelector } from 'components/product-derails/variant-selector';
+import { VariantSelector } from 'modules/products/components/product-derails/variant-selector';
 import * as D from "../test-data"
 
 const meta = {

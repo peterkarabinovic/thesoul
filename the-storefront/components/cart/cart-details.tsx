@@ -3,7 +3,7 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
-import { Money } from "lib/data/types";
+import { Money } from "commons/data/types";
 import { TCartState, useCartState } from "lib/data"
 import { formatPrice } from "lib/medusa/helpers"
 

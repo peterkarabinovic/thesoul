@@ -1,50 +1,6 @@
-import { Result, pipe } from 'lib/result';
-import * as T from "./types"
-
-/**
- * List of Profucts
- * @returns 
- */
-export async function productListQuery(): Promise<Result<T.ProductBrief[], RequestError>> {
-
-    return pipe(
-        await medusaRequest<{ products: T.MedusaProduct[] }>({
-            method: 'GET',
-            path: '/products'
-        }),
-        Result.map(({ products }) => products.map(p => T.medusaProductToBrief(p)))
-    )
-}
-
-export async function productQuery(handle: string): Promise<Result<T.Product, RequestError>> {
-    const rawResult = await (async () => {
-
-        if (/prod_\w{7,}/.test(handle)) // if handle looks like product ID
-            return pipe(
-                await medusaRequest<T.MedusaProduct>({
-                    method: "GET",
-                    path: `/products/${handle}`,
-                }),
-                Result.map(data => ({products: [data]}))
-            )
-        else
-            return await medusaRequest<{products: T.MedusaProduct[]}>({
-                method: "GET",
-                path: `/products?handle=${handle}&limit=1`,
-            });
-    })();
-
-    return pipe(
-        rawResult,
-        Result.chain(data => 
-            T.isNonEmpty(data.products) 
-            ? Result.of(data.products[0])
-            : Result.failure({status: 404, message: "Not found"})  
-        ),
-        Result.map( product => T.medusaProductToProduct(product))
-    )
-}
-
+import { Result, pipe } from 'commons';
+import { RequestError, medusaRequest } from 'commons/medusa-request';
+import * as T from "../../commons/data/types"
 
 
 export async function retrieveCart(cartId: string): Promise<Result<T.Cart, RequestError>> {
@@ -107,64 +63,4 @@ export async function deleteLineItem(cartId: string, itemId: string): Promise<Re
         }),
         Result.map(({cart}) => T.medusaCartToCart(cart))
     )
-}
-
-
-const ENDPOINT = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_API ?? 'http://localhost:9000';
-const INTERNAL_ENDPOINT = process.env.NEXT_INTERNAL_MEDUSA_BACKEND_API ?? 'http://localhost:9000';
-
-export type RequestError = {
-    status: number;
-    message: string;
-};
-
-type MedusaRequestParams = {
-    method: string;
-    path: string;
-    payload?: Record<string, unknown> | undefined;
-    serverSide?: boolean
-    revalidateSec?: number
-};
-
-export async function medusaRequest<R>({
-    method,
-    path,
-    payload,
-    revalidateSec,
-    serverSide = true
-}: MedusaRequestParams): Promise<Result<R, RequestError>> {
-    const options: RequestInit = {
-        method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        ...(revalidateSec && { next: { revalidate: revalidateSec } })
-    };
-
-    if (path.includes('/carts')) {
-        options.cache = 'no-cache';
-    }
-
-    if (payload) {
-        options.body = JSON.stringify(payload);
-    }
-
-    try {
-        const endpoint = serverSide ? INTERNAL_ENDPOINT : ENDPOINT;
-        const result = await fetch(`${endpoint}/store${path}`, options);
-
-        const body = await result.json();
-
-        if (body.errors) {
-            throw body.errors[0];
-        }
-
-        return Result.of(body);
-    } catch (e) {
-        const error = e as RequestError;
-        return Result.failure({
-            status: error?.status || 500,
-            message: error.message || 'Something went wrong'
-        });
-    }
 }

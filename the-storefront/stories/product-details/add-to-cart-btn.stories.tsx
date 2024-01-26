@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { AddToCartBtn } from 'components/product-derails/add-to-cart-btn';
+import { AddToCartBtn } from 'modules/products/components/product-derails/add-to-cart-btn';
 import { createUseCart } from '../test-cart-state';
 import * as D from '../test-data';
 

@@ -52,13 +52,13 @@ const plugins = [
     },
   },
   {
-    resolve: "novaposhta-fulfillment",
+    resolve: "medusa-novaposhta-fulfillment",
     options: {
       apiKey: process.env.NOVAPOSHTA_API_KEY
     }
   },
   {
-    resolve: "auth-otp"
+    resolve: "medusa-auth-otp"
   }
 ];
 

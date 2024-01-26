@@ -1,7 +1,7 @@
 import { create, StateCreator, UseBoundStore, StoreApi } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import { AsyncResult, pipe } from '../result';
-import { Cart } from './types';
+import { AsyncResult, pipe } from 'commons';
+import { Cart } from '../../commons/data/types';
 import * as R from './requests';
 
 
@@ -24,7 +24,7 @@ export type TStore = {
     variantQuantity: (variant_id: string) => number;
 }
 
-// I've extracted and exported state logic as CartStateLogic
+// I've extracted and exported state logic as _CartStateBase
 // so it can be extented in storybook
 // in general you don't need to use StateCreator type but config zustand like this:
 //

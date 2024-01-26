@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ProductDetails } from 'components/product-derails';
+import { ProductDetails } from 'modules/products/components/product-derails'
 import * as D from '../test-data';
 
 const meta = {

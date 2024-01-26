@@ -1,5 +1,5 @@
-import { ProductList } from 'components/product-list'; 
-import { productListQuery } from "lib/data/requests";
+import { ProductList } from 'modules/products/components/product-list'; 
+import { productListQuery } from "modules/products/data/requests";
 
 export const runtime = 'edge';
 

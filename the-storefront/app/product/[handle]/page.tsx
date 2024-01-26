@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { productQuery } from "lib/data/requests"
-import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
-import { ProductDetails } from "components/product-derails"
+import { productQuery } from "modules/products/data/requests"
+import { ProductDetails } from "modules/products/components/product-derails"
 import Footer from 'components/layout/footer';
+import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
 
 
 export const runtime = 'edge';

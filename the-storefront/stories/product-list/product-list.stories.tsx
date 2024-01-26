@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Suspense } from 'react';
-import { Result } from 'lib/result';
+import { Result } from 'commons';
 
 
-import { ProductList } from 'components/product-list';
+import { ProductList } from 'modules/products/components/product-list';
 
 const meta = {
     title: "Product List/List",

@@ -1,0 +1,18 @@
+{
+  "name": "thesoul",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "install:commons": "pnpm --dir packages/commons install",
+    "install:medusa-auth-otp": "pnpm --dir packages/medusa-auth-otp install",
+    "install:medusa-novaposhta-fulfillment": "pnpm --dir packages/medusa-novaposhta-fulfillment install",
+    "install:the-store": "pnpm --dir the-store install",
+    "install:the-storefront": "pnpm --dir the-storefront install",
+    "install": "pnpm install:commons && pnpm install:medusa-auth-otp && pnpm install:medusa-novaposhta-fulfillment && pnpm install:the-store && pnpm install:the-storefront"
+    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
