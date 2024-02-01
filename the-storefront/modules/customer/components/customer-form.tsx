@@ -2,23 +2,35 @@
 
 import { useState } from 'react';
 import { usePhoneInput } from 'react-international-phone';
-import { i18n_first_name, i18n_last_name, i18n_phone, i18n_optional, i18n_save_customer, i18n_username_telegram } from 'i18n';
-import { useCustomerStore, readyToSend } from "../data/state"
-import { InputField } from "components/input"
+import {
+  i18n_first_name,
+  i18n_last_name,
+  i18n_phone,
+  i18n_optional,
+  i18n_save_customer,
+  i18n_username_telegram
+} from 'i18n';
+import { useCustomerStore, readyToSend } from '../data/state';
+import { InputField } from 'components/input';
 import clsx from 'clsx';
 
-export function CustomerForm() {
+export const classes = {
+  input: 'input input-sm input-bordered sm:input-md w-full focus:border-none',
+  label: 'label text-neutral block text-sm sm:text-base'
+};
 
+export function CustomerForm() {
   const customer = useCustomerStore((state) => state.customer);
   const processing = useCustomerStore((state) => state.processing);
-  const errors = useCustomerStore(state => state.customerErrors)
-  const globalError = useCustomerStore(state => state.globalError)
+  const errors = useCustomerStore((state) => state.customerErrors);
+  const globalError = useCustomerStore((state) => state.globalError);
+  const sendToServer = useCustomerStore((state) => state.sendToServer);
 
   const [firstName, setFirstName] = useState(customer.firstName);
   const [lastName, setLastName] = useState(customer.lastName);
   const [telegram, setTelegram] = useState(customer.telegram);
 
-  const { inputValue, phone, handlePhoneValueChange} = usePhoneInput({
+  const { inputValue, phone, handlePhoneValueChange } = usePhoneInput({
     defaultCountry: 'ua',
     disableCountryGuess: true,
     disableDialCodeAndPrefix: true,
@@ -27,40 +39,35 @@ export function CustomerForm() {
   });
 
   const isReadytoSend = !readyToSend(customer, {
-    firstName, lastName, phone, telegram
-  }) 
+    firstName,
+    lastName,
+    phone,
+    telegram
+  });
 
-
-  const classes = {
-    input: 'input input-sm input-bordered sm:input-md w-full focus:border-none',
-    label: 'label text-neutral block text-sm sm:text-base'
-  };
-  
   return (
     <div className="m-auto flex w-full max-w-72 flex-col gap-2">
-        { globalError &&
-            <div className='text-xs text-error'>{globalError}</div> 
-        }
+      {globalError && <div className="text-xs text-error">{globalError}</div>}
 
-        <InputField
-            type='text'
-            title={i18n_first_name}
-            value={firstName}
-            placeholder={i18n_first_name}
-            onChange={s => setFirstName(s)}
-            disabled={processing}
-            error={errors.firstName}
-        />
+      <InputField
+        type="text"
+        title={i18n_first_name}
+        value={firstName}
+        placeholder={i18n_first_name}
+        onChange={(s) => setFirstName(s)}
+        disabled={processing}
+        error={errors.firstName}
+      />
 
-        <InputField
-            type='text'
-            title={i18n_last_name}
-            value={lastName}
-            placeholder={i18n_last_name}
-            onChange={s => setLastName(s)}
-            disabled={processing}
-            error={errors.lastName}
-        />            
+      <InputField
+        type="text"
+        title={i18n_last_name}
+        value={lastName}
+        placeholder={i18n_last_name}
+        onChange={(s) => setLastName(s)}
+        disabled={processing}
+        error={errors.lastName}
+      />
 
       <div>
         <label className={classes.label}>{i18n_phone}</label>
@@ -83,22 +90,27 @@ export function CustomerForm() {
       </div>
 
       <InputField
-            type='text'
-            title='Telegram'
-            subtitle={i18n_optional}
-            value={telegram}
-            placeholder={i18n_username_telegram}
-            onChange={s => setTelegram(s)}
-            disabled={processing}
-            error={errors.telegram}
-        />        
+        type="text"
+        title="Telegram"
+        subtitle={i18n_optional}
+        value={telegram}
+        placeholder={i18n_username_telegram}
+        onChange={(s) => setTelegram(s)}
+        disabled={processing}
+        error={errors.telegram}
+      />
 
-
-      <div className='mt-4'>
-            <button className={clsx('reletive btn float-right', {'btn-primary': !processing })} disabled={ isReadytoSend }>
-                <span className={clsx({'invisible': processing})}>{i18n_save_customer}</span>
-                <span className={clsx("absolute loading loading-ring loading-sm", {'invisible': !processing} )} />
-            </button>
+      <div className="mt-4">
+        <button
+          className={clsx('reletive btn float-right', { 'btn-primary': !processing })}
+          onClick={() => sendToServer({ firstName, lastName, phone, telegram })}
+          disabled={isReadytoSend}
+        >
+          <span className={clsx({ invisible: processing })}>{i18n_save_customer}</span>
+          <span
+            className={clsx('loading loading-ring loading-sm absolute', { invisible: !processing })}
+          />
+        </button>
       </div>
     </div>
   );

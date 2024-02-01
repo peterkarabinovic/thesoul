@@ -1,9 +1,9 @@
 import { i18n_totlal, i18n_total_cost, i18n_shipping_cost, i18n_shipping_not_calculated, i18n_price_for_quantity } from 'i18n';
-import { TCartState } from "lib/data"
 import { formatPrice } from 'lib/medusa/helpers';
+import { TCartStore } from "../data"
 
 type CartTotalsProps = {
-    useCart: TCartState;
+    useCart: TCartStore;
 };
 
 export function CartTotals({ useCart }: CartTotalsProps) {

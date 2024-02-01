@@ -30,3 +30,21 @@ export async function update(cus: T.TCustomer): Promise<Result<{ customerId: str
     })
 }
 
+export async function logIn(phone: string): Promise<Result<RT.LoginResponse, RequestError>> {
+
+    return await medusaRequest<RT.LoginResponse>({
+        method: 'POST',
+        path: `/otp-login`,
+        payload: { phone }
+    })
+}
+
+export async function confirmOtp(code: string, phone: string): Promise<Result<RT.ConfirmOtpResponse, RequestError>> {
+
+    return await medusaRequest<RT.ConfirmOtpResponse>({
+        method: 'POST',
+        path: `/otp-confirm`,
+        payload: { code, phone }
+    })
+}
+

@@ -42,7 +42,7 @@ export type LoginErrors =
     | WaitLongPeriodBeforeNextLogin
     | UnknownError;
 
-export type CheckOtpErrors =
+export type ConfirmOtpErrors =
     | InvalidInputError
     | UserWithPhoneNotExists
     | UnknownError;

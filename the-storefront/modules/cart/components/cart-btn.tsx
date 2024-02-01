@@ -1,7 +1,7 @@
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
-import { useCartState, TCartState } from "lib/data/state-cart"
+import { useCartState, TCartStore } from "../data"
 
-export function CartBtn( {useCart = useCartState}: { useCart: TCartState } ) {
+export function CartBtn( {useCart = useCartState}: { useCart: TCartStore } ) {
 
     const cart = useCart( state => state.cart );
     if(!cart || cart.lines.length === 0)

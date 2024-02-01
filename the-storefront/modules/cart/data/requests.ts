@@ -1,6 +1,6 @@
 import { Result, pipe } from 'commons';
 import { RequestError, medusaRequest } from 'commons/medusa-request';
-import * as T from "../../commons/data/types"
+import * as T from "../../../commons/types"
 
 
 export async function retrieveCart(cartId: string): Promise<Result<T.Cart, RequestError>> {

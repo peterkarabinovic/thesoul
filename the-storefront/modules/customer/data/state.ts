@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { AsyncResult, pipe } from 'commons';
-import { i18n_user_with_phone_already_exists, i18n_unable_access_store } from 'i18n'
+import { AsyncResult, Result, pipe } from 'commons';
+import { i18n_user_with_phone_already_exists, i18n_unable_access_store, i18n_no_useraccount_for_phone } from 'i18n'
 import * as Requsets from "./requests"
 import * as T from "./type"
 
@@ -10,8 +10,16 @@ export type TCustomerState = {
     customerErrors: T.TCustomerErrors,
     globalError?: string, 
     processing: boolean,
+    otpSent?: number, // timestamp of otp sent
+    otp?: {
+        sentAt: number,
+        phoneSentTo: string, 
+    }
     logedIn: () => boolean,
     sendToServer: (cus: T.TCustomer) => void,
+    logIn: (phone: string) => void,
+    confirmOtp: (otp: string) => void,
+    logOut: () => void,
 } 
 
 const initState = {
@@ -22,10 +30,12 @@ const initState = {
         telegram: '',
     },
     customerErrors: {},
-
     globalError: undefined,
-    
-    processing: false,
+    processing: true,
+    otp: {
+        sentAt: Date.now(),
+        phoneSentTo: '+432432432',
+    },
 };
 
 export const useCustomerStore = create<TCustomerState>( (set, get) => ({
@@ -63,7 +73,87 @@ export const useCustomerStore = create<TCustomerState>( (set, get) => ({
             }),
             AsyncResult.then(() => set({ processing: false} )),
         );
-    }
+    },
+
+    logIn: (phone) => {
+        set({ processing: true, globalError: undefined, otpSent: undefined});
+        pipe(
+            Requsets.logIn(phone),
+            AsyncResult.tapError((error) => {
+                console.error('Customer logIn', error);
+                set({ globalError: i18n_unable_access_store })
+            }),
+            AsyncResult.tap( res => {
+                if("error" in res) {
+                    switch(res.error.name) {
+                        case "invalidInput": {
+                            const errors = Object.values(res.error.fieldErrors).join('\n');
+                            set({ globalError: errors});
+                            break;
+                        }
+                        case "userWithPhoneNotExists": {
+                            const _phone = res.error.phone;
+                            set({ globalError: i18n_no_useraccount_for_phone.replace('{phone}', _phone)});
+                            break;
+                        }
+                        case "unknownError":
+                            set({ globalError: i18n_unable_access_store });
+                            break;
+                    }
+                } else { 
+                    set({ otp: { sentAt: Date.now(), phoneSentTo: phone } });
+                }
+            }),
+            AsyncResult.then(() => set({ processing: false} ))
+        );
+    },
+    
+    confirmOtp: (otpCode) => {
+        const phone = get().otp?.phoneSentTo;
+        if(!phone) 
+            return;
+        set({ processing: true, globalError: undefined });
+        pipe(
+            Requsets.confirmOtp(otpCode, phone),
+            AsyncResult.chain( async res => {
+                if( "error" in res ) {
+                    switch(res.error.name) {
+                        case "invalidInput": {
+                            const errors = Object.values(res.error.fieldErrors).join('\n');
+                            set({ globalError: errors});
+                            break;
+                        }
+                        case "userWithPhoneNotExists": {
+                            const _phone = res.error.phone;
+                            set({ globalError: i18n_no_useraccount_for_phone.replace('{phone}', _phone)});
+                            break;
+                        }
+                        case "unknownError":
+                            set({ globalError: i18n_unable_access_store });
+                            break;   
+                    }
+                    return Result.of(undefined);
+                }
+                else  {
+                    return pipe(
+                        Requsets.me(),
+                        AsyncResult.tap( customer => {
+                            if( !("error" in customer))
+                                set({ customer });
+                            return Result.of(undefined);
+                        })
+                    )
+                }
+            }),
+            AsyncResult.tapError((error) => {
+                console.error('Customer logIn', error);
+                set({ globalError: i18n_unable_access_store })
+            }),
+            AsyncResult.then(() => set({ processing: false} ) )
+        )
+
+    },
+    logOut: () => {},
 }));
 
 export function readyToSend(original: T.TCustomer, ui: T.TCustomer): boolean {

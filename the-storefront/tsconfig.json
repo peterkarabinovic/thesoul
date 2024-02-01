@@ -24,6 +24,8 @@
     "paths": {
         "auth-otp-types": ["../packages/medusa-auth-otp/src/api/response-types.ts"],
         "i18n": ["../packages/commons/src/i18n"],
+        "@cart/*": ["modules/cart/*"],
+        "@checkout/*": ["modules/checkout/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

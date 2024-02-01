@@ -1,6 +1,6 @@
 'use client';
 
-import { Product } from 'commons/data/types';
+import { Product } from 'commons/types';
 import { useSelectedVariant } from '../../data/state-sel-variant';
 
 type Props = {

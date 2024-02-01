@@ -1,4 +1,4 @@
-import * as M from '../../lib/medusa';
+import * as M from '../lib/medusa';
 
 export { 
     type Product, 
@@ -6,7 +6,7 @@ export {
     type Cart,
     type MedusaCart, 
     type Money 
-} from "../../lib/medusa"
+} from "../lib/medusa"
 
 
 /****************************************************************************************

@@ -3,12 +3,12 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
-import { Money } from "commons/data/types";
-import { TCartState, useCartState } from "lib/data"
+import { Money } from "commons/types";
 import { formatPrice } from "lib/medusa/helpers"
+import { TCartStore, useCartState } from "../data"
 
 type CartDetailsProps = {
-    useCart?: TCartState;        
+    useCart?: TCartStore;        
 }
 
 export function CartDetails({ useCart = useCartState}: CartDetailsProps){

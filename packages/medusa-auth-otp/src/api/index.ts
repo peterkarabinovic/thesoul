@@ -123,7 +123,7 @@ export default function (_:any, options: Record<string,string>): Router {
         }
     });
 
-    app.post("/store/otp-verify", async (req: MedusaRequest, res: Response<RT.CheckOtpResponse>) => {
+    app.post("/store/otp-confirm", async (req: MedusaRequest, res: Response<RT.ConfirmOtpResponse>) => {
         const d = z.object({ code: Otp})
                     .merge(Customer.pick({ phone: true }))
                     .safeParse(req.body);
@@ -134,7 +134,7 @@ export default function (_:any, options: Record<string,string>): Router {
 
         const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
 
-        const r = await authOtpService.checkOtp(d.data);
+        const r = await authOtpService.confirmOtp(d.data);
         if("error" in r) {
             switch(r.error.name){
                 case "userWithPhoneNotExists":

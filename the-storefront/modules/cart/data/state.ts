@@ -1,23 +1,14 @@
 import { create, StateCreator, UseBoundStore, StoreApi } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { AsyncResult, pipe } from 'commons';
-import { Cart } from '../../commons/data/types';
+import { Cart } from 'lib/medusa/types';
 import * as R from './requests';
 
 
-export type TStore = {
+export type TCartState = {
     cart: Cart | null;
     cartId: string | null;
     processedVariants: string[];
-    checkout: {
-        step: "cart" | "shipping" | "payment" | "review";
-        processing: boolean;
-        shipping_option: string | null;
-        shipping_city: string | null;
-        shipping_address: string | null;
-        shipping_data: Record<string, string|number> | null;
-        goto: (step: TStore["checkout"]["step"]) => void;
-    },
     addItem: (variant_id: string, quantity: number) => Promise<void>;
     updateItem: (variant_id: string, quantity: number) => Promise<void>;
     deleteVariant: (variant_id: string) => Promise<void>;
@@ -33,22 +24,13 @@ export type TStore = {
 //                  (set, get) => ({....})
 //              ))
 //
-export type TCartState = UseBoundStore<StoreApi<TStore>>;
+export type TCartStore = UseBoundStore<StoreApi<TCartState>>;
 
-export const _CartStateBase: StateCreator<TStore> = (set, get) => ({
+export const _CartStateBase: StateCreator<TCartState> = (set, get) => ({
 
     cart: null,
     cartId: null,
     processedVariants: [],
-    checkout: {
-        step: "cart",
-        processing: false,
-        shipping_option: null,
-        shipping_city: null,
-        shipping_address: null,
-        shipping_data: null,
-        goto: (step) => set(() => ({ checkout: { ...get().checkout, step } }))
-    },
 
     addItem: async (variant_id, quantity) => {
         const { cart, processedVariants } = get();
@@ -111,7 +93,7 @@ export const _CartStateBase: StateCreator<TStore> = (set, get) => ({
 
 
 export const useCartState = create(
-    persist<TStore>(
+    persist<TCartState>(
 
         _CartStateBase
         ,

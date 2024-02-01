@@ -20,6 +20,6 @@ export type LoginResponse =
     | { message: "OTP sent" }
     | { error: T.LoginErrors | T.InvalidInputError }
 
-export type CheckOtpResponse =
+export type ConfirmOtpResponse =
     | { customerId: string }
-    | { error: T.CheckOtpErrors | T.InvalidInputError }
+    | { error: T.ConfirmOtpErrors | T.InvalidInputError }

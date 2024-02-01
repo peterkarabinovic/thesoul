@@ -1,6 +1,6 @@
-import { Product } from 'commons/data/types';
+import { Product } from 'commons/types';
 import { Carousel } from 'components/carousel';
-import { AddToCartBtn } from './add-to-cart-btn';
+import { AddToCartBtn } from '@cart/components';
 import { VariantSelector } from './variant-selector';
 import { VariantPrice } from './variant-price';
 

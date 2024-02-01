@@ -1,17 +1,18 @@
 import Link from 'next/link';
 import { i18n_cart, i18n_checkout, i18n_shipping, i18n_payment, i18_goto_payment } from 'i18n';
-import { TStore, TCartState, useCartState } from 'lib/data';
-import { CartTotals } from "./cart/cart-totals"
+import { TChechoutState } from '../data/state';
+import { useCartState, TCartStore } from '@cart/data';
+import { CartTotals } from "@cart/components"
 import clsx from 'clsx';
 
-type CheckoutProps = {
+type CheckoutStepsProps = {
   children: React.ReactNode;
-  step: TStore["checkout"]["step"];
+  step: TChechoutState["step"];
   canGoNext: boolean;
-  useCart?: TCartState;
+  useCart?: TCartStore;
 };
 
-export function Checkout({ children, step, canGoNext, useCart = useCartState }: CheckoutProps) {
+export function CheckoutSteps({ children, step, canGoNext, useCart = useCartState }: CheckoutStepsProps) {
 
   const stepIndex = ["cart", "shipping", "payment"].indexOf(step)
 

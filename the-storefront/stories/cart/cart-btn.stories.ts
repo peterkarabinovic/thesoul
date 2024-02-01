@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CartBtn } from 'components/cart/cart-btn';
+import { CartBtn } from "@cart/components/cart-btn"
 import { createUseCart } from '../test-cart-state';
 import { cartWithTwoItems } from '../test-data';
 

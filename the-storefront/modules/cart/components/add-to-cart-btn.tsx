@@ -1,13 +1,13 @@
 'use client';
 
 import { i18n_add_to_cart } from 'i18n';
-import { Product } from 'commons/data/types';
-import { TCartState, useCartState } from "lib/data"
-import { useSelectedVariant } from '../../data/state-sel-variant';
+import { Product } from 'commons/types';
+import { TCartStore, useCartState } from "../data"
+import { useSelectedVariant } from '../../products/data/state-sel-variant';
 
 type AddToCartBtnProps = {
   product: Pick<Product, "variants">,
-  useCart?: TCartState;
+  useCart?: TCartStore;
 };
 
 export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnProps) {

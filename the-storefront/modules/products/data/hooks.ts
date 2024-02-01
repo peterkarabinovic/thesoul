@@ -1,6 +1,6 @@
 
 import { useState, useEffect} from "react";
-import { ProductBrief, Product } from "commons/data/types";
+import { ProductBrief, Product } from "commons/types";
 import { productListQuery, productQuery } from "./requests"
 
 

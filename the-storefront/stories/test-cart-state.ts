@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import { _CartStateBase, TStore } from "lib/data"
+import { _CartStateBase, TCartState } from "@cart/data"
 
-export function createUseCart(state:Partial<TStore> = {}) {
+export function createUseCart(state:Partial<TCartState> = {}) {
 
-    return create<TStore>((set, get, _) => {
+    return create<TCartState>((set, get, _) => {
         const logic = _CartStateBase(set, get, _);
         return {
             ...logic,

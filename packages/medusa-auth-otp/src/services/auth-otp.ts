@@ -3,6 +3,7 @@ import { Logger, TransactionBaseService, generateEntityId } from "@medusajs/medu
 import { Result } from "commons"
 import SendOtpService from "./send-otp";
 import * as T from "../types";
+import { i18n_invalid_otp } from "commons/src/i18n";
 
 
 const SHORT_PERIOD = 1000 * 60 * 5; // 5 minutes
@@ -23,7 +24,10 @@ class AuthOtpService extends TransactionBaseService {
 
         return await this.atomicPhase_(async manager => {
             return manager.query(`
-                SELECT id, first_name, last_name, phone, telegram
+                SELECT id as "customerId", 
+                    first_name as "firstName", 
+                    last_name as "lastName", 
+                    phone, telegram
                 FROM customer 
                 WHERE id = $1
             `, [customerId])
@@ -156,7 +160,7 @@ class AuthOtpService extends TransactionBaseService {
     }
 
     // Check otp
-    async checkOtp({phone, code}: {phone: string, code: string}): Promise<Result<T.CustomerId, T.CheckOtpErrors>> {
+    async confirmOtp({phone, code}: {phone: string, code: string}): Promise<Result<T.CustomerId, T.ConfirmOtpErrors>> {
 
         this.logger.info("Customer singup... :" + JSON.stringify({phone, code}));
         // Check if customer exists
@@ -185,14 +189,14 @@ class AuthOtpService extends TransactionBaseService {
         const { id, attemp_timestamp, code_1, code_2, code_3 } = otp_data.data;
 
         if (!attemp_timestamp)
-            return Result.failure( new T.InvalidInputError({ code: "wrongOtp"}) );
+            return Result.failure( new T.InvalidInputError({ code: i18n_invalid_otp}) );
 
         if (![code_1, code_2, code_3].includes(code))
-            return Result.failure( new T.InvalidInputError({ code: "wrongOtp"}) );
+            return Result.failure( new T.InvalidInputError({ code: i18n_invalid_otp}) );
 
         const diff = Date.now() - attemp_timestamp.getTime();
         if (diff > SHORT_PERIOD)
-            return Result.failure( new T.InvalidInputError({ code: "wrongOtp"}) );
+            return Result.failure( new T.InvalidInputError({ code: i18n_invalid_otp}) );
 
         // Update customer
         return Result.of(id);

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import { Result } from "commons"
 import { RequestError } from "commons/medusa-request"
-import { ProductBrief } from "lib/data/"
+import { ProductBrief } from "commons/types"
 import { groupBy } from "lib/utils";
 import { FeaturedProduct, ProductListItem } from "./product-item";
 import clsx from "clsx";

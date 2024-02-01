@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { createUseCart } from '../test-cart-state';
-import { CartDetails } from 'components/cart/cart-details';
+import { CartDetails } from '@cart/components/cart-details';
 import { cartWithTwoItems } from '../test-data';
 
 const meta = {

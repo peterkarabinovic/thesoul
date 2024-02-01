@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ProductBrief } from 'commons/data/types';
+import { ProductBrief } from 'commons/types';
 import { formatPrice } from 'lib/medusa/helpers';
 
 type ProductProps = {
