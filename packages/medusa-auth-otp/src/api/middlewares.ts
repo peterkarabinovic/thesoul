@@ -45,7 +45,7 @@ const cartCreationCookie = (
     if(req.method == "POST"){
         const originalJson = res.json;
         res.json = (body) => {
-            theSoulCookie.write(res, { cartId: body.id, customerId: req.user?.customer_id });
+            theSoulCookie.write(res, { cartId: body?.cart?.id, customerId: req.user?.customer_id });
             return originalJson.call(res, body);
         }       
     }

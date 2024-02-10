@@ -1,4 +1,5 @@
 'use client';
+import {  i18n_nv_shipping_to_warehouse, i18n_nv_shipping_to_door} from "i18n"
 import { useEffect } from 'react';
 import { CustomerForm } from '@customer/components/customer-form';
 import { TChechoutStore, useChechoutState } from '../data';
@@ -7,6 +8,11 @@ import { CustomerSignUpOrSignIn } from '@customer/components/customer-signup-or-
 type ShippingFormProps = {
   useCheckout?: TChechoutStore;
 };
+
+const SHIPPING_NAMES: Record<string,string> = {
+    "shipping-to-warehouse": i18n_nv_shipping_to_warehouse, 
+    "shipping-to-door": i18n_nv_shipping_to_door    
+}
 
 export function SippingForm({ useCheckout = useChechoutState }: ShippingFormProps) {
   const logedIn = useCheckout((state) => state.logedIn);
@@ -35,7 +41,7 @@ export function SippingForm({ useCheckout = useChechoutState }: ShippingFormProp
                 checked={opt.id == selectedOption?.id}
                 onChange={() => selectOption(opt)}
               />
-              <span className="label-text ml-4 text-neutral block text-sm sm:text-base">{opt.name}</span>
+              <span className="label-text ml-4 text-neutral block text-sm">{SHIPPING_NAMES[opt.id]}</span>
             </label>
           ))}
         </div>
@@ -45,4 +51,8 @@ export function SippingForm({ useCheckout = useChechoutState }: ShippingFormProp
       </div>
     </div>
   );
+}
+
+function ShippingToWarehouse() {
+    
 }

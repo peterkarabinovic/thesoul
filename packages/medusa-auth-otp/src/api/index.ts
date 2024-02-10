@@ -139,6 +139,7 @@ export default function (_:any, options: Record<string,string>): Router {
 
         const r = await authOtpService.confirmOtp(d.data.phone, d.data.code, req.cart_id);
         if("error" in r) {
+            req.scope.resolve<Logger>("logger").error(JSON.stringify(r))
             switch(r.error.name){
                 case "userWithPhoneNotExists":
                     res.status(404).json(r);
@@ -153,6 +154,7 @@ export default function (_:any, options: Record<string,string>): Router {
             } 
         }
         else  {
+console.log("authOtpService.confirmOtp RESULT", r.data)            
             theSoulCookie.write(res, r.data);
             res.json(r.data);
         }

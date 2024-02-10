@@ -42,3 +42,7 @@ export const i18n_resend_otp = 'Відправити код повторно';
 export const i18n_fill_input_with_received_otp = 'Введіть код підтвердження:';
 export const i18n_user_with_phone_already_exists = 'Користувач з таким номером телефону вже існує.';
 export const i18n_no_useraccount_for_phone = 'Користувача з номером {phone} ми не знайшли.';
+
+// Shipping
+export const i18n_nv_shipping_to_warehouse = "На відділення Нової Пошти";
+export const i18n_nv_shipping_to_door = "Адресна доставка Новою Поштою";

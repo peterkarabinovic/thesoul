@@ -178,7 +178,7 @@ class AuthOtpService extends TransactionBaseService {
     // Check otp
     async confirmOtp(phone: string, code: string, cartId?: string ): Promise<Result<{customerId: T.CustomerId, cartId: string}, T.ConfirmOtpErrors>> {
 
-        this.logger.info("Customer confirmOtp... :" + JSON.stringify({ phone, code }));
+        this.logger.info("Customer confirmOtp... :" + JSON.stringify({ phone, code, cartId }));
         // Check if customer exists
         return await this.atomicPhase_(async manager => {
             return manager.query(`
@@ -239,13 +239,10 @@ class AuthOtpService extends TransactionBaseService {
                             WHERE id = ( SELECT id FROM carts OFFSET 0 LIMIT 1 )
                             RETURNING id;
                         `, [cartId, customerId])
-                        .catch(e => { throw new T.UnknownError(e); })
+                        .catch(e => {  throw new T.UnknownError(e); })
                         .then( res => {
-                            const rows = res || [];
-                            if (rows.length === 0)
-                                throw new T.UserWithPhoneNotExists(phone);
-                            else
-                                return { cartId: rows[0]?.id, customerId }                         
+                            const cartId = res[0]?.[0]?.id;
+                            return { cartId, customerId }
                         })
                     }
                     return { cartId, customerId };

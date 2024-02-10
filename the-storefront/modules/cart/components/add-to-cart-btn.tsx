@@ -21,18 +21,20 @@ export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnPr
 
   if (qt === 0 || loading )
     return (
-        <button className="btn btn-secondary w-full max-w-72 rounded-xl" onClick={() => !loading && addItem(variantId, 1) }>
+        <button className="btn btn-neutral-content w-full max-w-72 rounded-xl" onClick={() => !loading && addItem(variantId, 1) }>
           { loading ? <span className="loading loading-ring loading-md" /> : i18n_add_to_cart }
         </button>
     );
 
   return (
-    <div className="flex w-full max-w-72 items-center justify-between rounded-xl bg-secondary">
-      <button className="btn btn-secondary rounded-xl" onClick={() => updateItem(variantId, qt - 1)}>
+    <div className="flex w-full max-w-72 items-center justify-between rounded-xl bg-neutral-content">
+      <button className="btn btn-neutral-content rounded-xl" onClick={() => updateItem(variantId, qt - 1)}>
         -
       </button>
-      <span className="rounded-xl bg-secondary px-2">{qt}</span>
-      <button className="btn btn-secondary rounded-xl" onClick={() => addItem(variantId, 1)}>
+      <button className="btn btn-ghost min-w-44 text-md" onClick={() => addItem(variantId, 1)}>
+      {qt}
+      </button>
+      <button className="btn btn-neutral-content rounded-xl" onClick={() => addItem(variantId, 1)}>
       +
       </button>
     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReadonlyURLSearchParams } from 'next/navigation';
 import { MedusaProductOption } from './medusa/types';
 
@@ -51,3 +52,11 @@ export function omitProps<T extends object, K extends keyof T>(obj: T, ...keys: 
     keys.forEach(key => delete result[key]);
     return result;
 }
+
+export function debounce( fn: (...args: any[]) => void, delay: number ) {
+    let debounceTimer: NodeJS.Timeout;
+    return function(...args: any[] ) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => fn(...args), delay);
+    };
+  }

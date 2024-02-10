@@ -27,3 +27,20 @@ export async function shippingOptions(cartId: string): Promise<Result<ShippingOp
         })
     );
 }
+
+export async function getCity(q: string): Promise<Result<string[], RequestError>> {
+    return pipe(
+        await medusaRequest({
+            method: 'GET',
+            path: `np/cities?q=${q}`
+        }),
+        Result.chain(res => {
+            if(res && typeof res === 'object' && "cities" in res){
+                if(Array.isArray(res.cities) ){
+                    return Result.of(res.cities);
+                }
+            }
+            return Result.failure({ status: 200, message: "Invalid response structure" });
+        })
+    );
+}

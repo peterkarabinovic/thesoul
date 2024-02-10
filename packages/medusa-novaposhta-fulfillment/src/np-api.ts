@@ -1,5 +1,6 @@
 import axios from "axios"
 import { caching } from "cache-manager"
+import * as T from "./types"
 
 type PromiseValue<T> =T extends Promise<infer U> ? U : T;
 
@@ -21,7 +22,7 @@ export async function NpApi(apiKey: string, looger: any) {
 
 
     return {
-        cities: async (query: string, limit: number) => {
+        cities: async (query: string, limit: number): Promise<T.CityResponse> => {
             return cache.wrap(`np-cities-${query}-${limit}`, async () => {
                 return _npApi.post("/", {
                     apiKey,
@@ -33,7 +34,18 @@ export async function NpApi(apiKey: string, looger: any) {
                         Page: 1
                     }
                 })
-                .then( ({data}) => ({cities: data}) )
+                .then( ({data}) => {
+                    const  {data: d, success} = data;
+                    if(!success)
+                        return { error: "Сервер Нової Пошти наразі недоступний." };
+                    const addresses = d[0]?.Addresses || []
+                    const cities = addresses.map( (it: any) => ({
+                        name: it.Present,
+                        id: it.Ref
+                    }));
+                    return { cities };
+
+                })
                 .catch( (err:any) => {
                     looger.error("np-cities", err);
                     return {error: "Сервер Нової Пошти наразі недоступний."};
