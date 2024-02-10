@@ -21,5 +21,5 @@ export type LoginResponse =
     | { error: T.LoginErrors | T.InvalidInputError }
 
 export type ConfirmOtpResponse =
-    | { customerId: string }
+    | { customerId: string, cartId?: string }
     | { error: T.ConfirmOtpErrors | T.InvalidInputError }

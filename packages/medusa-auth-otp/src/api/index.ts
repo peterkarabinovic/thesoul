@@ -1,4 +1,5 @@
 import { Router, json } from "express"
+const cors = require('cors')
 import * as z from "zod"
 import { Response } from "express"
 import { Logger, MedusaRequest } from "@medusajs/medusa"
@@ -6,27 +7,29 @@ import AuthOtpService from "../services/auth-otp";
 import { Customer, Otp } from "../types";
 import * as T from "../types";
 import * as RT from "./response-types"
+import { TheSoulCookie } from "./thesoul-cookie"
 
 export default function (_:any, options: Record<string,string>): Router {
 
     const app = Router();
+    const theSoulCookie = TheSoulCookie();
 
     app.use(json());
+    app.use(cors({  origin: true, credentials: true  }));
 
     app.get("/store/otp-customer/me", async (req: MedusaRequest, res: Response) => {
-        const customerId = req.signedCookies.thesoul;
-        if (!customerId) {
-            res.clearCookie("thesoul");
+        if (!req.user) {
+            theSoulCookie.write(res, { cartId: req.cart_id });
             res.status(404).json({ error: new T.UserNotFound() });
             return;
         }
         const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
-        const d = await authOtpService.customer(customerId)
+        const d = await authOtpService.customer(req.user.id);
         if(d.success)
-            res.json({...d.data, customerId});
+            res.json({...d.data, customerId: req.user.id});
         else {
+            theSoulCookie.write(res, { cartId: req.cart_id, customerId: ""});
             res.status(404).json(d);
-            res.clearCookie("thesoul");
         }
     });
 
@@ -40,7 +43,7 @@ export default function (_:any, options: Record<string,string>): Router {
 
         const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
         
-        const d = await authOtpService.singUp(customer.data);
+        const d = await authOtpService.singUp(customer.data, req.cart_id);
         if(!d.success) {
             switch(d.error.name){
                 case "userWithPhoneAlreadyExists":
@@ -53,7 +56,7 @@ export default function (_:any, options: Record<string,string>): Router {
             } 
         }
         else  {
-            res.cookie("thesoul", d.data, { signed: true, maxAge: 1000 * 60 * 60 * 24 * 30 }); // 30 days
+            theSoulCookie.write(res, { cartId: req.cart_id, customerId: d.data});
             res.json({customerId: d.data});
         }
     });
@@ -134,7 +137,7 @@ export default function (_:any, options: Record<string,string>): Router {
 
         const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
 
-        const r = await authOtpService.confirmOtp(d.data);
+        const r = await authOtpService.confirmOtp(d.data.phone, d.data.code, req.cart_id);
         if("error" in r) {
             switch(r.error.name){
                 case "userWithPhoneNotExists":
@@ -150,8 +153,8 @@ export default function (_:any, options: Record<string,string>): Router {
             } 
         }
         else  {
-            res.cookie("thesoul", r.data, { signed: true, maxAge: 1000 * 60 * 60 * 24 * 30 }); // 30 days
-            res.json({customerId: r.data});
+            theSoulCookie.write(res, r.data);
+            res.json(r.data);
         }
     });
 

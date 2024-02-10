@@ -11,11 +11,11 @@ type Failure<E> = {
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Result {
-    export function of<T = never, E = never>(data: T): Result<T, E> {
+    export function of<T>(data: T): Success<T> {
         return { success: true, data };
     }
 
-    export function failure<E>(error: E): Result<never, E> {
+    export function failure<E = never>(error: E): Failure<E> {
         return { success: false, error };
     }
 
@@ -48,7 +48,7 @@ export namespace Result {
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace AsyncResult {
 
-    export function of<T = never, E = never>(data: T): Promise<Result<T, E>> {
+    export function of<T>(data: T): Promise<Success<T>> {
         return Promise.resolve(Result.of(data));
     }
 
@@ -58,6 +58,10 @@ export namespace AsyncResult {
 
     export function chain<A,B,E>(fn: (a:A) => Promise<Result<B,E>> ): <EE>(res: Promise<Result<A, EE>>) => Promise<Result<B, E|EE>> {
         return res => res.then( async r => r.success ? fn(r.data) : r );
+    }
+
+    export function map<A,B,E>(fn: (a:A) => B): (res: Promise<Result<A, E>>) => Promise<Result<B, E>> {
+        return res => res.then( r => r.success ? Result.of(fn(r.data)) : r );
     }
 
     export function tap<A,E>( fn: (a:A) => void ): (res: Promise<Result<A, E>>) => Promise<Result<A, E>> {

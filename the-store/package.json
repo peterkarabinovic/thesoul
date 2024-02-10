@@ -1,5 +1,5 @@
 {
-  "name": "medusa-starter-default",
+  "name": "the-store",
   "version": "0.0.1",
   "description": "A starter for Medusa projects.",
   "author": "Medusa (https://medusajs.com)",
@@ -68,6 +68,9 @@
     "ts-jest": "^27.0.7",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.2"
+  },
+  "peerDependencies": {
+    "commons": "file:../packages/commons"
   },
   "jest": {
     "globals": {

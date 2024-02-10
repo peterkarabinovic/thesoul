@@ -1,6 +1,7 @@
 import { LogoIcon } from 'components/icons/logo';
 import Link from 'next/link';
 import MobileMenu from './mobile-menu';
+import { CartBtn } from '@cart/components';
 const menu = [
   {
     title: 'Для нього',
@@ -30,7 +31,7 @@ export default function Header() {
   return (
     <header className="max-w-full bg-secondary">
       <div className="mx-auto container lg:max-w-6xl px-4 py-4">
-        <div className="flex items-center justify-start  sm:space-x-8 lg:space-x-16">
+        <div className="flex items-center justify-between  sm:space-x-8 lg:space-x-16">
           <MobileMenu menu={menu} className="md:hidden bg-secondary text-neutral pr-4" />
           <Link href="/">
             <LogoIcon className="h-6 w-auto fill-neutral sm:h-8" />
@@ -48,6 +49,9 @@ export default function Header() {
               </Link>
             ))}
           </div>
+          <Link href="/checkout/cart" className=''>
+            <CartBtn />
+          </Link>
         </div>
       </div>
     </header>

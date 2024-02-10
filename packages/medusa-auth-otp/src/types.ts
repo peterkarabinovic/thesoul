@@ -1,5 +1,6 @@
 import * as z from "zod";
-import { i18n_length_min_1, i18n_invalid_phone, i18n_invalid_username_telegram, i18n_invalid_otp } from "commons/src/i18n";
+import { i18n_length_min_1, i18n_invalid_phone, i18n_invalid_username_telegram, i18n_invalid_otp } 
+from "commons/i18n";
 
 // ##################################################################
 //
@@ -13,8 +14,9 @@ export const Customer = z.object({
         .min(12, i18n_invalid_phone)
         .max(14, i18n_invalid_phone)
         .startsWith("+380", i18n_invalid_phone),  // +380XXXXXXXXX 
-    telegram: z.string().startsWith("@", i18n_invalid_username_telegram).optional(),
+    telegram: z.string().startsWith("@", i18n_invalid_username_telegram).optional().or(z.literal(''))
 });
+
 
 export type Customer = z.infer<typeof Customer>;
 export type CustomerId = string;

@@ -1,9 +1,9 @@
 import crypto from "node:crypto";
 import { Logger, TransactionBaseService, generateEntityId } from "@medusajs/medusa";
-import { Result } from "commons"
+import { AsyncResult, Result, pipe } from "commons"
 import SendOtpService from "./send-otp";
 import * as T from "../types";
-import { i18n_invalid_otp } from "commons/src/i18n";
+import { i18n_invalid_otp } from "commons/i18n";
 
 
 const SHORT_PERIOD = 1000 * 60 * 5; // 5 minutes
@@ -14,7 +14,7 @@ class AuthOtpService extends TransactionBaseService {
     sendOtpService: SendOtpService;
     logger: Logger;
 
-    constructor({logger, sendOtpService}:any, options: Record<string, unknown>) {
+    constructor({ logger, sendOtpService }: any, options: Record<string, unknown>) {
         super(arguments[0]);
         this.sendOtpService = sendOtpService;
         this.logger = logger;
@@ -34,38 +34,54 @@ class AuthOtpService extends TransactionBaseService {
                 .then(res => {
                     const rows = res || [];
                     if (rows.length === 0)
-                        return Result.failure(new T.UserNotFound() );
+                        return Result.failure(new T.UserNotFound());
                     else
                         return Result.of(rows[0]);
                 })
                 .catch(e => {
-                    return Result.failure(new T.UnknownError(e) );
+                    return Result.failure(new T.UnknownError(e));
                 });
         });
     }
 
     // SingUp customer
-    async singUp(customer: T.Customer): Promise<Result<T.CustomerId, T.SignUpErrors>> {
+    async singUp(customer: T.Customer, cartId?: string): Promise<Result<T.CustomerId, T.SignUpErrors>> {
 
         this.logger.info("Customer singup... :" + JSON.stringify(customer));
 
         return await this.atomicPhase_(async manager => {
             const { firstName, lastName, phone, telegram } = customer;
-            return manager.query(`
+            return pipe(
+                manager.query(`
                 INSERT INTO customer (id, first_name, last_name, email, phone, telegram, has_account)
-                VALUES ($1, $2, $3, $4, $5, true)
+                VALUES ($1, $2, $3, $4, $5, $6, true)
                 RETURNING "id"
             `, [generateEntityId(undefined, "cus"), firstName, lastName, phone, phone, telegram])
-                .then(res => {
-                    const rows = res || [];
-                    return Result.of( rows[0]?.id as T.CustomerId );
+                    .then(res => {
+                        const rows = res || [];
+                        return Result.of(rows[0]?.id as T.CustomerId);
+                    })
+                    .catch(e => {
+                        if (e.code === "23505" && e.constraint === "UQ_unique_email_for_guests_and_customer_accounts")
+                            return Result.failure(new T.UserWithPhoneAlreadyExists(phone) as T.SignUpErrors);
+                        else
+                            return Result.failure(new T.UnknownError(e));
+                    }),
+                AsyncResult.chain(async (customerId) => {
+                    if (cartId) {
+                        return pipe(
+                            manager.query(`
+                                UPDATE cart SET customer_id = $1 WHERE id = $2
+                            `, [customerId, cartId])
+                                .then(() => Result.of(customerId))
+                                .catch(e => {
+                                    return Result.failure(new T.UnknownError(e))
+                                }),
+                        )
+                    }
+                    return Result.of(customerId);
                 })
-                .catch(e => {
-                    if (e.code === "23505" && e.constraint === "UQ_unique_email_for_guests_and_customer_accounts")
-                        return Result.failure(new T.UserWithPhoneAlreadyExists(phone));
-                    else
-                        return Result.failure(new T.UnknownError(e));
-                });
+            )
         });
     }
 
@@ -80,9 +96,9 @@ class AuthOtpService extends TransactionBaseService {
             `, [firstName, lastName, phone, phone, telegram, customerId])
                 .then(res => {
                     const rows = res || [];
-                    return rows.length > 0 
-                        ? Result.of(customerId) 
-                        : Result.failure(new T.UserNotFound() );
+                    return rows.length > 0
+                        ? Result.of(customerId)
+                        : Result.failure(new T.UserNotFound());
                 })
                 .catch(e => {
                     if (e.code === "23505" && e.constraint === "UQ_unique_email_for_guests_and_customer_accounts")
@@ -108,7 +124,7 @@ class AuthOtpService extends TransactionBaseService {
                     if (rows.length === 0)
                         return Result.failure(new T.UserWithPhoneNotExists(phone));
                     else
-                        return Result.of(rows[0] );
+                        return Result.of(rows[0]);
                 })
                 .catch(e => {
                     return Result.failure(new T.UnknownError(e));
@@ -141,7 +157,7 @@ class AuthOtpService extends TransactionBaseService {
             `, [attemp_timestamp, code_1, code_2, code_3, phone])
                 .then(res => {
                     const rows = res || [];
-                    return Result.of(rows[0]?.id as T.CustomerId );
+                    return Result.of(rows[0]?.id as T.CustomerId);
                 })
                 .catch(e => {
                     return Result.failure(new T.UnknownError(e));
@@ -154,52 +170,89 @@ class AuthOtpService extends TransactionBaseService {
                 .then(() => Result.of(newCode))
                 .catch((er) => {
                     manager.queryRunner?.rollbackTransaction();
-                    return Result.failure( new T.UnknownError(er) );
+                    return Result.failure(new T.UnknownError(er));
                 });
         });
     }
 
     // Check otp
-    async confirmOtp({phone, code}: {phone: string, code: string}): Promise<Result<T.CustomerId, T.ConfirmOtpErrors>> {
+    async confirmOtp(phone: string, code: string, cartId?: string ): Promise<Result<{customerId: T.CustomerId, cartId: string}, T.ConfirmOtpErrors>> {
 
-        this.logger.info("Customer singup... :" + JSON.stringify({phone, code}));
+        this.logger.info("Customer confirmOtp... :" + JSON.stringify({ phone, code }));
         // Check if customer exists
-        const otp_data = await this.atomicPhase_(async manager => {
+        return await this.atomicPhase_(async manager => {
             return manager.query(`
                 SELECT id, (otp_data).* FROM customer WHERE phone = $1
             `, [phone])
+                .catch(e => {
+                    throw new T.UnknownError(e);
+                })
                 .then(res => {
                     const rows = res || [];
                     if (rows.length === 0)
-                        return Result.failure( new T.UserWithPhoneNotExists(phone) );
+                        throw new T.UserWithPhoneNotExists(phone);
                     else
-                        return Result.of(rows[0] );
+                        return rows[0];
                 })
-                .catch(e => {
-                    return Result.failure( new T.UnknownError(e) );
-                });
-        });
+                .then(otp_data => {
+                    this.logger.debug("checkOtp: " + JSON.stringify(otp_data));
 
-        if (!otp_data.success)
-            return otp_data;
+                    // Check if attempts are not exceeded
+                    const { id, attemp_timestamp, code_1, code_2, code_3 } = otp_data;
 
-        this.logger.debug("checkOtp: " + JSON.stringify(otp_data.data));
+                    if (!attemp_timestamp)
+                        throw new T.InvalidInputError({ code: i18n_invalid_otp });
 
-        // Check if attempts are not exceeded
-        const { id, attemp_timestamp, code_1, code_2, code_3 } = otp_data.data;
+                    if (![code_1, code_2, code_3].includes(code))
+                        throw new T.InvalidInputError({ code: i18n_invalid_otp });
 
-        if (!attemp_timestamp)
-            return Result.failure( new T.InvalidInputError({ code: i18n_invalid_otp}) );
+                    const diff = Date.now() - attemp_timestamp.getTime();
+                    if (diff > SHORT_PERIOD)
+                        throw new T.InvalidInputError({ code: i18n_invalid_otp });
 
-        if (![code_1, code_2, code_3].includes(code))
-            return Result.failure( new T.InvalidInputError({ code: i18n_invalid_otp}) );
-
-        const diff = Date.now() - attemp_timestamp.getTime();
-        if (diff > SHORT_PERIOD)
-            return Result.failure( new T.InvalidInputError({ code: i18n_invalid_otp}) );
-
-        // Update customer
-        return Result.of(id);
+                    return id;
+                })
+                .then( async customerId => {
+                    if(cartId) {
+                        // choose a more current cart version
+                        return manager.query(`
+                            WITH carts AS (
+                                SELECT ca.id
+                                FROM cart AS ca 
+                                WHERE ca.id = $1 OR ca.customer_id = $2
+                                ORDER BY ca.updated_at DESC 
+                            ),
+                            lineDeleting AS (
+                                DELETE FROM line_item
+                                WHERE cart_id IN (SELECT id FROM carts OFFSET 1 LIMIT 1)
+                            ),
+                            shippingAddressDeleting AS (
+                                DELETE FROM address
+                                WHERE id IN (SELECT id FROM carts OFFSET 1 LIMIT 1)  
+                            ),
+                            cartDeleting AS (
+                                DELETE FROM cart 
+                                WHERE id = ( SELECT id FROM carts OFFSET 1 LIMIT 1)
+                            )
+                            UPDATE cart
+                            SET customer_id = $2
+                            WHERE id = ( SELECT id FROM carts OFFSET 0 LIMIT 1 )
+                            RETURNING id;
+                        `, [cartId, customerId])
+                        .catch(e => { throw new T.UnknownError(e); })
+                        .then( res => {
+                            const rows = res || [];
+                            if (rows.length === 0)
+                                throw new T.UserWithPhoneNotExists(phone);
+                            else
+                                return { cartId: rows[0]?.id, customerId }                         
+                        })
+                    }
+                    return { cartId, customerId };
+                })
+        })
+        .then( d => Result.of(d))
+        .catch( e => Result.failure(e as T.ConfirmOtpErrors))
     }
 }
 
@@ -218,10 +271,10 @@ function checkAttempts(
     const now = Date.now();
     const diff = now - attemp_timestamp.getTime();
     if (diff < SHORT_PERIOD && indexOfNotNull < 2)
-        return Result.failure( new T.WaitShortPeriodBeforeNextLogin() );
+        return Result.failure(new T.WaitShortPeriodBeforeNextLogin());
     if (diff < LONG_PERIOD && indexOfNotNull === 2)
-        return Result.failure( new T.WaitLongPeriodBeforeNextLogin() );
-    return Result.of( ((indexOfNotNull + 1) % 3 + 1) as 1 | 2 | 3 );
+        return Result.failure(new T.WaitLongPeriodBeforeNextLogin());
+    return Result.of(((indexOfNotNull + 1) % 3 + 1) as 1 | 2 | 3);
 }
 
 export default AuthOtpService;

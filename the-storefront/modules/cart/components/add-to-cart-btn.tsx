@@ -1,7 +1,7 @@
 'use client';
 
 import { i18n_add_to_cart } from 'i18n';
-import { Product } from 'commons/types';
+import { Product } from 'data/types';
 import { TCartStore, useCartState } from "../data"
 import { useSelectedVariant } from '../../products/data/state-sel-variant';
 

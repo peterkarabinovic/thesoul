@@ -45,3 +45,9 @@ export function pick<T extends object, K extends keyof T>(obj: T, ...keys: K[]):
     keys.forEach(key => result[key] = obj[key]);
     return result;
 }
+
+export function omitProps<T extends object, K extends keyof T>(obj: T, ...keys: K[]): T {
+    const result = { ...obj };
+    keys.forEach(key => delete result[key]);
+    return result;
+}

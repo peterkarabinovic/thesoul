@@ -1,6 +1,6 @@
 import { Result, pipe } from 'commons';
-import { RequestError, medusaRequest } from 'commons/medusa-request';
-import * as T from "commons/types"
+import { RequestError, medusaRequest } from 'data/medusa-request';
+import * as T from "data/types"
 
 /**
  * List of Profucts

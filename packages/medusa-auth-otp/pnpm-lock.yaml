@@ -8,6 +8,12 @@ dependencies:
   commons:
     specifier: file:../commons
     version: file:../commons
+  cors:
+    specifier: ^2.8.5
+    version: 2.8.5
+  medusa-core-utils:
+    specifier: ^1.2.1
+    version: 1.2.1
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -2088,7 +2094,6 @@ packages:
     dependencies:
       object-assign: 4.1.1
       vary: 1.1.2
-    dev: true
 
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
@@ -3265,7 +3270,6 @@ packages:
   /medusa-core-utils@1.2.1:
     resolution: {integrity: sha512-PBAm+5ODVcS9HREz7SH9LtiDY6/Fkwax+tqB5cTjujOiWSPuuj13ImH8eb9p6aVoOEvFtpDP4HL8TIijpJ6juw==}
     engines: {node: '>=16'}
-    dev: true
 
   /medusa-interfaces@1.3.8:
     resolution: {integrity: sha512-S1uCwwbOaEnBy9TWwfBlfs9scLSUz/0GcD9p5EWyPLVXvnBfGTmLBt4HI6oj6h3fVd+92RTdrmVnhznRYnOvoQ==}
@@ -3525,7 +3529,6 @@ packages:
   /object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /object-inspect@1.13.1:
     resolution: {integrity: sha512-5qoj1RUiKOMsCCNLV1CBiPYE10sziTsnmNxkAI/rZhiD63CF7IqdFGC/XzjWjpSgLf0LxXX3bDFIh0E18f6UhQ==}
@@ -4671,7 +4674,6 @@ packages:
   /vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
-    dev: true
 
   /wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}

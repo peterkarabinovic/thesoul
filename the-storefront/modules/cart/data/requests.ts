@@ -1,16 +1,16 @@
 import { Result, pipe } from 'commons';
-import { RequestError, medusaRequest } from 'commons/medusa-request';
-import * as T from "../../../commons/types"
+import { RequestError, medusaRequest } from 'data/medusa-request';
+import * as T from "data/types"
 
 
 export async function retrieveCart(cartId: string): Promise<Result<T.Cart, RequestError>> {
 
     return pipe(
-        await medusaRequest<T.MedusaCart>({
+        await medusaRequest<{cart:T.MedusaCart}>({
             method: 'GET',
             path: `/carts/${cartId}`
         }),
-        Result.map(cart => T.medusaCartToCart(cart))
+        Result.map(res => T.medusaCartToCart(res.cart))
     );
 }
 

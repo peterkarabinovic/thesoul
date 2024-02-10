@@ -28,6 +28,7 @@ export async function medusaRequest<R>({
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         ...(revalidateSec && { next: { revalidate: revalidateSec } })
     };
 

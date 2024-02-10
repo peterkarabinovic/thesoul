@@ -46,7 +46,7 @@ export function CustomerForm() {
   });
 
   return (
-    <div className="m-auto flex w-full max-w-72 flex-col gap-2">
+    <div className="m-auto flex w-full max-w-96 flex-col gap-2">
       {globalError && <div className="text-xs text-error">{globalError}</div>}
 
       <InputField
@@ -102,7 +102,7 @@ export function CustomerForm() {
 
       <div className="mt-4">
         <button
-          className={clsx('reletive btn float-right', { 'btn-primary': !processing })}
+          className={clsx('reletive btn float-right')}
           onClick={() => sendToServer({ firstName, lastName, phone, telegram })}
           disabled={isReadytoSend}
         >

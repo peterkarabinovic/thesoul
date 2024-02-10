@@ -1,12 +1,12 @@
 import { create } from "zustand"
-import { _CartStateBase, TCartState } from "@cart/data"
+import { useCartStateProto, TCartState } from "@cart/data"
 
 export function createUseCart(state:Partial<TCartState> = {}) {
 
     return create<TCartState>((set, get, _) => {
-        const logic = _CartStateBase(set, get, _);
+        
         return {
-            ...logic,
+            ...useCartStateProto(set, get, _),
             ...state,
             addItem: async (variant_id, quantity) => {
                 const { cart, processedVariants } = get();

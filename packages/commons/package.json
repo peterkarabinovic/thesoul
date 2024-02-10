@@ -1,15 +1,31 @@
 {
-  "name": "commons",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "rm -rf dist && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "license": "ISC",
-  "devDependencies": {
-    "typescript": "^5.3.3"
-  }
+    "name": "commons",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "private": false,
+    "scripts": {
+        "build": "rm -rf dist && tsc",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^5.3.3"
+    },
+    "exports": {
+        "./package.json": "./package.json",
+        ".": {
+            "default": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.js"
+            }
+        },
+        "./i18n": {
+            "default": {
+                "types": "./dist/i18n/index.d.ts",
+                "default": "./dist/i18n/index.js"
+            }
+        }
+    }
 }

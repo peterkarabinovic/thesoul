@@ -1,5 +1,5 @@
 import { Result } from 'commons';
-import { RequestError, medusaRequest } from 'commons/medusa-request';
+import { RequestError, medusaRequest } from 'data/medusa-request';
 import * as RT from "auth-otp-types"
 import * as T from "./type"
 

@@ -1,7 +1,8 @@
-import { create, StateCreator, UseBoundStore, StoreApi } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+import { create, UseBoundStore, StoreApi, StateCreator } from 'zustand'
 import { AsyncResult, pipe } from 'commons';
+import { readThesoulCookie } from 'lib/thesoul-cookie';
 import { Cart } from 'lib/medusa/types';
+import { useCustomerStore } from "@customer/data"
 import * as R from './requests';
 
 
@@ -13,20 +14,12 @@ export type TCartState = {
     updateItem: (variant_id: string, quantity: number) => Promise<void>;
     deleteVariant: (variant_id: string) => Promise<void>;
     variantQuantity: (variant_id: string) => number;
+    retriveCartIdFromCookie: () => void
 }
 
-// I've extracted and exported state logic as _CartStateBase
-// so it can be extented in storybook
-// in general you don't need to use StateCreator type but config zustand like this:
-//
-//      export const useCartState = create(
-//              persist<TStore>(
-//                  (set, get) => ({....})
-//              ))
-//
 export type TCartStore = UseBoundStore<StoreApi<TCartState>>;
 
-export const _CartStateBase: StateCreator<TCartState> = (set, get) => ({
+export const useCartStateProto: StateCreator<TCartState> = (set, get) => ({
 
     cart: null,
     cartId: null,
@@ -89,40 +82,32 @@ export const _CartStateBase: StateCreator<TCartState> = (set, get) => ({
         return item?.quantity || 0;
 
     },
+
+    retriveCartIdFromCookie: () => {
+        const { cartId } = readThesoulCookie();
+        if( cartId ) {
+            if(cartId !== get().cartId)
+                pipe(
+                    R.retrieveCart(cartId),
+                    AsyncResult.tap(cart => set({ cart, cartId })),
+                    AsyncResult.tapError( () => set({ cart: null, cartId: null }) )
+                );
+        }
+        else {
+            set({ cart: null, cartId: null });
+        }
+    }
 });
 
+export const useCartState = create( useCartStateProto );
 
-export const useCartState = create(
-    persist<TCartState>(
 
-        _CartStateBase
-        ,
 
-        // Persistance storage
-        {
-            name: 'cart-state',
-            storage: createJSONStorage(() => localStorage),
+// Initilize the store if cookie exists
+useCartState.getState().retriveCartIdFromCookie();
 
-            // don't persist cart, but only cartId
-            // on rehydrate, retrieve cart from server
-            partialize: state => omitProps(state, 'cart'),
-            onRehydrateStorage: () => (state) => {
-                const cartId = state?.cartId;
-                if (cartId) {
-                    pipe(
-                        R.retrieveCart(cartId),
-                        AsyncResult.tap(cart => useCartState.setState({ cart })),
-                        AsyncResult.tapError(() => localStorage?.removeItem('cartId'))
-                    );
-                }
-            }
-        }
-    )
+// Listent to singIn/SingUp
+useCustomerStore.subscribe( 
+    state => state.customerId, 
+    () => useCartState.getState().retriveCartIdFromCookie() 
 );
-
-
-function omitProps<T extends object, K extends keyof T>(obj: T, ...keys: K[]): T {
-    const result = { ...obj };
-    keys.forEach(key => delete result[key]);
-    return result;
-}

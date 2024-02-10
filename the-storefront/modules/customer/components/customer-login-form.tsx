@@ -20,6 +20,7 @@ export function CustomerLoginForm() {
   const processing = useCustomerStore((state) => state.processing);
   const otp = useCustomerStore((state) => state.otp);
   const confirmOtp = useCustomerStore((state) => state.confirmOtp);
+  const logIn = useCustomerStore((state) => state.logIn);
   const {mins, secs} = useCoundown(otp?.sentAt);
 
   const { inputValue, phone, handlePhoneValueChange } = usePhoneInput({
@@ -39,6 +40,13 @@ export function CustomerLoginForm() {
         confirmOtp(v)
     }
     setOtpCode(v);
+  }
+
+  const handleReSendOtp = () => {
+    if(!isPhoneValid || countdownInProgress)
+        return;
+    logIn(phone);
+    setOtpCode(undefined);
   }
 
   return (
@@ -66,8 +74,9 @@ export function CustomerLoginForm() {
       </div>
 
       <button
-        className="btn btn-primary float-right"
+        className="btn float-right"
         disabled={!isPhoneValid || countdownInProgress}
+        onClick={handleReSendOtp}
       >
         {otp ? i18n_resend_otp : i18n_send_otp}
       </button>
@@ -100,22 +109,22 @@ export function CustomerLoginForm() {
   );
 }
 
-function useCoundown(otpSentAt?: number) {
+function useCoundown(sentAt?: number) {
   const [secLeft, setLeftSec] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!otpSentAt) {
+      if (!sentAt) {
         setLeftSec(0);
         return;
       }
-      const seconds = 5 * 60 - Math.round((Date.now() - otpSentAt) / 1000);
+      const seconds = 5 * 60 - Math.round((Date.now() - sentAt) / 1000);
       if (seconds < 0) {
         setLeftSec(0);
       } else setLeftSec(seconds);
     }, 1000);
     return () => clearInterval(interval);
-  }, [otpSentAt]);
+  }, [sentAt]);
 
   return {
     mins: Math.floor(secLeft / 60),
