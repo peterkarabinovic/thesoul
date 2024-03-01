@@ -1,9 +1,9 @@
 'use client';
 import {  i18n_nv_shipping_to_warehouse, i18n_nv_shipping_to_door} from "i18n"
 import { useEffect } from 'react';
-import { CustomerForm } from '@customer/components/customer-form';
 import { TChechoutStore, useChechoutState } from '../data';
 import { CustomerSignUpOrSignIn } from '@customer/components/customer-signup-or-signin';
+import { NovaposhtaShippingForm } from './nv-shipping-form';
 
 type ShippingFormProps = {
   useCheckout?: TChechoutStore;
@@ -47,12 +47,8 @@ export function SippingForm({ useCheckout = useChechoutState }: ShippingFormProp
         </div>
       )}
       <div>
-        {selectedOption?.name}
+        <NovaposhtaShippingForm/>
       </div>
     </div>
   );
-}
-
-function ShippingToWarehouse() {
-    
 }

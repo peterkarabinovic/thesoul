@@ -31,7 +31,7 @@ export function CheckoutPage({step, useCheckout = useChechoutState, useCart = us
         <div className="w-full md:w-0 md:basis-2/3">
           <CheckoutSteps step={step} />
           {
-            step === 'cart' && <CartDetails/>
+            step === 'cart' && <CartDetails useCart={useCart}/>
           }
           {
             step === 'shipping' && <SippingForm useCheckout={useCheckout} />

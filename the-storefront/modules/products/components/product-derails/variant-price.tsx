@@ -2,7 +2,7 @@
 
 import { Product } from 'data/types';
 import { useSelectedVariant } from '../../data/state-sel-variant';
-import { formatPrice } from 'lib/medusa/helpers';
+import { formatPrice } from 'lib/formaters';
 
 type Props = {
     product: Pick<Product, "variants">,

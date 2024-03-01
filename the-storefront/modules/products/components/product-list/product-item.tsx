@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ProductBrief } from 'data/types';
-import { formatPrice } from 'lib/medusa/helpers';
+import { formatPrice } from 'lib/formaters';
 
 type ProductProps = {
   product: Pick<ProductBrief, "handle" | "title" | "featuredImageSrc" | "description" | "price">;

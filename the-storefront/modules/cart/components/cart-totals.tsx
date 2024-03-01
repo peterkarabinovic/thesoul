@@ -1,5 +1,5 @@
 import { i18n_totlal, i18n_total_cost, i18n_shipping_cost, i18n_shipping_not_calculated, i18n_price_for_quantity } from 'i18n';
-import { formatPrice } from 'lib/medusa/helpers';
+import { formatPrice } from 'lib/formaters';
 import { TCartStore, useCartState } from "../data"
 
 type CartTotalsProps = {

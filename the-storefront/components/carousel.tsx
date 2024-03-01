@@ -53,7 +53,7 @@ export function Carousel({ images, fullWidth }: CarouselProps) {
   return (
     <div className={clsx(full, "relative")}>
       <div
-        className={`carousel ${full} carousel-center lg:rounded-box aspect-3/4`}
+        className={`carousel ${full} carousel-center aspect-3/4`}
         onScroll={handleScroll}
         ref={carouselRef}
       >

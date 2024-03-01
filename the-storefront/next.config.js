@@ -29,5 +29,9 @@ module.exports = {
         permanent: true
       }
     ];
+  },
+  typescript: {
+    configPath: "./tsconfig-build.json"
   }
+  
 };

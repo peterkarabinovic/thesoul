@@ -59,4 +59,14 @@ export function debounce( fn: (...args: any[]) => void, delay: number ) {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => fn(...args), delay);
     };
-  }
+}
+
+export function minMax<T>(xs:T[], fn:(x:T) => number) {
+    return xs.reduce( (acc, x) => {
+        const value = fn(x);
+        return {
+            min: Math.min(acc.min, value),
+            max: Math.max(acc.max, value)
+        };
+    }, {min: Infinity, max: -Infinity} );
+}

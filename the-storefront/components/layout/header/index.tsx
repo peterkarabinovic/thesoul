@@ -1,5 +1,5 @@
-import { LogoIcon } from 'components/icons/logo';
 import Link from 'next/link';
+import Image from 'next/image';
 import MobileMenu from './mobile-menu';
 import { CartBtn } from '@cart/components';
 const menu = [
@@ -34,7 +34,7 @@ export default function Header() {
         <div className="flex items-center justify-between  sm:space-x-8 lg:space-x-16">
           <MobileMenu menu={menu} className="md:hidden bg-secondary text-neutral pr-4" />
           <Link href="/">
-            <LogoIcon className="h-6 w-auto fill-neutral sm:h-8" />
+            <Image src="/images/logo.svg" alt="TheSoul" width={100} height={100} />
           </Link>
           <span className='pl-4 text-neutral text-lg  overflow-hidden md:hidden'>{subTitle}</span>
           

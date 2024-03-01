@@ -3,6 +3,7 @@ import {LogoIcon} from './icons/logo';
 
 export type Props = {
   title?: string;
+  font: ArrayBuffer
 };
 
 export default async function OpengraphImage(props?: Props): Promise<ImageResponse> {
@@ -12,6 +13,8 @@ export default async function OpengraphImage(props?: Props): Promise<ImageRespon
     },
     ...props
   };
+
+//   const interBold = await readFile(path.join(__dirname, '../fonts/Inter-Bold.ttf'), { flag: 'rb'});
 
   return new ImageResponse(
     (
@@ -28,9 +31,7 @@ export default async function OpengraphImage(props?: Props): Promise<ImageRespon
       fonts: [
         {
           name: 'Inter',
-          data: await fetch(new URL('../fonts/Inter-Bold.ttf', import.meta.url)).then((res) =>
-            res.arrayBuffer()
-          ),
+          data: Buffer.alloc(0),
           style: 'normal',
           weight: 700
         }
@@ -38,3 +39,5 @@ export default async function OpengraphImage(props?: Props): Promise<ImageRespon
     }
   );
 }
+
+

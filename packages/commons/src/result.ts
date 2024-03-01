@@ -43,6 +43,11 @@ export namespace Result {
         }
     }
 
+    export function fold<A,E,R>( onSuccess: (a:A) => R, onError: (e:E) => R): (ta: Result<A,E>) => R {
+        return (res) => res.success ?  onSuccess(res.data) : onError(res.error);
+    }
+
+
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace

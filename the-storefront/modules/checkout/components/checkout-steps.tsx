@@ -30,9 +30,9 @@ export function CheckoutButtons({ step, canGoNext }: { step: ChechoutStep, canGo
         <div className='w-full'>
             <div className='flex flex-row-reverse justify-between'>
                 { step === 'cart' 
-                    ? <Link className={clsx('btn btn-primary', !canGoNext ? "btn-disabled" : "")} href="/checkout/shipping">{i18n_checkout} &#8594;</Link>
+                    ? <Link className={clsx('btn btn-primary', !canGoNext ? "invisible" : "")} href="/checkout/shipping">{i18n_checkout} &#8594;</Link>
                     : step === 'shipping'
-                        ? <Link className={clsx('btn btn-primary', !canGoNext ? "btn-disabled" : "")} href="/checkout/payment">{i18_goto_payment} &#8594;</Link>
+                        ? <Link className={clsx('btn btn-primary', !canGoNext ? "invisible" : "")} href="/checkout/payment">{i18_goto_payment} &#8594;</Link>
                         : null
                 }
                 {

@@ -1,0 +1,29 @@
+import { HeaderItems } from "data/site-types"
+
+
+export const headerItems: HeaderItems = {
+    headerLogo: {
+        src: "/images/logo.svg",
+        alt: "TheSoul"
+    },
+    languageTitle: "Language",
+    languageList: [
+        {
+            id: "1",
+            text: "English",
+            path: "/en"
+        },
+        {
+            id: "2",
+            text: "Українська",
+            path: "/ua"
+        }
+    ],
+
+    homeBoxedMenu:[
+        { id: "1", path: "/", holderCName: "", title: "Products" },
+    ],
+
+    contactInfoTitle: "Contact",
+    contactInfo: ""
+}

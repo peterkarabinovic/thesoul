@@ -1,10 +1,13 @@
-import { ProductList } from 'modules/products/components/product-list'; 
-import { productListQuery } from "modules/products/data/requests";
+import { i18_site_description} from "i18n"
+import { heroItems } from "./_config/hero"
+import { HeroOne } from "../components/hero"
+import { FeaturedProduct } from "modules/product-2/featured-product";
+import { productListQuery } from "modules/product-2/requests";
 
 export const runtime = 'edge';
 
 export const metadata = {
-  description: `Знайди у магазині подарунків TheSoul широкий вибір подарункових комплектів для будь-якого випадку - від свят і днів народження до особливих життєвих подій`,
+  description: i18_site_description,
   openGraph: {
     type: 'website'
   }
@@ -12,6 +15,9 @@ export const metadata = {
 
 export default async function HomePage() {
   return (
-    <ProductList getProductListQuery={productListQuery}/>
+    <>
+        <HeroOne heroItems={heroItems} />           
+        <FeaturedProduct getProductListQuery={productListQuery}/>
+    </>
   );
 }

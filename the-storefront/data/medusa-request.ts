@@ -16,46 +16,50 @@ type MedusaRequestParams = {
     revalidateSec?: number
 };
 
-export async function medusaRequest<R>({
-    method,
-    path,
-    payload,
-    revalidateSec,
-    serverSide = true
-}: MedusaRequestParams): Promise<Result<R, RequestError>> {
-    const options: RequestInit = {
-        method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        ...(revalidateSec && { next: { revalidate: revalidateSec } })
-    };
+export async function medusaRequest<R>({ serverSide = true, ...params}: MedusaRequestParams): Promise<Result<R, RequestError>> {
 
-    if (path.includes('/carts') || method === 'POST') {
-        options.cache = 'no-cache';
-    }
+    const endpoint = serverSide ? INTERNAL_ENDPOINT : ENDPOINT;
+    const req = requestExec( `${endpoint}/store`);
+    return req<R>(params);
+}
 
-    if (payload) {
-        options.body = JSON.stringify(payload);
-    }
 
-    try {
-        const endpoint = serverSide ? INTERNAL_ENDPOINT : ENDPOINT;
-        const result = await fetch(`${endpoint}/store${path}`, options);
+export function requestExec(endpoint: string) {
 
-        const body = await result.json();
-
-        if (body.errors) {
-            throw body.errors[0];
+    return async <R>({ method, path, payload, revalidateSec }: MedusaRequestParams): Promise<Result<R, RequestError>> => {
+        const options: RequestInit = {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            ...(revalidateSec && { next: { revalidate: revalidateSec } })
+        };
+    
+        if (path.includes('/carts') || method === 'POST') {
+            options.cache = 'no-cache';
         }
-
-        return Result.of(body);
-    } catch (e) {
-        const error = e as RequestError;
-        return Result.failure({
-            status: error?.status || 500,
-            message: error.message || 'Something went wrong'
-        });
+    
+        if (payload) {
+            options.body = JSON.stringify(payload);
+        }
+    
+        try {
+            const result = await fetch(`${endpoint}${path}`, options);
+    
+            const body = await result.json();
+    
+            if (body.errors) {
+                throw body.errors[0];
+            }
+    
+            return Result.of(body);
+        } catch (e) {
+            const error = e as RequestError;
+            return Result.failure({
+                status: error?.status || 500,
+                message: error.message || 'Something went wrong'
+            });
+        }    
     }
 }
