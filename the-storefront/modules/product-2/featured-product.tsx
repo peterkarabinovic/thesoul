@@ -35,8 +35,9 @@ export async function FeaturedProduct({ getProductListQuery }: FeaturedProductPr
                 return (
                     <div key={index}
                     className={clsx(
-                        "featured-product xl:py-[80px]  lg:py-[25px] pd:my-[20px] py-[12px] my-[12px] relative before:content-[attr(data-count)] before:absolute before:font-semibold before:xl:text-[70px] before:text-[40px] before:sm:bottom-[30px] before:bottom-[-60px] before:right-0 before:z-[1]",
-                        index % 2 == 1 ? "bg-gray-100 before:text-white" : "before:text-[#F5F4F7]")}
+                        "featured-product xl:py-[60px] lg:py-[50px] md:py-[40px] py-[25px] relative before:hidden before:md:block before:content-[attr(data-count)] before:absolute before:font-semibold before:xl:text-[80px] before:text-[50px]  before:z-[1]",
+                        index % 2 == 1 ? "bg-gray-100 before:text-white" : "before:text-[#F5F4F7]",
+                        index % 2 == 1 ? "before:bottom-[75px] before:left-0" : "before:sm:bottom-[30px] before:bottom-[-60px] before:right-0")}
                     data-count={product.title}
                 >
                     <div className="lg:container ">
