@@ -59,7 +59,7 @@ export function HeroOne({ heroItems }: HeroOneProps) {
                                     .join(' ')} md:h-[800px] h-[540px]`}
                             >
                                 <div className="container">
-                                    <div className="hero-content-2">
+                                    <div className="hero-content-2 pb-40">
                                         <motion.span
                                             className="text-primary font-medium block mb-[5px]"
                                             dangerouslySetInnerHTML={{

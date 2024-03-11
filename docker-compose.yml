@@ -10,6 +10,8 @@ services:
       - ./the-store/node_modules:/app/node_modules
       - ./the-store/uploads:/app/uploads
       - ./the-store/dist:/app/dist
+      # - ./the-store/.cache:/app/.cache
+      - ./the-store/build:/app/build
       - ./the-store/medusa-config.js:/app/medusa-config.js
       - ./the-store/package.json:/app/package.json
       - ./the-store/index.js:/app/index.js
@@ -25,7 +27,7 @@ services:
       NPM_CONFIG_PRODUCTION: false
     ports:
       - 9000:9000
-    command: node index.js
+    command: npx medusa start
     networks:
       - thesoul
 

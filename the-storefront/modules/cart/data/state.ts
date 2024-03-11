@@ -1,5 +1,5 @@
 import { create, UseBoundStore, StoreApi, StateCreator } from 'zustand'
-import { AsyncResult, pipe } from 'commons';
+import { AsyncResult, pipe, isNotEmptyArray } from 'commons';
 import { readThesoulCookie } from 'lib/thesoul-cookie';
 import { Cart } from 'lib/medusa/types';
 import { useCustomerStore } from "@customer/data"
@@ -13,6 +13,7 @@ export type TCartState = {
     addItem: (variant_id: string, quantity: number) => Promise<void>;
     updateItem: (variant_id: string, quantity: number) => Promise<void>;
     deleteVariant: (variant_id: string) => Promise<void>;
+    clearCart: () => Promise<void>
     variantQuantity: (variant_id: string) => number;
     retriveCartIdFromCookie: () => void
 }
@@ -72,6 +73,25 @@ export const useCartStateProto: StateCreator<TCartState> = (set, get) => ({
             AsyncResult.tapError((error) => console.error('deleting variant', error)),
             AsyncResult.then(() => set(() => ({ processedVariants: processedVariants.filter((id) => id !== variant_id) })))
         )
+    },
+
+    clearCart: async function () {
+        const { cart } = get();
+        if(!cart)
+            return;
+        const lineIds = cart.lines.map( it => it.id);
+
+        const requests = lineIds.map( vid => () => R.deleteLineItem(cart.id, vid) )
+
+        if(!isNotEmptyArray(requests))
+            return;
+
+        pipe(
+            AsyncResult.sequence( requests ),
+            AsyncResult.tap(cart => set({ cart: cart.pop() })),
+            AsyncResult.tapError((error) => console.error('clear cart', error)),
+        )
+        
     },
 
     variantQuantity: (variant_id) => {

@@ -1,7 +1,5 @@
 import { ReactNode, Suspense } from 'react';
 import { Libre_Baskerville, Roboto, Prata, Mr_De_Haviland } from 'next/font/google'
-import { headerItems } from "./_config/header"
-import { HeaderOne } from "../components/header"
 import './globals.css';
 
 
@@ -50,7 +48,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={SITE_LANG} className="scroll-smooth">
       <body className={`${roboto.className} ${libre.className} ${prate.className} ${mrDeHaviland.className}`}>
-        <HeaderOne headerItems={headerItems} />
         <Suspense>
           <main>{children}</main>
         </Suspense>

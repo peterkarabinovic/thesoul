@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { CheckoutPage } from '@checkout/components';
 import { cartWithTwoItems } from '../test-data';
 import { createUseCart } from '../test-cart-state';
-import { createUseChechout } from "../test-checkout-state"
+import { createUseCheckout } from "../test-checkout-state"
 
 const meta = {
     title: 'Checkout/CheckoutPage',
@@ -16,7 +16,7 @@ export const Main: Story = {
     args: {
         step: 'shipping',
         useCart: createUseCart({ cart: cartWithTwoItems }),
-        useCheckout: createUseChechout({ cartEmpty: false })
+        useCheckout: createUseCheckout({ cartEmpty: false })
 
     }
 };
@@ -27,10 +27,6 @@ export const Mobile: Story = {
             defaultViewport: 'mobile2'
         },
     },
-    args: {
-        step: 'shipping',
-        useCart: createUseCart({ cart: cartWithTwoItems }),
-        useCheckout: createUseChechout({ cartEmpty: false }),
-    }
+    ...Main,
 };
 

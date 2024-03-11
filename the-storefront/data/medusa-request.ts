@@ -26,7 +26,7 @@ export async function medusaRequest<R>({ serverSide = true, ...params}: MedusaRe
 
 export function requestExec(endpoint: string) {
 
-    return async <R>({ method, path, payload, revalidateSec }: MedusaRequestParams): Promise<Result<R, RequestError>> => {
+    return async <R>({ method, path, payload, revalidateSec = 60 }: MedusaRequestParams): Promise<Result<R, RequestError>> => {
         const options: RequestInit = {
             method,
             headers: {

@@ -56,6 +56,7 @@ module.exports = {
         'fixed-lg': { min: '992px', max: '1199px' },
 
         // Minimum Medium Query
+        tiny: '321px',
         sm: '480px',
         lm: '576px',
         md: '768px',

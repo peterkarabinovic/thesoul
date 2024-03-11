@@ -11,7 +11,7 @@ export function CartBtn( {useCart = useCartState}: { useCart?: TCartStore } ) {
 
 // Tailwind Related Stuff
     const badge =
-        'bg-primary text-[12px] text-center absolute bottom-[15px] right-[-10px] h-[-10px] leading-[20px] rounded-[20px] px-[6px] transition-all group-hover:text-white';
+        'bg-primary text-white text-[12px] text-center absolute bottom-[15px] right-[-10px] h-[-10px] leading-[20px] rounded-[20px] px-[6px] transition-all group-hover:text-white';
 
     return (
         <div className="relative group">

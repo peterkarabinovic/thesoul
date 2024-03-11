@@ -47,7 +47,6 @@ export namespace Result {
         return (res) => res.success ?  onSuccess(res.data) : onError(res.error);
     }
 
-
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -88,12 +87,34 @@ export namespace AsyncResult {
     export function then(fn: () => void): <A, E>(res: Promise<Result<A, E>>) => Promise<Result<A, E>> {
         return res => res.then(r => { fn(); return r; });
     }
+
+    export function sequence<A,E>( lazyResults: NonEmptyArray<() => AsyncResult<A, E>> ): Promise<Result<A[], E>>{
+
+        let [first, ...rest] = lazyResults;
+
+        const firstAsynResult = AsyncResult.map<A,A[],E>( res => [res] )(first());
+
+        return rest.reduce( (asynResult, nextLazyFn) => {
+            return pipe(
+                asynResult,
+                chain( async resList => pipe(
+                    nextLazyFn(),
+                    map( res => resList.concat(res) )
+                ) )
+            )
+        }, firstAsynResult )
+    }
 }
 
 export type AsyncResult<T, E> = Promise<Result<T, E>>;
 
 export type Result<T, E> = Success<T> | Failure<E>;
 
+export type NonEmptyArray<T> = [T, ...T[]];
+
+export function isNotEmptyArray<T>(arr: T[]): arr is NonEmptyArray<T> {
+    return arr?.length > 0;
+}
 
 
 /* eslint-disable @typescript-eslint/ban-types */

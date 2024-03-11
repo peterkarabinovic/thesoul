@@ -62,3 +62,8 @@ export type HeroItem = {
     subtitle: string;
     desc: string;
 }
+
+export type CartConf = {
+    noShipmentCost: boolean,
+    infoHtml?: string
+}

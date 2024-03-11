@@ -1,4 +1,4 @@
-import { HeaderItems } from "data/site-types"
+import { HeaderItems } from "./types"
 
 
 export const headerItems: HeaderItems = {

@@ -14,7 +14,7 @@ import { City, Warehouse } from "nv-request-types"
 
 export type ChechoutStep = "cart" | "shipping" | "payment" | "review";
 
-export type TChechoutState = {
+export type TCheckoutState = {
     processing: boolean;
     globalError: string | null;
     shippingOptions: { id: string, name: string }[];
@@ -49,9 +49,9 @@ export type TChechoutState = {
     
 }
 
-export type TChechoutStore = UseBoundStore<StoreApi<TChechoutState>>;
+export type TChechoutStore = UseBoundStore<StoreApi<TCheckoutState>>;
 
-export const _ChechoutStore: StateCreator<TChechoutState> = (set, get) => ({
+export const _ChechoutStore: StateCreator<TCheckoutState> = (set, get) => ({
     processing: false,
     globalError: null,
     shippingOptions: [],
@@ -168,7 +168,7 @@ export const _ChechoutStore: StateCreator<TChechoutState> = (set, get) => ({
 });
 
 export const useChechoutState = create(
-    persist<TChechoutState>(
+    persist<TCheckoutState>(
         _ChechoutStore,
         {
             name: 'checkout-state',

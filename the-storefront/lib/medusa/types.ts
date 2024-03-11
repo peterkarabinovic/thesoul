@@ -212,7 +212,7 @@ export type ProductOptionValue = {
 };
 
 export type Money = {
-    amount: string;
+    amount: number;
     currencyCode: string;
 };
 
@@ -424,6 +424,7 @@ export type MedusaLineItem = {
 export type CartItem = Partial<Omit<MedusaLineItem,"unit_price">> & {
     id: string;
     variant_id: string;
+    handle: string;
     //   merchandise: {
     //     id: string;
     //     selectedOptions: SelectedOption[];

@@ -1,7 +1,9 @@
 import { i18_site_description} from "i18n"
-import { heroItems } from "./_config/hero"
-import { HeroOne } from "../components/hero"
-import { FeaturedProduct } from "modules/product-2/featured-product";
+import { heroItems } from "config-data/hero"
+import { headerItems } from "config-data/header"
+import { HeaderOne } from "components/header"
+import { HeroOne } from "components/hero"
+import { FeaturedProduct } from "modules/product-2/product-list";
 import { productListQuery } from "modules/product-2/requests";
 
 export const runtime = 'edge';
@@ -16,6 +18,7 @@ export const metadata = {
 export default async function HomePage() {
   return (
     <>
+        <HeaderOne headerItems={headerItems} />
         <HeroOne heroItems={heroItems} />           
         <FeaturedProduct getProductListQuery={productListQuery}/>
     </>

@@ -89,23 +89,23 @@ export const reshapeCart = (cart: MedusaCart): Cart => {
 //   const checkoutUrl = '/checkout'; // todo: implement medusa checkout flow
   const currencyCode = cart.region?.currency_code.toUpperCase() || 'UAH';
 
-  let subtotalAmount = '0';
+  let subtotalAmount = 0;
   if (cart.subtotal && cart.region) {
-    subtotalAmount = computeAmount({ amount: cart.subtotal, region: cart.region }).toString();
+    subtotalAmount = computeAmount({ amount: cart.subtotal, region: cart.region });
   }
 
-  let totalAmount = '0';
+  let totalAmount = 0;
   if (cart.total && cart.region) {
-    totalAmount = computeAmount({ amount: cart.total, region: cart.region }).toString();
+    totalAmount = cart.total; //computeAmount({ amount: cart.total, region: cart.region });
   }
 
-  let totalTaxAmount = '0';
+  let totalTaxAmount = 0;
   if (cart.tax_total && cart.region) {
-    totalTaxAmount = computeAmount({ amount: cart.tax_total, region: cart.region }).toString();
+    totalTaxAmount = cart.tax_total; //computeAmount({ amount: cart.tax_total, region: cart.region });
   }
-  let shippingAmount = '0';
+  let shippingAmount = 0;
   if (cart.shipping_total && cart.region) {
-    shippingAmount = computeAmount({ amount: cart.shipping_total, region: cart.region }).toString();
+    shippingAmount = cart.shipping_total; //computeAmount({ amount: cart.shipping_total, region: cart.region });
   }
 
   const cost = {
@@ -126,6 +126,7 @@ export const reshapeCart = (cart: MedusaCart): Cart => {
       currencyCode: currencyCode
     }
   };
+console.log({cost})  
 
   return {
     ...cart,
@@ -171,10 +172,11 @@ const reshapeLineItem = (lineItem: MedusaLineItem): CartItem => {
 
   const cost = {
     totalAmount: {
-      amount: convertToDecimal(
-        lineItem.total,
-        lineItem.variant?.prices?.[0]?.currency_code
-      ).toString(),
+        amount: lineItem.total,
+    //   amount: convertToDecimal(
+    //     lineItem.total,
+    //     lineItem.variant?.prices?.[0]?.currency_code
+    //   ),
       currencyCode: lineItem.variant?.prices?.[0]?.currency_code.toUpperCase() || 'EUR'
     }
   };
@@ -183,10 +185,11 @@ const reshapeLineItem = (lineItem: MedusaLineItem): CartItem => {
   return {
     ...lineItem,
     variant_id: lineItem.variant_id || lineItem.variant?.id,
+    handle: lineItem.variant.product?.handle || lineItem.variant.product_id,
     // merchandise,
     cost,
     quantity,
-    unit_price: { amount: String(lineItem.unit_price), currencyCode: cost.totalAmount.currencyCode }
+    unit_price: { amount: lineItem.unit_price, currencyCode: cost.totalAmount.currencyCode }
   };
 };
 

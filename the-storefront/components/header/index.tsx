@@ -3,16 +3,19 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import * as T from "data/site-types"
+import { headerItems } from "config-data/header"
 import { HeaderMenu } from './header-menu';
 import { HeaderRight } from './header-right';
+import clsx from 'clsx';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 type HeaderOneProps = {
-    headerItems: T.HeaderItems
-    headerContainer?: string
+    headerContainer?: string,
+    transparent?: boolean,
+    leftArrow?: boolean
 }
 
-export function HeaderOne({ headerItems, headerContainer="container" }: HeaderOneProps) {
+export function HeaderOne({ headerContainer="container", transparent = true, leftArrow = false }: HeaderOneProps) {
     // Header Sticky Activation
     const header = useRef<HTMLElement>(null);
     useEffect(() => {
@@ -35,13 +38,18 @@ export function HeaderOne({ headerItems, headerContainer="container" }: HeaderOn
     return (
         <header
             ref={header}
-            className="flex items-center lg:px-[20px] h-[90px] w-full absolute top-0 z-30"
+            className={clsx("flex items-center lg:px-[20px] h-[90px] w-full top-0 z-30", 
+                transparent ? "absolute" : ""
+            )}
         >
             <div className={headerContainer}>
                 <div className="grid grid-cols-12">
-                <div className="lg:col-span-4 col-span-6 self-center">
-                    <div className='flex'>
-                        <Link href="/" className="block">
+                    <div className="lg:col-span-4 col-span-6 self-center">
+                        <Link 
+                            href="/" 
+                            className="flex"
+                        >
+                            { leftArrow && <ArrowLeftIcon className='mr-2 w-5 h-5 stroke-2 block lg:hidden'/> }
                             <Image src={headerItems.headerLogo.src} 
                                     alt={headerItems.headerLogo.alt}
                                     width={120}
@@ -49,8 +57,6 @@ export function HeaderOne({ headerItems, headerContainer="container" }: HeaderOn
                             />
                         </Link>
                     </div>
-        
-                </div>
                 <div className="lg:col-span-4 hidden lg:block">
                     <HeaderMenu
                         headerItems={headerItems}

@@ -29,7 +29,7 @@ export function CheckoutPage({step, useCheckout = useChechoutState, useCart = us
     <div className="page-container px-4">
       <div className="flex flex-col gap-8 md:flex-row">
         <div className="w-full md:w-0 md:basis-2/3">
-          <CheckoutSteps step={step} />
+          
           {
             step === 'cart' && <CartDetails useCart={useCart}/>
           }

@@ -28,7 +28,7 @@ export function HeaderRight({ headerItems }: HeaderRightProps) {
                     </Link>
                 </div>
                 <div className="minicart-item md:mr-[35px] sm:mr-[25px] mr-[15px]">
-                    <Link href="/checkout/cart" 
+                    <Link href="/cart" 
                         title={i18n_cart}
                           className="text-2xl hover:text-primary transition-all">
                         <CartBtn />

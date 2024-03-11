@@ -1,7 +1,7 @@
 import { Result } from "commons"
 import Link from 'next/link';
 import clsx from 'clsx';
-import { i18n_from } from 'i18n';
+import { i18n_from, i18n_more } from 'i18n';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import { Carousel } from 'components/carousel';
@@ -9,6 +9,9 @@ import { RequestError } from "data/medusa-request"
 import { minMax } from 'lib/utils';
 import { formatPrice } from "lib/formaters"
 import { Product } from "data/data-types"
+
+import { VariantSelector } from "./product-details/variant-selector"
+import { AddToCartBtn } from "@cart/components";
 
 
 type FeaturedProductProps = {
@@ -32,6 +35,7 @@ export async function FeaturedProduct({ getProductListQuery }: FeaturedProductPr
                 const { min, max } = minMax(variants, v => v.price.amount); 
                 const priceText = formatPrice({ amount: min, currencyCode: variants[0]?.price.currencyCode || 'uah'})
                 const buttonText = min !== max ? `${i18n_from} ${priceText}` : priceText;
+                const hasMorInfo = Boolean(product.extra_md);
                 return (
                     <div key={index}
                     className={clsx(
@@ -51,7 +55,7 @@ export async function FeaturedProduct({ getProductListQuery }: FeaturedProductPr
                                     </span>
                                     <h2 className="relative after:bg-primary after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-[70px] pb-[10px] mb-[30px]">
                                         <Link
-                                            href={`/product/${product.handle}`}
+                                            href={`/products/${product.handle}`}
                                             className="transition-all hover:text-primary"
                                         >
                                             {product.title}
@@ -62,29 +66,47 @@ export async function FeaturedProduct({ getProductListQuery }: FeaturedProductPr
                             <div className="md:w-1/2 w-full md:pb-0">
                                 <Carousel images={product.images || []} fullWidth={true} />
                             </div>
-                            <div className="md:w-1/2 w-full self-center lg:px-0 px-6 py-6">
+                            <div className="md:w-1/2 w-full lg:px-0 px-6 py-6">
                                 <div className="featured-product-content">
                                     <span className="text-[14px] leading-5 font-medium uppercase md:block mb-[5px] text-[#999999] hidden ">
                                         {product.subtitle}
                                     </span>
                                     <h2 className="hidden md:block relative after:bg-primary after:absolute after:left-0 after:bottom-0 after:h-[4px] after:w-[70px] pb-[10px] mb-[30px]">
                                         <Link
-                                            href={`/product/${product.handle}`}
+                                            href={`/products/${product.handle}`}
                                             className="transition-all hover:text-primary"
                                         >
                                             {product.title}
                                         </Link>
                                     </h2>
-                                    <p>{product.description}</p>
-                                    <div className="mt-8">
+                                    <p>
+                                        {product.description}
+                                        { hasMorInfo && (
+                                            <Link
+                                                href={`/products/${product.handle}`}
+                                                className="transition-all hover:text-primary"
+                                            >
+                                                ..{i18n_more}
+                                            </Link>
+                                        )}
+                                    </p>
+
+                                    <div className="flex pt-7 place-content-center md:place-content-start">
+                                        <VariantSelector product={product} />
+                                    </div>
+                                    <div className="flex pt-4 place-content-center md:place-content-start">
+                                        <AddToCartBtn product={product} />
+                                    </div>
+
+                                    {/* <div className="mt-4">
                                         <Link
-                                            href={`/product/${product.handle}`}
+                                            href={`/products/${product.handle}`}
                                             className={outlineButton}
                                         >
                                             {buttonText}
                                             <ArrowRightIcon className="ml-[5px] h-6 w-6" />
                                         </Link>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

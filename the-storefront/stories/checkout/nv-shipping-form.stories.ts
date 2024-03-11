@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { createUseChechout } from "../test-checkout-state"
+import { createUseCheckout } from "../test-checkout-state"
 import { NovaposhtaShippingForm } from '@checkout/components/nv-shipping-form';
 
 const meta = {
@@ -17,7 +17,7 @@ export const ShippingToWarehouse: Story = {
         },
     },
     args: {
-        useChechout: createUseChechout({ selectedOption: { id: "shipping-to-warehouse", name: "Shipping to warehouse" }})
+        useChechout: createUseCheckout({ selectedOption: { id: "shipping-to-warehouse", name: "Shipping to warehouse" }})
     }
 };
 
@@ -28,7 +28,7 @@ export const ShippingToDoor: Story = {
         },
     },
     args: {
-        useChechout: createUseChechout({ 
+        useChechout: createUseCheckout({ 
             selectedOption: { id: "shipping-to-door", name: "Shipping to warehouse" },
             receintAddresses: [
                 "вул. Шевченка, 1",

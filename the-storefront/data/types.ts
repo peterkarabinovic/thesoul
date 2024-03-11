@@ -33,11 +33,11 @@ export function medusaProductToBrief(prod: M.MedusaProduct): ProductBrief {
 
     const variant = prod.variants?.[0];
 
-    let amount = "0";
+    let amount = 0;
     let currencyCode = 'USD';
     if (variant && variant.prices && variant.prices[0]) {
         currencyCode = variant.prices[0].currency_code;
-        amount = String(variant.prices[0].amount);
+        amount = variant.prices[0].amount;
     }
             
     return {

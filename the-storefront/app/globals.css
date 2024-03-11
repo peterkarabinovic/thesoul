@@ -210,7 +210,7 @@ label {
 /*----------------------------------------*/
 /* -All Hero BG- */
 .hero-bg {
-    @apply flex items-center bg-cover bg-left-top bg-no-repeat;
+    @apply flex py-20 place-items-start md:py-0 md:items-center bg-cover bg-left-top bg-no-repeat;
 }
 
 /* All Hero Background */
