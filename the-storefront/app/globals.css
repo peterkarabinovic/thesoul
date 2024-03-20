@@ -80,6 +80,26 @@ label {
     @apply cursor-pointer;
 }
 
+.my-form-section-title {
+    @apply items-center bg-gray-100 px-2 py-2 sm:px-4 sm:py-4
+}
+
+.my-label {
+    @apply block text-heading;
+}
+
+.my-input {
+    @apply border border-primary focus-visible:outline-0 placeholder:text-gray-400 py-[12px] px-[16px] w-full h-[46px];
+}
+
+.my-primary-button {
+    @apply bg-secondary text-white h-[46px] leading-[46px] w-full text-center px-[42px] transition-all hover:bg-primary disabled:bg-gray-300;
+}
+
+.my-phone-code {
+    @apply bg-primary text-white focus-visible:outline-0 placeholder:text-gray-400 py-[12px] px-[8px] h-[46px]
+}
+
 .light-stroke path {
     @apply stroke-[20];
 }

@@ -70,7 +70,7 @@ export const _ChechoutStore: StateCreator<TCheckoutState> = (set, get) => ({
     receintAddresses: [],
 
 
-    logedIn: syncProperty(useCustomerStore, state => state.logedIn(), val => set({ logedIn: val })),
+    logedIn: syncProperty(useCustomerStore, state => !!state.customerId, val => set({ logedIn: val })),
     cartId: syncProperty(useCartState, state => state.cartId, val => set({ cartId: val })),
     cartEmpty: syncProperty(useCartState, state => (state.cart?.lines.length || 0) === 0, val => set({ cartEmpty: val })),
     canGoNext: (step) => {

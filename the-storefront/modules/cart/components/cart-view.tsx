@@ -57,7 +57,7 @@ export function CartView({ useCart = useCartState } : Props){
                             <div className='flex md:flex-row-reverse gap-4 mt-8 max-w-[400px] md:ml-auto m-auto'>
                                 <Link
                                     href="/checkout"
-                                    className=" bg-secondary text-white h-[46px] leading-[46px] w-full text-center px-[42px] transition-all hover:bg-primary"
+                                    className="my-primary-button"
                                 >
                                     {i18n_checkout}
                                 </Link>                        

@@ -224,15 +224,15 @@ class AuthOtpService extends TransactionBaseService {
                             ),
                             lineDeleting AS (
                                 DELETE FROM line_item
-                                WHERE cart_id IN (SELECT id FROM carts OFFSET 1 LIMIT 1)
+                                WHERE cart_id IN (SELECT id FROM carts OFFSET 1)
                             ),
                             shippingAddressDeleting AS (
                                 DELETE FROM address
-                                WHERE id IN (SELECT id FROM carts OFFSET 1 LIMIT 1)  
+                                WHERE id IN (SELECT id FROM carts OFFSET 1)  
                             ),
                             cartDeleting AS (
                                 DELETE FROM cart 
-                                WHERE id = ( SELECT id FROM carts OFFSET 1 LIMIT 1)
+                                WHERE id = ( SELECT id FROM carts OFFSET 1)
                             )
                             UPDATE cart
                             SET customer_id = $2

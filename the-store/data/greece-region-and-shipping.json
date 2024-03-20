@@ -1,0 +1,45 @@
+{
+    "store": { "currencies": [ "EUR", "UAH"] },
+    "users": [],
+    "regions": [
+        {
+            "id": "greece-region-id",
+            "name": "Greece",
+            "currency_code": "eur",
+            "tax_rate": 0,
+            "payment_providers": [
+              "manual"
+            ],
+            "fulfillment_providers": [
+              "novaposhta-fulfillment",
+              "local-fulfillment"
+            ],
+            "countries": [
+              "gr"
+            ]      
+        }
+    ],
+    "shipping_options": [
+        { 
+            "name": "На відділення Нової Пошти",
+            "region_id": "greece-region-id",
+            "provider_id": "novaposhta-fulfillment",
+            "data": {
+              "id": "shipping-to-warehouse"
+            },
+            "price_type": "calculated"
+        },
+        {
+            "name": "Courier delivery",
+            "region_id": "greece-region-id",
+            "provider_id": "local-fulfillment",
+            "data": {
+              "id": "courier-delivery"
+            },
+            "price_type": "flat_rate",
+            "amount": 0
+        }
+    ],
+    "products": [],
+    "categories": []
+}

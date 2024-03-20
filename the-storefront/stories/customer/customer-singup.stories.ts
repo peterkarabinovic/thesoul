@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CustomerForm } from 'modules/customer/components/customer-form';
+import { CustomerSingUp } from 'modules/customer/components/customer-signup';
 
 const meta = {
-  title: 'Customer/CustomerForm',
-  component: CustomerForm
-} satisfies Meta<typeof CustomerForm>;
+  title: 'Customer/CustomerSingUp',
+  component: CustomerSingUp
+} satisfies Meta<typeof CustomerSingUp>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

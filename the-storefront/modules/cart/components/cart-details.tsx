@@ -106,7 +106,7 @@ type QuantitySelectionProps = {
 
 function QuantitySelection({qt, onChange, range=[1,2,3,4,5,6,7,8,9,10], className=''}: QuantitySelectionProps){
 
-    const inputField = `border border-[#e8e8e8] focus-visible:outline-0 placeholder:text-[#7b7975] py-[10px] px-[20px] w-full h-[40px]`;
+    const inputField = `border border-[#e8e8e8] focus-visible:outline-0 placeholder:text-[#7b7975] py-[8px] px-[16px] w-full h-[40px]`;
 
     return (
         <div className="">

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { AsyncResult, Result, pipe } from 'commons';
-import { i18n_user_with_phone_already_exists, i18n_unable_access_store, i18n_no_useraccount_for_phone } from 'i18n'
+import { i18n_unable_access_store, i18n_no_useraccount_for_phone } from 'i18n'
 import * as Requsets from "./requests"
 import * as T from "./type"
 import { readThesoulCookie } from 'lib/thesoul-cookie';
@@ -10,14 +10,16 @@ import { readThesoulCookie } from 'lib/thesoul-cookie';
 export type TCustomerState = {
     customerId: string | null
     customer: T.TCustomer,
-    customerErrors: T.TCustomerErrors,
-    globalError?: string, 
+    fieldErrors: T.TCustomerErrors,
+    globalError?: string,
+    userWithPhoneAlreadyExists?: boolean, 
     processing: boolean,
     otp?: {
         sentAt: number, //  timestamp of otp sent
         phoneSentTo: string, 
-    }
-    logedIn: () => boolean,
+    },
+    singedUpAt?: number | null, //  timestamp of otp sent
+    singUpRecently: () => boolean,
     sendToServer: (cus: T.TCustomer) => void,
     logIn: (phone: string) => void,
     confirmOtp: (otp: string) => void,
@@ -33,8 +35,9 @@ const initState = {
         phone: '',
         telegram: '',
     },
-    customerErrors: {},
+    fieldErrors: {},
     globalError: undefined,
+    userWithPhoneAlreadyExists: false,
     processing: false
 };
 
@@ -42,14 +45,14 @@ export const useCustomerStore = create(
     subscribeWithSelector<TCustomerState>( (set, get) => ({
         ...initState,
         
-        logedIn: () => get().customer.firstName.length > 0,
+        singUpRecently: () => get().customer.firstName.length > 0 && (Date.now() - (get().singedUpAt || 0)) < 1000 * 60 * 5,
         
         sendToServer: (cus) => {
-            set({ processing: true, customerErrors: {} });
-            const logedIn = get().logedIn();
+            set({ processing: true, fieldErrors: {}, userWithPhoneAlreadyExists: false });
+            const singedUp = !!get().customerId; 
             
             pipe(
-                logedIn ? Requsets.update(cus) : Requsets.singUp(cus),
+                singedUp ? Requsets.update(cus) : Requsets.singUp(cus),
                 AsyncResult.tapError((error) => console.error('Customer sendToServer', error)),
                 AsyncResult.tapError(() => set(() => ({ globalError: i18n_unable_access_store }))),
                 AsyncResult.tap( res => {
@@ -57,11 +60,11 @@ export const useCustomerStore = create(
                         switch(res.error.name) {
                             case "invalidInput": {
                                 const errors = res.error.fieldErrors;
-                                set( () => ({ customerErrors: errors}) );
+                                set( () => ({ fieldErrors: errors}) );
                                 break;
                             }
                             case "userWithPhoneAlreadyExists":
-                                set(() => ({ globalError: i18n_user_with_phone_already_exists }));
+                                set(() => ({ userWithPhoneAlreadyExists: true }));
                                 break;
                             case "unknownError":
                                 set(() => ({ globalError: i18n_unable_access_store }));
@@ -69,7 +72,13 @@ export const useCustomerStore = create(
                         }
                     }
                     else {
-                        set({ globalError: undefined, customerErrors: {}, customer: cus, customerId: res.customerId });
+                        set({ 
+                            globalError: undefined, 
+                            fieldErrors: {}, 
+                            customer: cus, 
+                            customerId: res.customerId, 
+                            singedUpAt: !singedUp ? Date.now() : get().singedUpAt 
+                        });
                     }
                 }),
                 AsyncResult.then(() => set({ processing: false} )),

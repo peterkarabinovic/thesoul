@@ -3,15 +3,15 @@
 import { useState, useEffect } from 'react';
 import OtpInput from 'react-otp-input';
 import { usePhoneInput } from 'react-international-phone';
+import clsx from 'clsx';
+import { customerConf } from "config-data/customer"
 import {
-  i18n_login,
   i18n_phone,
   i18n_otp_sent,
   i18n_send_otp,
   i18n_resend_otp
 } from 'i18n';
 import { useCustomerStore } from '../data/state';
-import { classes } from './customer-form';
 
 export function CustomerLoginForm() {
 
@@ -50,22 +50,22 @@ export function CustomerLoginForm() {
   }
 
   return (
-    <div className="m-auto flex w-full max-w-72 flex-col gap-4">
+    <div className="m-auto flex w-full flex-col gap-4">
       {/* <h1 className="text-center text-xl font-bold">{i18n_login}</h1> */}
       {globalError && <div className="text-xs text-error">{globalError}</div>}
-      <div>
-        <label className={classes.label}>{i18n_phone}</label>
-        <div className="join w-full">
+      <div className='flex flex-col w-full gap-[5px]'>
+        <label className={'my-label'}>{i18n_phone}</label>
+        <div className="flex flex-row">
           <input
             type="text"
-            className={classes.input + ' join-item max-w-16 sm:max-w-20'}
+            className={clsx('my-phone-code', customerConf.phoneCode == "+30" ? "w-14" : "w-16" )}
             disabled
-            value="+380"
+            value={customerConf.phoneCode}
           />
           <input
             type="tel"
             placeholder="(95) 999-99-99"
-            className={classes.input + ' join-item'}
+            className={'my-input'}
             value={inputValue}
             onChange={handlePhoneValueChange}
             disabled={processing}
@@ -74,7 +74,7 @@ export function CustomerLoginForm() {
       </div>
 
       <button
-        className="btn float-right"
+        className="my-primary-button float-right"
         disabled={!isPhoneValid || countdownInProgress}
         onClick={handleReSendOtp}
       >
@@ -87,9 +87,9 @@ export function CustomerLoginForm() {
 
           <div className="text-right">
             {processing 
-                ? <div className="float-right skeleton h-6 w-10"></div>
-                : <span className="countdown font-mono text-sm text-info">
-                    <span style={{ '--value': mins } as any }></span>:<span style={{ '--value': secs } as any  }></span>
+                ? <div className="float-right animate-pulse h-6 w-10 bg-gray-300 rounded-md"></div>
+                : <span className="font-mono text-sm text-secondary">
+                    <span>{mins}</span>:<span>{String(secs).padStart(2, '0')}</span>
                   </span>
             }
           </div>
@@ -100,7 +100,7 @@ export function CustomerLoginForm() {
             numInputs={4}
             renderInput={(props) => processing ? <div className='skeleton h-12 w-12'></div>  : <input {...props}/>}
             containerStyle="flex justify-center gap-2"
-            inputStyle="text-center text-2xl border border-neutral-300 text-neutral-500 rounded-sm h-12 w-12 "
+            inputStyle="text-center text-2xl border border-primary text-primary h-12 w-12 "
             skipDefaultStyles={true}
         />
         </div>

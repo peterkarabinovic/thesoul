@@ -1,0 +1,38 @@
+{
+    "store": { "currencies": [ "EUR", "UAH"] },
+    "users": [
+        {
+            "email": "admin@medusa-test.com",
+            "password": "supersecret"
+          }        
+    ],
+    "regions": [
+        {
+            "id": "ukraine-region-id",
+            "name": "Ukraine",
+            "currency_code": "uah",
+            "tax_rate": 0,
+            "payment_providers": [ "manual" ],
+            "fulfillment_providers": [ "novaposhta-fulfillment" ],
+            "countries": [ "ua" ]      
+        }
+    ],
+    "shipping_options": [
+        { 
+            "name": "На відділення Нової Пошти",
+            "region_id": "ukraine-region-id",
+            "provider_id": "novaposhta-fulfillment",
+            "data": { "id": "shipping-to-warehouse" },
+            "price_type": "calculated"
+        },
+        {
+            "name": "Адресна доставка Новою Поштою",
+            "region_id": "ukraine-region-id",
+            "provider_id": "novaposhta-fulfillment",
+            "data": { "id": "shipping-to-door" },
+            "price_type": "calculated"
+        }
+    ],
+    "products": [],
+    "categories": []
+}

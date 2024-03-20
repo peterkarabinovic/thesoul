@@ -13,7 +13,7 @@ export function CustomerGreeting({customer, linkToProfile}: CustomerGreetingProp
             {i18n_greeting
                 .replace("{firstName}", customer.firstName)
                 .replace("{lastName}", customer.lastName) } 
-                <Link className="btn-link" href={linkToProfile}>{i18n_in_you_profile}</Link>
+                <Link className="transition-all hover:text-primary underline" href={linkToProfile}>{i18n_in_you_profile}</Link>
         </div>
     );
 }

@@ -67,3 +67,9 @@ export type CartConf = {
     noShipmentCost: boolean,
     infoHtml?: string
 }
+
+
+export type CustomerConf = {
+    needTelegram?: boolean;
+    phoneCode: "+380" | "+30";
+}

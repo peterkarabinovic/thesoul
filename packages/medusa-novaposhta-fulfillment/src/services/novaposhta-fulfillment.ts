@@ -32,7 +32,7 @@ class NovaposhtaFulfillmentService extends AbstractFulfillmentService {
             }
         }
         else if(option.id === "shipping-to-door"){
-            if(!data.cityRef || !data.streetRef || !data.buildingNumber){
+            if(!data.cityRef){
                 throw new Error("CityRef, streetRef and buildingNumber are required");
             }
         }
@@ -63,6 +63,7 @@ class NovaposhtaFulfillmentService extends AbstractFulfillmentService {
     createReturn(returnOrder: CreateReturnType): Promise<Record<string, unknown>> {
         throw new Error("Method not implemented. createReturn");
     }
+    
     getFulfillmentDocuments(data: Record<string, unknown>): Promise<any> {
         throw new Error("Method not implemented. getFulfillmentDocuments");
     }
@@ -76,10 +77,6 @@ class NovaposhtaFulfillmentService extends AbstractFulfillmentService {
         throw new Error("Method not implemented. retrieveDocuments");
     }
 
-
-    async retrieveCities(q: string, limit: number): Promise<any> {
-
-    }
 }
 
 export default NovaposhtaFulfillmentService;
