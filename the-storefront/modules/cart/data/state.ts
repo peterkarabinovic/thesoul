@@ -119,7 +119,7 @@ export const useCartStateProto: StateCreator<TCartState> = (set, get) => ({
     }
 });
 
-export const useCartState = create( useCartStateProto );
+export const useCartState = create(useCartStateProto );
 
 
 

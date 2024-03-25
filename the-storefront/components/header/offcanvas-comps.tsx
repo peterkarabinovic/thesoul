@@ -1,17 +1,17 @@
 
-import Link from 'next/link';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { Langs, LocalizedLink, getHeaderConfig } from 'config-and-i18n';
 // import OffcanvasMenu from './offcanvas-menu';
 
-import * as T from "data/site-types"
 
 type OffcanvasCompsProps = {
-    headerItems: T.HeaderItems
+    lang: string
     offcanvas: boolean
     showOffcanvas: () => void
 }
 
-export function OffcanvasComps({ headerItems, offcanvas, showOffcanvas }: OffcanvasCompsProps) {
+export async function OffcanvasComps({ lang, offcanvas, showOffcanvas }: OffcanvasCompsProps) {
+    const headerItems = await getHeaderConfig(lang as Langs);
     return (
         <div
             className={offcanvas ? 'offcanvas-menu active' : 'offcanvas-menu'}
@@ -41,12 +41,13 @@ export function OffcanvasComps({ headerItems, offcanvas, showOffcanvas }: Offcan
                                     className="mb-[10px] last:mb-0"
                                     key={items.id}
                                 >
-                                    <Link
+                                    <LocalizedLink
+                                        lang={lang}
                                         href={`${items.path}`}
                                         className="text-[#999999] font-normal transition-all hover:text-primary block"
                                     >
                                         {items.text}
-                                    </Link>
+                                    </LocalizedLink>
                                 </li>
                             ))}
                         </ul>
@@ -74,12 +75,13 @@ export function OffcanvasComps({ headerItems, offcanvas, showOffcanvas }: Offcan
                                         className="mr-[25px] last:mr-0"
                                         key={item.id}
                                     >
-                                        <Link
+                                        <LocalizedLink
+                                            lang={lang}
                                             href={item?.path}
                                             className="transition-all hover:text-primary"
                                         >
                                             {item.socialIcon}
-                                        </Link>
+                                        </LocalizedLink>
                                     </li>
                                 );
                             })}

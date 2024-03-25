@@ -1,18 +1,19 @@
 'use client';
 
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
-import { i18n_add_to_cart } from 'i18n';
 import { Product } from 'data/data-types';
+import { useClientOnly } from 'lib/react-utils';
 import { TCartStore, useCartState } from "../data"
 import { useSelectedVariant } from '../../products/data/state-sel-variant';
 
 type AddToCartBtnProps = {
   product: Pick<Product, "variants">,
   useCart?: TCartStore;
+  i18n_add_to_cart: string;
 };
 
-export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnProps) {
-
+export function AddToCartBtn({ product, i18n_add_to_cart, useCart = useCartState }: AddToCartBtnProps) {
+  const isClient = useClientOnly();  
   const [selectedVariant] = useSelectedVariant();  
   const { id: variantId } = product.variants[selectedVariant] || { id: '0' };
   const loading = useCart( state => state.processedVariants.includes(variantId) );
@@ -22,6 +23,10 @@ export function AddToCartBtn({ product, useCart = useCartState }: AddToCartBtnPr
 
   const clazz = `bg-secondary text-white px-[42px] h-[46px] leading-[44px] text-center flex justify-center items-center`;
   const minPlusClazz = 'border border-secondary text-secondary text-center hover:bg-secondary hover:text-white leading-[38px] text-xl h-[46px]'
+
+
+  if(!isClient)
+    return (null);
 
   if (qt === 0 )
     return (

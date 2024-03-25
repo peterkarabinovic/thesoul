@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { LocalizedLink } from 'config-and-i18n';
 
 
 type BreadcrumbsProps = {
@@ -7,9 +7,10 @@ type BreadcrumbsProps = {
         path: string;
     }[];
     lastTitle: string;
+    lang: string;
 }
 
-export function Breadcrumb({ parents, lastTitle }: BreadcrumbsProps) {
+export function Breadcrumb({ lang, parents, lastTitle }: BreadcrumbsProps) {
     return (
         <div className="breadcrumb bg-[#f4f5f7] py-[80px]">
             <div className="container">
@@ -23,7 +24,12 @@ export function Breadcrumb({ parents, lastTitle }: BreadcrumbsProps) {
                         <ul className="breadcrumb-list flex lm:justify-end justify-center uppercase text-[14px]">
                             { parents.map((item, index) => (
                                 <li key={index} className='relative after:pr-[15px] after:ml-[15px] after:content-["/"] text-secondary'>
-                                    <Link href={item.path}>{item.title}</Link>
+                                    <LocalizedLink 
+                                        lang={lang}
+                                        href={item.path}
+                                    >
+                                        {item.title}
+                                    </LocalizedLink>
                                 </li>
                             ))}
                             <li>

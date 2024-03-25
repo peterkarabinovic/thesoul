@@ -1,0 +1,9 @@
+{
+    "totlal": "Всього",
+    "total_cost" : "До оплати",
+    "price_for_quantity": "Ціна за {quantity} шт. товару",
+    "shipping": "Доставка",
+    "shipping_cost": "Вартість доставки",
+    "shipping_not_calculated": "за тарифами перевізника",
+    "payment": "Оплата"
+}

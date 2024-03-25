@@ -6,13 +6,14 @@ import Image from 'next/image';
 import { Money } from "data/types";
 import { formatPrice } from "lib/formaters"
 import { TCartStore, useCartState } from "../data"
-import Link from 'next/link';
+import { LocalizedLink } from 'config-and-i18n';
 
 type CartDetailsProps = {
-    useCart?: TCartStore;        
+    useCart?: TCartStore; 
+    lang: string;       
 }
 
-export function CartDetails({ useCart = useCartState }: CartDetailsProps){
+export function CartDetails({lang, useCart = useCartState }: CartDetailsProps){
 
     const cart = useCart( state => state.cart );
     const updateItem = useCart( state => state.updateItem );  
@@ -37,7 +38,8 @@ export function CartDetails({ useCart = useCartState }: CartDetailsProps){
                     { cart.lines.map( (line) => (
                         <div key={line.id} className='w-full flex gap-4 py-4 border-b dark:bg-gray-800 dark:border-gray-700'>
                             <div className="relative shrink-0 bg-primary w-16 h-20 md:w-24 md:h-32">
-                                <Link 
+                                <LocalizedLink 
+                                    lang={lang}
                                     href={`/products/${line.handle}`}
                                 >
                                     <Image
@@ -46,11 +48,12 @@ export function CartDetails({ useCart = useCartState }: CartDetailsProps){
                                         src={line.thumbnail || ""}
                                         alt={line.title || ""}
                                     />
-                                </Link>
+                                </LocalizedLink>
                             </div>
                             <div className='grid grid-cols-1 w-full'>
                                 <div className="flex-1 justify-between flex gap-2 ">
-                                    <Link 
+                                    <LocalizedLink
+                                        lang={lang} 
                                         href={`/products/${line.handle}`}
                                     >
                                         <div>
@@ -58,7 +61,7 @@ export function CartDetails({ useCart = useCartState }: CartDetailsProps){
                                             <div className="prose-sm text-neutral-500">{line.description}</div>
                                             <div className="prose-sm text-neutral-500">{formatPrice(line.unit_price)}</div>
                                         </div>
-                                    </Link>
+                                    </LocalizedLink>
                                     <div className="flex gap-8 items-center lg:gap-12">                        
                                         <QuantitySelection qt={line.quantity} className='hidden md:block' onChange={handleQtChange(line.variant_id)}/>
                                         <Price price={line.cost.totalAmount} className="hidden md:block  w-24" processing={processing.includes(line.variant_id)} />

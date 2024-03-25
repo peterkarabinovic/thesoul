@@ -1,12 +1,14 @@
-import Link from 'next/link';
-import * as T from "data/site-types"
+import { Langs, LocalizedLink, getHeaderConfig } from 'config-and-i18n';
 
 type HeaderMenuProps = {
-    headerItems: T.HeaderItems
+    lang: string
     differentPositionCName?: string
 }
 
-export function HeaderMenu({ headerItems, differentPositionCName="" }: HeaderMenuProps) {
+export async function HeaderMenu({ lang, differentPositionCName="" }: HeaderMenuProps) {
+    
+    const headerItems = await getHeaderConfig(lang as Langs);
+
     return (
         <div className={`${differentPositionCName} header-menu`}>
             <nav>
@@ -16,17 +18,23 @@ export function HeaderMenu({ headerItems, differentPositionCName="" }: HeaderMen
                             className={`${menuOne.holderCName} py-[50px] mr-[55px] last:mr-0`}
                             key={menuOne.id}
                         >
-                            <Link href={menuOne.path}>{menuOne.title}</Link>
+                            <LocalizedLink  
+                                lang={lang}
+                                href={menuOne.path}
+                            >
+                                {menuOne.title}
+                            </LocalizedLink>
                             {menuOne.submenuCName && !menuOne.megamenuCName && (
                                 <ul className={`${menuOne.submenuCName}`}>
                                     {menuOne?.headerSubmenu?.map(
                                         (submenuOne) => (
                                             <li key={submenuOne.id}>
-                                                <Link
+                                                <LocalizedLink
+                                                    lang={lang}
                                                     href={`${submenuOne.submenuPath}`}
                                                 >
                                                     {submenuOne.submenuTitle}
-                                                </Link>
+                                                </LocalizedLink>
                                             </li>
                                         )
                                     )}
@@ -52,14 +60,15 @@ export function HeaderMenu({ headerItems, differentPositionCName="" }: HeaderMen
                                                                     groupItem.id
                                                                 }
                                                             >
-                                                                <Link
+                                                                <LocalizedLink
+                                                                    lang={lang}
                                                                     href={`${groupItem.megamenuPath}`}
                                                                     className="font-normal transition-all hover:text-primary"
                                                                 >
                                                                     {
                                                                         groupItem.megamenuTitle
                                                                     }
-                                                                </Link>
+                                                                </LocalizedLink>
                                                             </li>
                                                         )
                                                     )}

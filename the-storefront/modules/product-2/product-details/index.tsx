@@ -5,13 +5,14 @@ import { ProductExtraDescription } from "./product-extra-description"
 
 type Props = {
     product: Product,
+    lang: string,
     productDetailTabItems?: any 
 }
 
-export function ProductDetails({ product, productDetailTabItems }: Props) {
+export function ProductDetails({ lang, product, productDetailTabItems }: Props) {
     return (
         <main>
-            <MainContent product={product} />
+            <MainContent product={product} lang={lang}/>
             <ProductExtraDescription product={product} />
             {/* <ProductDetailTab
                 product={product}

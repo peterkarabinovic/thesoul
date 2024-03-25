@@ -1,0 +1,16 @@
+{
+    "home": "Головна",
+    "cart" : "Кошик",
+    "cart_is_empty" : "Кошик порожній",
+    "clear_cart" : "Очистити кошик",
+    "checkout" : "Оформити замовлення",
+    "go_to_home_page" : "На головну сторінку",
+    "add_to_cart" : "Додати",
+    "totlal" : "Всього",
+    "price_for_quantity" : "Ціна за {quantity} шт. товару",
+    "shipping" : "Доставка",
+    "payment" : "Оплата",
+    "goto_payment" : "Перейти до оплати",
+    "more" : "більше",
+    "optional": "не обов'язково"
+}

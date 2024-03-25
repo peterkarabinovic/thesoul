@@ -7,7 +7,7 @@ type InputFieldPros = {
   value: number | string | undefined;
   onChange: (val: string) => void;
   title: string;
-  disabled: boolean;
+  disabled?: boolean;
   placeholder?: string;
   error?: string;
 };

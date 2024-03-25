@@ -3,6 +3,7 @@ import { Carousel } from 'components/carousel';
 import { AddToCartBtn } from "modules/cart/components/add-to-cart-btn"
 import { VariantPrice } from './variant-price';
 import { VariantSelector } from './variant-selector'
+import { i18nGeneral } from "config-and-i18n";
 
 // Tailwind Related Stuff
 const soldOut = `bg-black text-white block leading-[28px] absolute top-[15px] right-[15px] px-[15px] z-[1]`;
@@ -13,14 +14,17 @@ const productOffer = `bg-[#98d8ca] text-[14px] text-white block rounded-full abs
 // const addtoCartBtn = `bg-black text-white px-[42px] h-[46px] leading-[44px]`;
 
 type Props = {
-    product: Product
+    product: Product,
+    lang: string
 }
 
-export function MainContent({ product }: Props ) {
+export async function MainContent({ product, lang }: Props ) {
     const discountPrice: number | undefined = undefined;
     const soldOutSticker = undefined
     const bestSellerSticker = undefined;
     const offerSticker = undefined;
+
+    const i18n = await i18nGeneral(lang);
 
     // const [quantityCount, setQuantityCount] = useState(1);
 
@@ -110,7 +114,7 @@ export function MainContent({ product }: Props ) {
                                             : ''
                                     }`}
                                 >
-                                    <AddToCartBtn product={product} />
+                                    <AddToCartBtn product={product} i18n_add_to_cart={i18n.add_to_cart}/>
                                 </div>
                             </div>
                             <div className="other-info">

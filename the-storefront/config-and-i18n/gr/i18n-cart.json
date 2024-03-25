@@ -1,0 +1,8 @@
+{
+    "totlal" : "Total",
+    "total_cost" : "Total cost",
+    "price_for_quantity" : "Price for {quantity}",
+    "shipping" : "Shipping",
+    "shipping_cost" : "Shipping cost",
+    "shipping_not_calculated" : "Shipping cost is not calculated"    
+}

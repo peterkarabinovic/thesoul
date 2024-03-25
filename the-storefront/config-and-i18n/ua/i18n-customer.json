@@ -1,0 +1,9 @@
+{
+    "save_customer": "Запам'ятати",
+    "login": "Увійти",
+    "singup": "Зареєструватися",
+    "greeting": "Вітаємо {firstName} {lastName}! Ви можете переглянути історію покупок ",
+    "in_you_profile": "в своєму профілі",
+    "returning_customer": "Постійний клієнт?",
+    "new_client": "Новий клієнт?"
+}

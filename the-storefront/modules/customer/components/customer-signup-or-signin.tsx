@@ -26,11 +26,11 @@ export function CustomerSignUpOrSignIn() {
 
   return (
     <div className="w-full flex flex-col gap-4"> 
-        <div className="customer-zone flex my-form-section-title">
+        <div className="customer-zone my-form-section-title">
             
-            <CheckCircleIcon className='text-green-500 h-4 w-4 mr-1 sm:mr-2' />
+            <CheckCircleIcon className='icon' />
             
-            <h2 className="title text-[16px] leading-[28px] max-sm:whitespace-nowrap max-sm:text-ellipsis overflow-hidden">
+            <h2>
                 {
                     singupOrLogin == 'signup' ? i18n_returning_customer : i18n_new_client
                 }

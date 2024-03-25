@@ -1,19 +1,19 @@
 "use client"
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { i18n_got_to_home_page, i18n_checkout } from "i18n"
 import { TCartStore, useCartState } from '@cart/data';
-import { CartDetails, CartEmpty, CartTotals } from "@cart/components";
+import { CartDetails, CartEmpty, CartTotals } from ".";
 import { cartConf } from "config-data/cart"
-import Link from 'next/link';
+import { CheckoutButton, HomeAndClearButtons } from "./cart-view-buttons"
 
 type Props = {
     useCart?: TCartStore;
+    lang?: string;
 };
 
 
-export function CartView({ useCart = useCartState } : Props){
+export function CartView({ useCart = useCartState, lang = "ua" } : Props){
 
     const cartEmpty = useCart( s => (s?.cart?.lines.length ?? 0) == 0  )
+    const clearCart = useCart( s => s.clearCart );
 
     const rawHtmlClasses = [
         "[&>h1]:text-2xl [&>h1]:mb-4",
@@ -28,7 +28,7 @@ export function CartView({ useCart = useCartState } : Props){
         return (
             <div className="cart border-b border-[#ededed] lg:py-[90px] md:py-[80px] py-[50px]">
                 <div className="container">
-                    <CartEmpty />                    
+                    <CartEmpty lang={lang} />                    
                 </div>
             </div>
         );
@@ -39,9 +39,9 @@ export function CartView({ useCart = useCartState } : Props){
             <div className="container">
                 <div className="flex flex-col w-full gap-8">
                     <div className="w-full">
-                        <CartDetails useCart={useCart}/>
+                        <CartDetails lang={lang} useCart={useCart}/>
                     </div>
-                    <HomeAndClearButtons />
+                    <HomeAndClearButtons lang={lang} onClearCart={clearCart}/>
                     <div className='flex md:flex-row flex-col gap-4'>
                         <div className='md:basis-2/3 w-full py-7'>
                         {
@@ -53,14 +53,14 @@ export function CartView({ useCart = useCartState } : Props){
                         }
                         </div>
                         <div className="md:basis-1/3 w-full">
-                            <CartTotals useCart={useCart} />
+                            <CartTotals 
+                                lang={lang} 
+                                useCart={useCart} 
+                            />
                             <div className='flex md:flex-row-reverse gap-4 mt-8 max-w-[400px] md:ml-auto m-auto'>
-                                <Link
-                                    href="/checkout"
-                                    className="my-primary-button"
-                                >
-                                    {i18n_checkout}
-                                </Link>                        
+                                <CheckoutButton 
+                                    lang={lang} 
+                                />
                             </div>
                         </div>
                     </div>
@@ -68,28 +68,4 @@ export function CartView({ useCart = useCartState } : Props){
             </div>
         </div>
     )
-}
-
-function HomeAndClearButtons({ useCart = useCartState } : Props){
-    const clearCart = useCart( s => s.clearCart );
-    return (
-        <div className="group-btn flex justify-between">
-            <Link
-                href="/"
-                className="hidden tiny:inline-flex items-center bg-secondary text-white h-[46px] md:px-[40px] sm:px-[20px] px-[10px] transition-all hover:bg-primary"
-            >
-                <ArrowLeftIcon className="mr-[5px] h-6 w-6" />
-                {i18n_got_to_home_page}
-            </Link>
-            <div className="btn-wrap">
-                <button
-                    onClick={clearCart}
-                    type="button"
-                    className="inline-flex items-center border border-secondary text-secondary h-[46px] md:px-[40px] sm:px-[20px] px-[10px] transition-all hover:bg-secondary hover:text-white"
-                >
-                    Clear Cart
-                </button>
-            </div>
-        </div>
-    );
 }

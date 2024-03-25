@@ -1,21 +1,25 @@
 'use client'
 
 import { useEffect, useRef } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { headerItems } from "config-data/header"
+
 import { HeaderMenu } from './header-menu';
 import { HeaderRight } from './header-right';
 import clsx from 'clsx';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import HeaderConf from 'config-and-i18n/en/header.json';
+import { LocalizedLink } from 'config-and-i18n';
+
 
 type HeaderOneProps = {
     headerContainer?: string,
     transparent?: boolean,
-    leftArrow?: boolean
+    leftArrow?: boolean,
+    lang: string
 }
 
-export function HeaderOne({ headerContainer="container", transparent = true, leftArrow = false }: HeaderOneProps) {
+export function HeaderOne({ headerContainer="container", transparent = true, leftArrow = false, lang }: HeaderOneProps) {
+
     // Header Sticky Activation
     const header = useRef<HTMLElement>(null);
     useEffect(() => {
@@ -45,26 +49,27 @@ export function HeaderOne({ headerContainer="container", transparent = true, lef
             <div className={headerContainer}>
                 <div className="grid grid-cols-12">
                     <div className="lg:col-span-4 col-span-6 self-center">
-                        <Link 
+                        <LocalizedLink 
+                            lang={lang}
                             href="/" 
                             className="flex"
                         >
                             { leftArrow && <ArrowLeftIcon className='mr-2 w-5 h-5 stroke-2 block lg:hidden'/> }
-                            <Image src={headerItems.headerLogo.src} 
-                                    alt={headerItems.headerLogo.alt}
+                            <Image src={HeaderConf.headerLogo.src} 
+                                    alt={HeaderConf.headerLogo.alt}
                                     width={120}
                                     height={30}
                             />
-                        </Link>
+                        </LocalizedLink>
                     </div>
                 <div className="lg:col-span-4 hidden lg:block">
                     <HeaderMenu
-                        headerItems={headerItems}
+                        lang={lang}
                         differentPositionCName="home-collection-megamenu-holder flex justify-center"
                     />
                 </div>
                 <div className="lg:col-span-4 col-span-6 self-center">
-                    <HeaderRight headerItems={headerItems} />
+                    <HeaderRight lang={lang} />
                 </div>
                 </div>
             </div>

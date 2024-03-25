@@ -81,7 +81,14 @@ label {
 }
 
 .my-form-section-title {
-    @apply items-center bg-gray-100 px-2 py-2 sm:px-4 sm:py-4
+    @apply items-center flex bg-gray-100 px-4 py-2 sm:px-6 sm:py-4
+}
+
+.my-form-section-title .icon {
+    @apply text-green-500 h-4 w-4 mr-2 sm:mr-2;
+}
+.my-form-section-title h2 {
+    @apply text-[16px] leading-[28px] max-sm:whitespace-nowrap max-sm:text-ellipsis;
 }
 
 .my-label {
@@ -334,7 +341,31 @@ label {
 .product-detail-tab-menu li {
     @apply cursor-pointer after:content-["/"] after:px-[20px] after:last:content-none;
 }
-
+/*----------------------------------------*/
+/*  - carousel
+/*----------------------------------------*/
+.carousel {
+    display: inline-flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none}
+.carousel-vertical {
+    flex-direction: column;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory}
+.carousel-item {
+    box-sizing: content-box;
+    display: flex;
+    flex: none;
+    scroll-snap-align: start}
+.carousel-start .carousel-item {
+    scroll-snap-align: start}
+.carousel-center .carousel-item {
+    scroll-snap-align: center}
+.carousel-end .carousel-item {
+    scroll-snap-align: end}
 /*----------------------------------------*/
 /*  - faq
 /*----------------------------------------*/

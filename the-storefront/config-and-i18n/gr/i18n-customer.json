@@ -1,0 +1,9 @@
+{
+    "save_customer": "Save",
+    "login": "Login",
+    "singup": "Sing up",
+    "greeting": "Congratulations {firstName} {lastName}! You can view your purchase history",
+    "in_you_profile": "in your profile",
+    "returning_customer": "Returning customer?",
+    "new_client": "New client?"
+}

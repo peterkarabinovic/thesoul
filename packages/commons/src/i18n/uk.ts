@@ -20,6 +20,7 @@ export const i18n_total_cost = 'До оплати';
 export const i18_goto_payment = 'Перейти до оплати';
 export const i18n_more = "більше"
 
+
 export const i18n_first_name = "Ім'я";
 export const i18n_last_name = 'Прізвище';
 export const i18n_phone = 'Телефон';
@@ -52,8 +53,10 @@ export const i18n_user_with_phone_already_exists = 'Користувач з та
 export const i18n_no_useraccount_for_phone = 'Користувача з номером {phone} ми не знайшли.';
 
 // Shipping
+export const i18n_shipping_options = 'Варіанти доставки';
 export const i18n_nv_shipping_to_warehouse = "На відділення Нової Пошти";
 export const i18n_nv_shipping_to_door = "Адресна доставка Новою Поштою";
+export const i18n_courier_shipping = "Кур'єрська доставка";
 export const i18n_city = "Місто";
 export const i18n_input_city = "Вкажіть населений пункт України ";
 export const i18n_address = "Адреса";
