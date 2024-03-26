@@ -1,3 +1,4 @@
+"use client"
 import { useEffect } from "react" 
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { I18nProvider, i18nShipping } from "config-and-i18n";
@@ -47,7 +48,7 @@ export function ShippingOptions({ lang, shippingStore, cartId }: Props ){
                             checked={selectedOption?.dataId === option.dataId}
                             onChange={() => selectOption(option)}
                         />
-                        <span className="text-[14px] ml-2">
+                        <span className="ml-2">
                             {option.name}
                         </span>
                     </label>

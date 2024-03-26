@@ -19,6 +19,7 @@ export const Mobile: Story = {
     nextjs: { appDirectory: true }
   },
   args: {
+    lang: "en",
     cartId: "cart-id",
     shippingStore: createUseShipping({
         state: {

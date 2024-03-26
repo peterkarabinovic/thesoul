@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import { faker } from '@faker-js/faker';
-import { _ChechoutStore, TCheckoutState } from "../modules/checkout/data";
+import { _ChechoutStore, TCheckoutState } from "../modules/checkout-old/data";
 
 export function createUseCheckout(state: Partial<TCheckoutState> = {}) {
 

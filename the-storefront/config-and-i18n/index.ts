@@ -3,7 +3,7 @@ import HeroConf from "./en/hero.json"
 import TI18nGeneral from "./en/i18n-general.json"
 import TI18nCart from "./en/i18n-cart.json"
 import TI18nCustomer from "./en/i18n-customer.json"
-import TI18nShipping from "./en/i18n-shipping.json"
+import { TShippingConfig } from "./en/i18n-shipping"
 
 import * as T from "./types"
 
@@ -28,9 +28,10 @@ export const i18nCustomer = async (locale: string) => config[locale as Langs]('i
     return m.default as typeof TI18nCustomer;
 });
 
-export const i18nShipping = async (locale: string) => config[locale as Langs]('i18n-shipping').then( m => {
-    return m.default as typeof TI18nShipping;
-});
+export const i18nShipping = async (locale: string) => {
+    const m = await import(`./${locale}/i18n-shipping`);
+    return m.config as TShippingConfig;
+};
 
 export const getHeroConfig = async (locale: Langs) => config[locale]('hero').then( m => {
     return m.default as typeof HeroConf;

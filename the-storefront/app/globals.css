@@ -132,6 +132,12 @@ label {
 .is-sticky {
     @apply fixed bg-white shadow-[0_1px_1px_0_#f0f0f0];
 }
+/* to privent header jump */
+.is-sticky + .end-of-header {
+    @apply pt-[90px];
+}
+
+
 /* Homebox Header */
 .homebox-header.is-sticky {
     @apply fixed bg-white xxl:w-[1330px] xl:w-[1140px] mx-auto left-0 right-0 shadow-[0_1px_1px_0_#f0f0f0];

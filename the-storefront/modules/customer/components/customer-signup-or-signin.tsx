@@ -8,7 +8,8 @@ import { CustomerSingUp } from './customer-signup';
 import { CustomerLoginForm } from './customer-login-form';
 import { CustomerGreeting } from './customer-greeting';
 
-export function CustomerSignUpOrSignIn() {
+
+export function CustomerSignUpOrSignIn({ lang }: {lang: string}) {
   const [singupOrLogin, setSingupOrLogin] = useState<'login' | 'signup'>('signup');
   const singUpRecently = useCustomerStore((state) => state.singUpRecently());
   const customerId = useCustomerStore((state) => state.customerId);
@@ -17,7 +18,10 @@ export function CustomerSignUpOrSignIn() {
   if (singUpRecently)
     return (
       <div className="w-full p-8">
-        <CustomerGreeting customer={customer} linkToProfile="/profile" />
+        <CustomerGreeting 
+            lang={lang}
+            customer={customer} linkToProfile="/profile" 
+        />
       </div>
     );
 

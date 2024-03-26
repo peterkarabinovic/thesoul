@@ -40,6 +40,7 @@ export function HeaderOne({ headerContainer="container", transparent = true, lef
     //   End Here
 
     return (
+        <>
         <header
             ref={header}
             className={clsx("flex items-center lg:px-[20px] h-[90px] w-full top-0 z-30", 
@@ -74,6 +75,8 @@ export function HeaderOne({ headerContainer="container", transparent = true, lef
                 </div>
             </div>
         </header>
+        <div className='end-of-header'></div>
+        </>
     );
 }
 

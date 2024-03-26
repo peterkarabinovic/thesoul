@@ -63,7 +63,11 @@ export function CartDetails({lang, useCart = useCartState }: CartDetailsProps){
                                         </div>
                                     </LocalizedLink>
                                     <div className="flex gap-8 items-center lg:gap-12">                        
-                                        <QuantitySelection qt={line.quantity} className='hidden md:block' onChange={handleQtChange(line.variant_id)}/>
+                                        <QuantitySelection 
+                                            className='hidden md:block'
+                                            qt={line.quantity}  
+                                            onChange={handleQtChange(line.variant_id)}
+                                        />
                                         <Price price={line.cost.totalAmount} className="hidden md:block  w-24" processing={processing.includes(line.variant_id)} />
                                         <div className="mx-auto flex ">
                                             <button 

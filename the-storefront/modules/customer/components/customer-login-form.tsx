@@ -56,12 +56,11 @@ export function CustomerLoginForm() {
       <div className='flex flex-col w-full gap-[5px]'>
         <label className={'my-label'}>{i18n_phone}</label>
         <div className="flex flex-row">
-          <input
-            type="text"
-            className={clsx('my-phone-code', customerConf.phoneCode == "+30" ? "w-14" : "w-16" )}
-            disabled
-            value={customerConf.phoneCode}
-          />
+          <div
+            className={clsx('my-phone-code text-center', customerConf.phoneCode == "+30" ? "w-14" : "w-16" )}
+          >
+            {customerConf.phoneCode}
+          </div>
           <input
             type="tel"
             placeholder="(95) 999-99-99"

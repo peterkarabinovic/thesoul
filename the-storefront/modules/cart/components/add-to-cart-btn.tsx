@@ -4,7 +4,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { Product } from 'data/data-types';
 import { useClientOnly } from 'lib/react-utils';
 import { TCartStore, useCartState } from "../data"
-import { useSelectedVariant } from '../../products/data/state-sel-variant';
+import { useSelectedVariant } from 'modules/product-2/state-sel-variant';
 
 type AddToCartBtnProps = {
   product: Pick<Product, "variants">,

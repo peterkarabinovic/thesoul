@@ -341,7 +341,7 @@ type CommonState = {
 type AddressState = {
     address: string;
     receintAddresses: string[];
-    setAdress: (a: string) => void;
+    setAddress: (a: string) => void;
     updateReceintAddresses: () => void;
 }
 
@@ -358,7 +358,7 @@ function addressState( set: Parameters<StateCreator<AddressState>>[0], get: Para
     return {
         address: "",
         receintAddresses: [],
-        setAdress: (a: string) => set({ address: a }),
+        setAddress: (a: string) => set({ address: a }),
         updateReceintAddresses: () => { 
             const { receintAddresses, address } = get();
             if( receintAddresses.find(a => a.includes(address)) ) 

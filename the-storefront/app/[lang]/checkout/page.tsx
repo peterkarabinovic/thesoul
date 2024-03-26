@@ -2,8 +2,8 @@
 import { Breadcrumb } from 'components/breadcrumb';
 import { HeaderOne } from 'components/header';
 import { Metadata } from 'next';
-import { CartView } from '@cart/components/cart-view';
 import { i18nGeneral } from 'config-and-i18n';
+import { CheckoutView } from 'modules/checkout/checkout-view';
 
 export const metadata: Metadata = {
   title: 'Cart',
@@ -20,8 +20,8 @@ export default async function CartPage( { params }: Props ) {
   return (
     <>
       <HeaderOne lang={params.lang} transparent={false}/>
-      <Breadcrumb lang={params.lang} parents={[{ path: '/', title: i18n.home }]} lastTitle={i18n.cart} />
-      <CartView lang={params.lang}/>
+      <Breadcrumb lang={params.lang} parents={[{ path: '/', title: i18n.home }]} lastTitle={i18n.shipping} />
+      <CheckoutView lang={params.lang}/>
     </>
   );
 }
