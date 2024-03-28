@@ -114,7 +114,13 @@ export async function MainContent({ product, lang }: Props ) {
                                             : ''
                                     }`}
                                 >
-                                    <AddToCartBtn product={product} i18n_add_to_cart={i18n.add_to_cart}/>
+                                    <AddToCartBtn 
+                                            lang={lang}
+                                            product={product} 
+                                            i18n_add_to_cart={i18n.add_to_cart}
+                                            i18n_go_to_cart={i18n.go_to_cart}
+                                        />
+
                                 </div>
                             </div>
                             <div className="other-info">

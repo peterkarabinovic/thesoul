@@ -5,14 +5,17 @@ import { Product } from 'data/data-types';
 import { useClientOnly } from 'lib/react-utils';
 import { TCartStore, useCartState } from "../data"
 import { useSelectedVariant } from 'modules/product-2/state-sel-variant';
+import { LocalizedLink } from 'components';
 
 type AddToCartBtnProps = {
   product: Pick<Product, "variants">,
   useCart?: TCartStore;
   i18n_add_to_cart: string;
+  i18n_go_to_cart: string;
+  lang?: string;
 };
 
-export function AddToCartBtn({ product, i18n_add_to_cart, useCart = useCartState }: AddToCartBtnProps) {
+export function AddToCartBtn({ product, i18n_add_to_cart, useCart = useCartState, i18n_go_to_cart, lang = 'en' }: AddToCartBtnProps) {
   const isClient = useClientOnly();  
   const [selectedVariant] = useSelectedVariant();  
   const { id: variantId } = product.variants[selectedVariant] || { id: '0' };
@@ -39,19 +42,36 @@ export function AddToCartBtn({ product, i18n_add_to_cart, useCart = useCartState
     );
 
   return (
-    <div className="flex max-w- items-center">
-      <button className={`${minPlusClazz} w-[46px]`} onClick={() => updateItem(variantId, qt - 1)}>
-        —
-      </button>
-      <button 
-        className={`${clazz} w-[116px]`} 
-        onClick={() => addItem(variantId, 1)}
-      >
-        { loading ? <ArrowPathIcon className='h-4 w-4 animate-spin text-white' /> : qt }
-      </button>
-      <button className={`${minPlusClazz} w-[46px]`} onClick={() => addItem(variantId, 1)}>
-      +
-      </button>
+    <div className='flex flex-raw gap-8'>
+        <div className="flex items-center">
+            <button 
+                className={`${minPlusClazz} w-[46px]`} 
+                onClick={() => updateItem(variantId, qt - 1)}
+            >
+                —
+            </button>
+            <button 
+                className={`${clazz} w-[116px]`} 
+                onClick={() => addItem(variantId, 1)}
+            >
+                { loading ? <ArrowPathIcon className='h-4 w-4 animate-spin text-white' /> : qt }
+            </button>
+            <button 
+                className={`${minPlusClazz} w-[46px]`} 
+                onClick={() => addItem(variantId, 1)}
+            >
+            +
+            </button>
+        </div>
+        { qt > 0 && (
+            <LocalizedLink 
+                className='my-secondary-link'
+                href='/cart'
+                lang={lang} 
+            >
+                {i18n_go_to_cart}
+            </LocalizedLink>
+        )}
     </div>
   );
 }

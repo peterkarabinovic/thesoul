@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import { useCartStateProto, TCartState } from "@cart/data"
+import { Cart, CartItem } from "lib/medusa";
 
 export function createUseCart(state:Partial<TCartState> = {}) {
 
@@ -14,23 +15,24 @@ export function createUseCart(state:Partial<TCartState> = {}) {
                     return;
                 set(() => ({ processedVariants: [...processedVariants, variant_id] }));
                 setTimeout(() => {
-                    const _cart = cart || {
+                    const _cart: Cart = cart || {
                         id: 'test_cart',
                         totalQuantity: 0,
                         lines: [],
                         cost: {
-                            subtotalAmount: { amount: "1000", currencyCode: "uah" },
-                            totalAmount: { amount: "1000", currencyCode: "uah" },
-                            totalTaxAmount: { amount: "1000", currencyCode: "uah" }
+                            subtotalAmount: { amount: 1000, currencyCode: "uah" },
+                            totalAmount: { amount: 1000, currencyCode: "uah" },
+                            totalTaxAmount: { amount: 1000, currencyCode: "uah" }
                         }
                     };
-                    const lineItem = _cart.lines.find(item => item.variant_id === variant_id) || {
+                    const lineItem: CartItem = _cart.lines.find(item => item.variant_id === variant_id) || {
                         id: `test-${variant_id}`,
                         variant_id,
-                        cost: { totalAmount: { amount: "1000", currencyCode: "uah" } },
+                        cost: { totalAmount: { amount: 1000, currencyCode: "uah" } },
                         quantity: 1,
                         title: 'Test',
-                        unit_price: { amount: "1000", currencyCode: "uah" }
+                        unit_price: { amount: 1000, currencyCode: "uah" },
+                        handle: 'test',
                     };
                     lineItem.quantity += quantity;
                     if (!_cart.lines.includes(lineItem)) {

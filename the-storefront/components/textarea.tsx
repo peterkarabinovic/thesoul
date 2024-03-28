@@ -30,10 +30,9 @@ export function TextArea(props: InputFieldPros) {
       <textarea 
         className="border border-primary focus-visible:outline-0 placeholder:text-[#7b7975] py-[10px] px-[20px] w-full min-h-[120px]"
         disabled={disabled}
+        value={value}
         onChange={(e) => onChange(e.target.value)}
-       >
-        {value}
-      </textarea>
+       />
 
       {error && (
         <div>

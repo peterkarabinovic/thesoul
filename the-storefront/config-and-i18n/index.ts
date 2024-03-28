@@ -1,13 +1,15 @@
-// import 'server-only'
+// 'use server'
+
 import HeroConf from "./en/hero.json"
-import TI18nGeneral from "./en/i18n-general.json"
+import DI18nGeneral from "./en/i18n-general.json"
 import TI18nCart from "./en/i18n-cart.json"
 import TI18nCustomer from "./en/i18n-customer.json"
 import { TShippingConfig } from "./en/i18n-shipping"
 
 import * as T from "./types"
 
-export * from "./react-i18n"
+export type TI18nGeneral = typeof DI18nGeneral;
+
 export type Langs = keyof typeof config;
  
 const config = {
@@ -17,7 +19,8 @@ const config = {
 } 
  
 export const i18nGeneral = async (locale: string) => config[locale as Langs]('i18n-general').then( m => {
-    return m.default as typeof TI18nGeneral;
+    console.log("i18nGeneral call")
+    return m.default as typeof DI18nGeneral;
 });
 
 export const i18nCart = async (locale: string) => config[locale as Langs]('i18n-cart').then( m => {
@@ -27,6 +30,7 @@ export const i18nCart = async (locale: string) => config[locale as Langs]('i18n-
 export const i18nCustomer = async (locale: string) => config[locale as Langs]('i18n-customer').then( m => {
     return m.default as typeof TI18nCustomer;
 });
+
 
 export const i18nShipping = async (locale: string) => {
     const m = await import(`./${locale}/i18n-shipping`);

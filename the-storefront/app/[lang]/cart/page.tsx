@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 
 type Props = {
     params: { lang: string };
-    lang: string;
 }
 
 export default async function CartPage( { params }: Props ) {

@@ -13,6 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Main: Story = {
     args: {
+        title: "Autocomplete",
         items: [
             "kino",
             "nimci",

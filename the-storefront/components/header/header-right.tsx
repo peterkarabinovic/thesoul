@@ -4,8 +4,9 @@ import { UserIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import { OffcanvasComps } from './offcanvas-comps';
 
 import { CartBtn } from '@cart/components';
-import { LocalizedLink, i18nGeneral } from 'config-and-i18n';
-import { I18nProvider } from 'config-and-i18n';
+import { i18nGeneral } from 'config-and-i18n';
+import { LocalizedLink } from 'components';
+import { I18nProvider } from "config-and-i18n/react";
 
 
 type HeaderRightProps = {

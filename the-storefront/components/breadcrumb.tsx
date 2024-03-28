@@ -1,4 +1,4 @@
-import { LocalizedLink } from 'config-and-i18n';
+import { LocalizedLink } from "components";
 
 
 type BreadcrumbsProps = {

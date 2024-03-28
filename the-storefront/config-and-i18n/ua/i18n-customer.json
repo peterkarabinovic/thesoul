@@ -5,5 +5,19 @@
     "greeting": "Вітаємо {firstName} {lastName}! Ви можете переглянути історію покупок ",
     "in_you_profile": "в своєму профілі",
     "returning_customer": "Постійний клієнт?",
-    "new_client": "Новий клієнт?"
+    "new_client": "Новий клієнт?",
+    "first_name": "Ім'я",
+    "last_name": "Прізвище",
+    "phone": "Телефон",
+    "otp_sent": "Код підтвердження відправлено на номер {phone}.",
+    "send_otp": "Отримайти код входу на телефон",
+    "resend_otp": "Відправити код повторно",
+    "length_min_1": "Поле повинно містити хоча б один символ",
+    "invalid_phone": "Невірний номер телефону. // Повинен починатися з {phoneCode}",
+    "invalid_username_telegram": "Невірне ім’я користувача в Telegram. Повинно починатися з @ ",
+    "invalid_otp": "Невірний код підтвердження.",
+    "fill_input_with_received_otp": "Введіть код підтвердження:",
+    "user_with_phone_already_exists": "Користувач з таким номером телефону вже існує.",
+    "username_telegram":  "Ім’я користувача в Telegram"
+
 }

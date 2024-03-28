@@ -1,10 +1,11 @@
 import { ShoppingCartIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { LocalizedLink, i18nGeneral } from 'config-and-i18n';
+import { i18nGeneral } from 'config-and-i18n';
+import { LocalizedLink } from 'components';
 
 
 export async function CartEmpty({lang}: {lang: string}){
 
-    const i18n = await i18nGeneral(lang);
+    const i18n = await i18nGeneral(lang) //useI18n(lang, i18nGeneral);
     return (
         <div className="empty-cart flex flex-col items-center">
             <span className="icon">

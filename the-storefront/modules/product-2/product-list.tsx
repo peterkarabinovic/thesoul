@@ -10,7 +10,8 @@ import { Product } from "data/data-types"
 
 import { VariantSelector } from "./product-details/variant-selector"
 import { AddToCartBtn } from "@cart/components";
-import { LocalizedLink, i18nGeneral } from "config-and-i18n";
+import {  i18nGeneral } from "config-and-i18n";
+import { LocalizedLink } from 'components';
 
 
 type FeaturedProductProps = {
@@ -96,11 +97,16 @@ export async function FeaturedProduct({ getProductListQuery, lang }: FeaturedPro
                                         )}
                                     </p>
 
-                                    <div className="flex pt-7 place-content-center md:place-content-start">
+                                    <div className="flex pt-7 place-content-start">
                                         <VariantSelector product={product} />
                                     </div>
-                                    <div className="flex pt-4 place-content-center md:place-content-start">
-                                        <AddToCartBtn product={product} i18n_add_to_cart={i18n.add_to_cart}/>
+                                    <div className="flex pt-4 place-content-start">
+                                        <AddToCartBtn 
+                                            lang={lang}
+                                            product={product} 
+                                            i18n_add_to_cart={i18n.add_to_cart}
+                                            i18n_go_to_cart={i18n.go_to_cart}
+                                        />
                                     </div>
 
                                     {/* <div className="mt-4">

@@ -225,11 +225,11 @@ export const reshapeProduct = (product: MedusaProduct): Product => {
   const currencyCode = variants[0]?.price.currencyCode || "UAH";
   const priceRange = {
     maxVariantPrice: {
-        amount: String(Math.max(...variants.map( v => +v.price.amount ))),
+        amount: (Math.max(...variants.map( v => +v.price.amount ))),
         currencyCode
     },
     minVariantPrice: {
-        amount: String(Math.min(...variants.map( v => +v.price.amount ))),
+        amount: (Math.min(...variants.map( v => +v.price.amount ))),
         currencyCode
     }
   }
@@ -469,8 +469,8 @@ export async function getProducts({
   sortKey === 'PRICE' &&
     products.sort(
       (a, b) =>
-        parseFloat(a.priceRange.maxVariantPrice.amount) -
-        parseFloat(b.priceRange.maxVariantPrice.amount)
+        a.priceRange.maxVariantPrice.amount -
+        b.priceRange.maxVariantPrice.amount
     );
 
   sortKey === 'CREATED_AT' &&

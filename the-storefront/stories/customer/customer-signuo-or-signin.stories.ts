@@ -14,6 +14,9 @@ export const Mobile: Story = {
   parameters: {
     viewport: {
       defaultViewport: 'mobile2'
-    },
+    }
+  }
+  ,args: {
+    lang: "en",
   }
 };

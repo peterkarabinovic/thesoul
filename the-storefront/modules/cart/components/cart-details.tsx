@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Money } from "data/types";
 import { formatPrice } from "lib/formaters"
 import { TCartStore, useCartState } from "../data"
-import { LocalizedLink } from 'config-and-i18n';
+import { LocalizedLink } from "components";
 
 type CartDetailsProps = {
     useCart?: TCartStore; 

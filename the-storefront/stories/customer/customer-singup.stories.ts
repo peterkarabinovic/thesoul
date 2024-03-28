@@ -16,5 +16,8 @@ export const Mobile: Story = {
       defaultViewport: 'mobile2'
     },
     nextjs: { appDirectory: true }
-  }
+  },
+    args: {
+        lang: 'en',
+    }
 };

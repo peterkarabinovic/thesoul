@@ -1,6 +1,7 @@
 
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Langs, LocalizedLink, getHeaderConfig } from 'config-and-i18n';
+import { Langs,getHeaderConfig } from 'config-and-i18n';
+import { LocalizedLink } from 'components';
 // import OffcanvasMenu from './offcanvas-menu';
 
 

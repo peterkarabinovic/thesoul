@@ -5,5 +5,13 @@
     "greeting": "Congratulations {firstName} {lastName}! You can view your purchase history",
     "in_you_profile": "in your profile",
     "returning_customer": "Returning customer?",
-    "new_client": "New client?"
+    "new_client": "New client?",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "phone": "Phone",
+    "otp_sent": "The confirmation code has been sent to {phone}.",
+    "send_otp": "Get the login code on your phone",
+    "resend_otp": "Resend the login code",
+    "username_telegram":  "Telegram username"
+
 }

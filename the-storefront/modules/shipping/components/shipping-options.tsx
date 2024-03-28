@@ -1,7 +1,8 @@
 "use client"
 import { useEffect } from "react" 
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import { I18nProvider, i18nShipping } from "config-and-i18n";
+import { i18nShipping } from "config-and-i18n";
+import { useI18n } from "config-and-i18n/react";
 import { TShippingStore } from "../data/state"
 
 type Props = {
@@ -16,6 +17,8 @@ export function ShippingOptions({ lang, shippingStore, cartId }: Props ){
     const options = shippingStore.useShipping( state => state.options );
     const selectedOption = shippingStore.useShipping( state => state.selectedOption );
     const selectOption = shippingStore.useShipping( state => state.selectOption );
+    const i18n = useI18n(lang, i18nShipping)
+    
 
     useEffect(() =>  {
             if(cartId)
@@ -31,11 +34,7 @@ export function ShippingOptions({ lang, shippingStore, cartId }: Props ){
         <div className="w-full flex flex-col gap-4">
             <div className="my-form-section-title">
                 <CheckCircleIcon className='icon' />
-                <I18nProvider lang={lang} func={i18nShipping}>
-                    {(i18n) => (
-                        <h2>{i18n.shipping_options}</h2>
-                    )}
-                </I18nProvider>
+                    <h2>{i18n.shipping_options}</h2>
             </div>
             <div className="flex flex-col gap-2 px-4 sm:gap-1">
                 { options.map( (option) => (

@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import { useCombobox } from 'downshift';
-import { i18n_loading } from 'i18n';
 
 type AutocompleteProps = {
   title: string;
@@ -63,7 +62,7 @@ export function Autocomplete({
                 >
                     {processing && (
                         <li className="mt-2 flex justify-center     text-sm text-neutral-400">
-                            <span className="loading loading-ring loading-sm" /> {i18n_loading}
+                            <span className="loading loading-ring loading-sm" /> loading
                         </li>
                     )}
                     {isOpen && items.map((item, index) => (

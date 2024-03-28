@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { AsyncResult, Result, pipe } from 'commons';
-import { i18n_unable_access_store, i18n_no_useraccount_for_phone } from 'i18n'
+import { TI18nGeneral } from 'config-and-i18n'; 
 import * as Requsets from "./requests"
 import * as T from "./type"
 import { readThesoulCookie } from 'lib/thesoul-cookie';
@@ -11,7 +11,7 @@ export type TCustomerState = {
     customerId: string | null
     customer: T.TCustomer,
     fieldErrors: T.TCustomerErrors,
-    globalError?: string,
+    globalError?: (i18n: any) => string,
     userWithPhoneAlreadyExists?: boolean, 
     processing: boolean,
     otp?: {
@@ -54,7 +54,7 @@ export const useCustomerStore = create(
             pipe(
                 singedUp ? Requsets.update(cus) : Requsets.singUp(cus),
                 AsyncResult.tapError((error) => console.error('Customer sendToServer', error)),
-                AsyncResult.tapError(() => set(() => ({ globalError: i18n_unable_access_store }))),
+                AsyncResult.tapError(() => set(() => ({ globalError: (i18n:TI18nGeneral) => i18n.unable_access_store }))),
                 AsyncResult.tap( res => {
                     if("error" in res) {
                         switch(res.error.name) {
@@ -67,7 +67,7 @@ export const useCustomerStore = create(
                                 set(() => ({ userWithPhoneAlreadyExists: true }));
                                 break;
                             case "unknownError":
-                                set(() => ({ globalError: i18n_unable_access_store }));
+                                set(() => ({ globalError: (i18n:TI18nGeneral) => i18n.unable_access_store }));
                                 break;
                         }
                     }
@@ -91,23 +91,23 @@ export const useCustomerStore = create(
                 Requsets.logIn(phone),
                 AsyncResult.tapError((error) => {
                     console.error('Customer logIn', error);
-                    set({ globalError: i18n_unable_access_store })
+                    set({ globalError: (i18n:TI18nGeneral) => i18n.unable_access_store })
                 }),
                 AsyncResult.tap( res => {
                     if("error" in res) {
                         switch(res.error.name) {
                             case "invalidInput": {
                                 const errors = Object.values(res.error.fieldErrors).join('\n');
-                                set({ globalError: errors});
+                                set({ globalError: () => errors});
                                 break;
                             }
                             case "userWithPhoneNotExists": {
                                 const _phone = res.error.phone;
-                                set({ globalError: i18n_no_useraccount_for_phone.replace('{phone}', _phone)});
+                                set({ globalError: (i18n: TI18nGeneral) =>  i18n.no_useraccount_for_phone.replace('{phone}', _phone)});
                                 break;
                             }
                             case "unknownError":
-                                set({ globalError: i18n_unable_access_store });
+                                set({ globalError: (i18n:TI18nGeneral) => i18n.unable_access_store });
                                 break;
                         }
                     } else { 
@@ -130,16 +130,16 @@ export const useCustomerStore = create(
                         switch(res.error.name) {
                             case "invalidInput": {
                                 const errors = Object.values(res.error.fieldErrors).join('\n');
-                                set({ globalError: errors});
+                                set({ globalError: () => errors});
                                 break;
                             }
                             case "userWithPhoneNotExists": {
                                 const _phone = res.error.phone;
-                                set({ globalError: i18n_no_useraccount_for_phone.replace('{phone}', _phone)});
+                                set({ globalError: (i18n: TI18nGeneral) =>  i18n.no_useraccount_for_phone.replace('{phone}', _phone)});
                                 break;
                             }
                             case "unknownError":
-                                set({ globalError: i18n_unable_access_store });
+                                set({ globalError: (i18n:TI18nGeneral) => i18n.unable_access_store });
                                 break;   
                         }
                         return Result.of(undefined);
@@ -157,7 +157,7 @@ export const useCustomerStore = create(
                 }),
                 AsyncResult.tapError((error) => {
                     console.error('Customer logIn', error);
-                    set({ globalError: i18n_unable_access_store })
+                    set({ globalError: (i18n:TI18nGeneral) => i18n.unable_access_store })
                 }),
                 AsyncResult.then(() => set({ processing: false} ) )
             )

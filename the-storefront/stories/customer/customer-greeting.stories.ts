@@ -18,6 +18,7 @@ export const Mobile: Story = {
     nextjs: { appDirectory: true }
   },
   args: {
+    lang: "en",
     customer: {
       firstName: 'John',
       lastName: 'Doe',

@@ -13,6 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Main: Story = {
     args: {
+        lang: "en",
         useCart: createUseCart({ cart: cartWithTwoItems }),
     }
 };
@@ -24,6 +25,7 @@ export const Mobile: Story = {
         },
     },
     args: {
+        lang: "en",
         useCart: createUseCart({ cart: cartWithTwoItems }),
     }
 };

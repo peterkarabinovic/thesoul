@@ -74,7 +74,7 @@ export function createUseShipping({
                             }),
                             AsyncResult.tapError(err => { console.error('loadOptions', err) }),
                             AsyncResult.then(() => set({ processing: false })),
-                            AsyncResult.then(() => this.setUseAnotherContact( get().useAnotherContact))
+                            // AsyncResult.then(() => this.setUseAnotherContact( get().useAnotherContact))
                         );
                     },
                 
@@ -191,8 +191,8 @@ export type TCourierShippingStore = ReturnType<typeof createUseCourierShipping>;
 export function createUseCourierShipping( state: Partial<TCourierShippingState> = {} ) {
 
     return create(persist<TCourierShippingState>(
-            (set, get, _) => ({
-                ...addressState(set, get, _),
+            (set, get) => ({
+                ...addressState(set, get),
                 ...additionalInfoState(set),
                 desirableTime: "",
                 setDesirableTime: (t: string) => set({ desirableTime: t }),
@@ -267,8 +267,8 @@ type TNpWarehouseStore = ReturnType<typeof createNpWarehouseState>;
 export function createNpWarehouseState(state: Partial<NpWarehouse> = {}){
 
     return create(persist<NpWarehouse>(
-        (set, get, _) => ({
-            ...npCityState(set, get, _),
+        (set, get) => ({
+            ...npCityState(set, get),
             ...additionalInfoState(set),
             warehouse: undefined,
             warehouseQuery: "",
@@ -315,9 +315,9 @@ type TNpDoorStore = ReturnType<typeof createUseNpDoorState>;
 
 export function createUseNpDoorState(state: Partial<NpDoor> = {}) {
     return create(persist<NpDoor>(
-        (set, get, _) => ({
-            ...npCityState(set, get, _),
-            ...addressState(set, get, _),
+        (set, get) => ({
+            ...npCityState(set, get),
+            ...addressState(set, get),
             ...additionalInfoState(set),
             ...state
         }),{

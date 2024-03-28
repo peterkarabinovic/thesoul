@@ -1,5 +1,6 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { LocalizedLink, i18nGeneral } from 'config-and-i18n';
+import { i18nGeneral } from 'config-and-i18n';
+import { LocalizedLink } from 'components';
 
 
 export async function CheckoutButton( {lang}: { lang: string} ) {

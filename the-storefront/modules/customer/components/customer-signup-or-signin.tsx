@@ -54,7 +54,7 @@ export function CustomerSignUpOrSignIn({ lang }: {lang: string}) {
 
 
         <div className='py-0'>
-            {singupOrLogin === 'signup' ? <CustomerSingUp /> : <CustomerLoginForm />}
+            {singupOrLogin === 'signup' ? <CustomerSingUp lang={lang} /> : <CustomerLoginForm lang={lang}/>}
         </div>
     </div>
   );

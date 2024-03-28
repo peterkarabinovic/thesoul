@@ -8,7 +8,7 @@ import { HeaderRight } from './header-right';
 import clsx from 'clsx';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import HeaderConf from 'config-and-i18n/en/header.json';
-import { LocalizedLink } from 'config-and-i18n';
+import { LocalizedLink } from "components";
 
 
 type HeaderOneProps = {

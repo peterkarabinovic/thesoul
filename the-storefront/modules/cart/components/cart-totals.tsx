@@ -1,7 +1,8 @@
 import { formatPrice } from 'lib/formaters';
 import { cartConf } from "config-data/cart"
 import { TCartStore, useCartState } from "../data"
-import { I18nProvider, i18nCart } from 'config-and-i18n/';
+import { i18nCart } from 'config-and-i18n/';
+import { useI18n } from "config-and-i18n/react"
 
 type CartTotalsProps = {
     useCart?: TCartStore;
@@ -11,6 +12,7 @@ type CartTotalsProps = {
 export function CartTotals({lang,  useCart = useCartState }: CartTotalsProps) {
   const cart = useCart(state => state.cart);
   const processing = useCart( state => state.processedVariants.length > 0 );  
+  const i18n = useI18n(lang, i18nCart);
 
   if (!cart || cart.lines.length === 0) return null;
 
@@ -21,18 +23,13 @@ export function CartTotals({lang,  useCart = useCartState }: CartTotalsProps) {
 
 //   const taxExists = parseInt(totalTaxAmount.amount) > 0;
   return (
-
-    <I18nProvider lang={lang} func={i18nCart}>
-    {
-        (i18n) => (
-
         <div className="cart-subtotal max-w-[400px] md:ml-auto m-auto">
             <div className="border border-[#bfbfbf] bg-[#f9f9f9] px-7">
                 <div className="content py-7">
                     <h2 className="text-lg font-medium text-base-content sm:text-lg">{i18n.totlal}</h2>
                     <div className="pt-4 text-neutral-500 text-sm">
                         <div className="flex items-center justify-between">
-                        <span>{i18n.price_for_quantity.replace('{quantity}', String(totalQuantity))}</span>
+                        <span>{i18n?.price_for_quantity?.replace('{quantity}', String(totalQuantity))}</span>
                         { processing 
                             ? <span className="loading loading-ring loading-sm" />
                             : <span className="text-right">{formatPrice(subtotalAmount)}</span>
@@ -59,8 +56,5 @@ export function CartTotals({lang,  useCart = useCartState }: CartTotalsProps) {
                 </div>
             </div>
         </div>
-        )
-    }
-    </I18nProvider>
-    );
+    )
 }

@@ -17,7 +17,6 @@ export const Mobile: Story = {
     },
   },
   args: {
-    
-    otpSentAt: Date.now(),
+    lang: 'en',
   }
 };

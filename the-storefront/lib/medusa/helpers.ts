@@ -25,7 +25,7 @@ export const computeAmount = ({ amount, region, includeTaxes = true }: ComputeAm
  */
 export const calculateVariantAmount = (variant: MedusaProductVariant): Money => {
   const currencyCode = variant.prices?.[0]?.currency_code ?? 'USD';
-  const amount = convertToDecimal(variant.prices?.[0]?.amount || 0, currencyCode).toString();
+  const amount = convertToDecimal(variant.prices?.[0]?.amount || 0, currencyCode);
   return {
     amount,
     currencyCode

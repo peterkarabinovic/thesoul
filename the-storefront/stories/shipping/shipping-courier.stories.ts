@@ -22,7 +22,7 @@ export const Mobile: Story = {
   },
   args: {
     lang: "en",
-    courierShippingStore: createUseCourierShipping({
+    useCourierShipping: createUseCourierShipping({
         receintAddresses: [
             "Address 1",
             "Address 2",

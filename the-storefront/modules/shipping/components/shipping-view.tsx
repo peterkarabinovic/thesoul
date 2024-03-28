@@ -25,7 +25,7 @@ export function ShippingView({ cartId, shippingStore = createUseShipping(), lang
     //     "[&>ul>li]:mb-[5px] [&>ul>li]:last:mb-0",
     //     "[&>p]:text-base [&>p]:leading-[24px]"
     // ].join(' ');
- 
+ console.log("ShippingView: RENDER")
     return (
         <div className="flex flex-col w-full gap-8">
             <ShippingOptions lang={lang} cartId={cartId} shippingStore={shippingStore}/>

@@ -20,7 +20,7 @@ export function CheckoutView({
     useCart = useCartState, 
     lang = "ua",
 } : Props ){
-
+console.log("CheckoutView: RNEDER")
     const cartEmpty = useCart( s => (s?.cart?.lines.length ?? 0) == 0  )
     const cartId = useCart( s => s.cart?.id );
     const logedIn = useCustomerStore( s => !!s.customerId );

@@ -1,5 +1,6 @@
 import * as T from "../data/type"
-import { LocalizedLink, i18nCustomer } from "config-and-i18n"
+import { i18nCustomer } from "config-and-i18n"
+import { LocalizedLink } from 'components';
 
 type CustomerGreetingProps = {
     customer: T.TCustomer,
