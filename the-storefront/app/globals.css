@@ -96,7 +96,7 @@ label {
 }
 
 .my-input {
-    @apply border border-primary focus-visible:outline-0 placeholder:text-gray-400 py-[12px] px-[16px] w-full h-[46px];
+    @apply border border-primary focus-visible:outline-0 placeholder:text-gray-400 py-[12px] px-[16px] w-full h-[46px] disabled:bg-gray-200 disabled:border-none disabled:text-gray-600;
 }
 
 .my-primary-button {

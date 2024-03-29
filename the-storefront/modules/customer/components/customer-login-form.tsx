@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import OtpInput from 'react-otp-input';
-import { usePhoneInput } from 'react-international-phone';
-import clsx from 'clsx';
-import { customerConf } from "config-data/customer"
+import customerConf from "config-and-i18n/common.json"
 import { i18nCustomer, i18nGeneral} from "config-and-i18n"
 import { useI18n } from 'config-and-i18n/react';
 import { useCustomerStore } from '../data/state';
+import { PhoneInput } from 'components/phone-input';
 
 
 type Props = {
@@ -17,6 +16,7 @@ type Props = {
 export function CustomerLoginForm( {lang}: Props ) {
 
   const [otpCode, setOtpCode] = useState<string | undefined>(undefined); //
+  const [phone, setPhone] = useState<string>('');
   const globalError = useCustomerStore((state) => state.globalError);
   const processing = useCustomerStore((state) => state.processing);
   const otp = useCustomerStore((state) => state.otp);
@@ -26,13 +26,6 @@ export function CustomerLoginForm( {lang}: Props ) {
 
   const i18n_customer = useI18n(lang, i18nCustomer);
   const i18n_general = useI18n(lang, i18nGeneral);
-
-  const { inputValue, phone, handlePhoneValueChange } = usePhoneInput({
-    defaultCountry: 'ua',
-    disableCountryGuess: true,
-    disableDialCodeAndPrefix: true,
-    forceDialCode: true
-  });
 
   const isPhoneValid = phone.length > 12;
   const countdownInProgress = secs > 0 || mins > 0;
@@ -53,28 +46,19 @@ export function CustomerLoginForm( {lang}: Props ) {
     setOtpCode(undefined);
   }
 
+
+
   return (
     <div className="m-auto flex w-full flex-col gap-4">
       {/* <h1 className="text-center text-xl font-bold">{i18n_login}</h1> */}
-      {globalError && <div className="text-xs text-error">{globalError(i18n_general)}</div>}
-      <div className='flex flex-col w-full gap-[5px]'>
-        <label className={'my-label'}>{i18n_customer.phone}</label>
-        <div className="flex flex-row">
-          <div
-            className={clsx('my-phone-code text-center', customerConf.phoneCode == "+30" ? "w-14" : "w-16" )}
-          >
-            {customerConf.phoneCode}
-          </div>
-          <input
-            type="tel"
-            placeholder="(95) 999-99-99"
-            className={'my-input'}
-            value={inputValue}
-            onChange={handlePhoneValueChange}
-            disabled={processing}
-          />
-        </div>
-      </div>
+      {globalError && <div className="text-xs text-error">{globalError({...i18n_general, ...i18n_customer})}</div>}
+
+      <PhoneInput
+            phoneCode={customerConf.phoneCode}
+            onChange={p => setPhone(p)}
+            processing={processing}
+            i18nPhone={i18n_customer.phone}
+      />
 
       <button
         className="my-primary-button float-right"

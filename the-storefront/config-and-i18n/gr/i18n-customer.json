@@ -12,6 +12,7 @@
     "otp_sent": "The confirmation code has been sent to {phone}.",
     "send_otp": "Get the login code on your phone",
     "resend_otp": "Resend the login code",
-    "username_telegram":  "Telegram username"
+    "username_telegram":  "Telegram username",
+    "no_useraccount_for_phone": "No user account for {prone} phone number"
 
 }

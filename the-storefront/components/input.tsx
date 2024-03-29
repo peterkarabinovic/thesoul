@@ -18,22 +18,18 @@ export function InputField(props: InputFieldPros) {
   if(!If)
     return (null);
 
-  const classes = {
-    input: 'my-input ',
-    label: 'my-label'
-  };
 
   const type = typeof value === 'number' ? 'number' : 'text';
   return (
     <div className='flex flex-col w-full gap-[5px]'>
       <div className="flex items-center justify-between">
-        <label className={classes.label}>{title}</label>
+        <label className="my-label">{title}</label>
         {subtitle && <label className={'text-xs text-neutral-500'}>{subtitle}</label>}
       </div>
 
       <input
         type={type}
-        className={clsx(classes.input, { 'border-error': error })}
+        className={clsx("my-input", { 'border-error': error })}
         placeholder={placeholder || ''}
         value={value}
         onChange={(e) => onChange(e.target.value.trim())}

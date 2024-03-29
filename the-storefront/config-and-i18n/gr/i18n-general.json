@@ -13,6 +13,5 @@
     "goto_payment" : "Payment",
     "more" : "more",
     "optional": "optional",
-    "unable_access_store": "Unable to access store, please try again later",
-    "no_useraccount_for_phone": "No user account for {prone} phone number"
+    "unable_access_store": "Unable to access store, please try again later"
 }

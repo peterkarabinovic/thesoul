@@ -18,6 +18,6 @@
     "invalid_otp": "Невірний код підтвердження.",
     "fill_input_with_received_otp": "Введіть код підтвердження:",
     "user_with_phone_already_exists": "Користувач з таким номером телефону вже існує.",
-    "username_telegram":  "Ім’я користувача в Telegram"
-
+    "username_telegram":  "Ім’я користувача в Telegram",
+    "no_useraccount_for_phone": "Користувача з номером телефону {phone} не існує."
 }

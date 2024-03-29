@@ -6,15 +6,20 @@ import { City, Warehouse } from "nv-request-types"
 import { debounce, omitProps } from 'lib/utils';
 import * as R from "./requests"
 import { useCustomerStore } from '@customer/data';
+import { syncProperty } from 'lib/zustand-utils';
 
 
 type TShipping = CommonState & {
     options: R.ShippingOption[];
     selectedOption?: R.ShippingOption
-    firstName: string;
-    lastName: string;
-    phone: string;
+    customerFirstName: string;
+    customerLastName: string;
+    customerPhone: string;
+    anotherFirstName: string;
+    anotherLastName: string;
+    anotherPhone: string;
     useAnotherContact: boolean;
+    setAnotherContact: ( firstName: string, secondName: string, phone: string) => void;
     setUseAnotherContact: (b: boolean) => void;
     loadOptions: (cartId: string) => void;
     selectOption: (option: R.ShippingOption) => void;
@@ -47,21 +52,16 @@ export function createUseShipping({
                     globalError: null,
                     options: [],
                     selectedOption: undefined,
-                    firstName: "",
-                    lastName: "",
-                    phone: "",
+                    customerFirstName: syncProperty(useCustomerStore, s => s.customer.firstName, v => set({ customerFirstName: v })),
+                    customerLastName: syncProperty(useCustomerStore, s => s.customer.lastName, v => set({ customerLastName: v })),
+                    customerPhone: syncProperty(useCustomerStore, s => s.customer.phone, v => set({ customerPhone: v })),
+                    anotherFirstName: "",
+                    anotherLastName: "",
+                    anotherPhone: "",
                     useAnotherContact: false,
                 
-                    setUseAnotherContact: function(useAnotherContact) {
-                        set({ useAnotherContact });
-                        if(!useAnotherContact) {
-                            const { customer } = useCustomerStore.getState();
-                            set({ firstName: customer.firstName, lastName: customer.lastName, phone: customer.phone });    
-                        }
-                        else {
-                            set({ firstName: "", lastName: "", phone: "" });
-                        }
-                    },
+                    setUseAnotherContact: f => set({ useAnotherContact: f }),
+                    setAnotherContact: (anotherFirstName, anotherLastName, anotherPhone) => set({ anotherFirstName, anotherLastName, anotherPhone }),
                                     
                     loadOptions: function (cartId)  {
                         set({ processing: true, globalError: null });
@@ -74,7 +74,6 @@ export function createUseShipping({
                             }),
                             AsyncResult.tapError(err => { console.error('loadOptions', err) }),
                             AsyncResult.then(() => set({ processing: false })),
-                            // AsyncResult.then(() => this.setUseAnotherContact( get().useAnotherContact))
                         );
                     },
                 
@@ -83,8 +82,10 @@ export function createUseShipping({
                     } ,
                 
                     readyToSaveShipping: () => {
-                        const { selectedOption, firstName, lastName, phone } = get();
-                        if(firstName.trim().length == 0 || lastName.trim().length == 0 || phone.trim().length == 0)
+                        const { selectedOption, useAnotherContact, anotherFirstName, anotherLastName, anotherPhone } = get();
+                        if(useAnotherContact &&
+                            (anotherFirstName.trim().length == 0 || anotherLastName.trim().length == 0 || anotherPhone.trim().length == 0)
+                        )
                             return false;
                         switch(selectedOption?.dataId) {
                             case "shipping-to-warehouse": {
@@ -104,11 +105,15 @@ export function createUseShipping({
                     },
                 
                     saveShipping: (cartId) => {
-                        const { selectedOption, phone, firstName, lastName } = get();
+                        const { selectedOption } = get();
                         if (!selectedOption)
                             return Promise.reject("No selected option");
                 
-                        const address_part = { phone, first_name: firstName, last_name: lastName }
+                        const address_part = { 
+                            phone: get().useAnotherContact ? get().anotherPhone : get().customerPhone, 
+                            first_name: get().useAnotherContact ? get().anotherFirstName : get().customerFirstName, 
+                            last_name: get().useAnotherContact ? get().anotherLastName : get().customerLastName 
+                        }
                         const d = (() => {
                             switch(selectedOption.dataId){
                                 case "shipping-to-warehouse": {
@@ -169,7 +174,7 @@ export function createUseShipping({
                     ...state,
                 })),{
                     name: 'shipping-state',
-                    partialize: s => omitProps(s, "options"),
+                    partialize: s => omitProps(s, "options", "anotherFirstName", "anotherLastName", "anotherPhone"),
                     storage: createJSONStorage(() => localStorage),
                 }
             ))

@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { usePhoneInput } from 'react-international-phone';
 import clsx from 'clsx';
-import { customerConf } from "config-data/customer"
+import customerConf from "config-and-i18n/common.json"
 import { useCustomerStore, readyToSend } from '../data/state';
 import { InputField } from 'components/input';
 
 import { i18nCustomer, i18nGeneral} from "config-and-i18n"
 import { useI18n } from 'config-and-i18n/react';
+import { PhoneInput } from 'components/phone-input';
 
 type Props = {
     lang: string
@@ -25,18 +25,9 @@ export function CustomerSingUp( {lang}: Props  ) {
   const [firstName, setFirstName] = useState(customer.firstName);
   const [lastName, setLastName] = useState(customer.lastName);
   const [telegram, setTelegram] = useState(customer.telegram);
+  const [phone, setPhone] = useState(customer.phone);
 
-  const i18n_customer = useI18n(lang, i18nCustomer);
-  const i18n_general = useI18n(lang, i18nGeneral);
-
-
-  const { inputValue, phone, handlePhoneValueChange } = usePhoneInput({
-    defaultCountry: 'ua',
-    disableCountryGuess: true,
-    disableDialCodeAndPrefix: true,
-    forceDialCode: true,
-    value: customer.phone
-  });
+  const i18n = {...useI18n(lang, i18nCustomer), ...useI18n(lang, i18nGeneral)};
 
   const isReadytoSend = readyToSend(customer, {
     firstName,
@@ -47,17 +38,17 @@ export function CustomerSingUp( {lang}: Props  ) {
 
   return (
     <div className="m-auto flex w-full flex-col gap-4">
-      {globalError && <div className="text-xs text-blue-500">{globalError(i18n_general)}</div>}
+      {globalError && <div className="text-xs text-blue-500">{globalError(i18n)}</div>}
       { userWithPhoneAlreadyExists && <div className="text-xs text-blue-500">
-            {i18n_customer.user_with_phone_already_exists}
-            <a href="/login" className="text-blue-500 underline">{i18n_customer.login}</a>
+            {i18n.user_with_phone_already_exists}
+            <a href="/login" className="text-blue-500 underline">{i18n.login}</a>
         </div>}
       <div className='flex flex-col md:flex-row gap-4'>
         <InputField
           type="text"
-          title={i18n_customer.first_name}
+          title={i18n.first_name}
           value={firstName}
-          placeholder={i18n_customer.first_name}
+          placeholder={i18n.first_name}
           onChange={(s) => setFirstName(s)}
           disabled={processing}
           error={errors.firstName}
@@ -65,42 +56,31 @@ export function CustomerSingUp( {lang}: Props  ) {
 
         <InputField
           type="text"
-          title={i18n_customer.last_name}
+          title={i18n.last_name}
           value={lastName}
-          placeholder={i18n_customer.last_name}
+          placeholder={i18n.last_name}
           onChange={(s) => setLastName(s)}
           disabled={processing}
           error={errors.lastName}
         />
         </div>
-        <div>
-            <div className='flex flex-col w-full gap-[5px] mb-4'>
-                <label className='my-label'>{i18n_customer.phone}</label>
-                <div className="flex flex-row w-full">
-                    <div
-                        className={clsx('my-phone-code  text-center', customerConf.phoneCode == "+30" ? "w-14" : "w-16" )}
-                    >
-                        {customerConf.phoneCode}
-                    </div>
-                    <input
-                        type="tel"
-                        placeholder="(95) 999-99-99"
-                        className={'my-input'}
-                        value={inputValue}
-                        onChange={handlePhoneValueChange}
-                        disabled={processing}
-                    />
-                    </div>
-            </div>
-      </div>
+    
+        <PhoneInput
+            phoneCode={customerConf.phoneCode}
+            onChange={p => setPhone(p)}
+            processing={processing}
+            i18nPhone={i18n.phone}
+            phone={customer.phone}
+        />
+
 
       <InputField
         If={customerConf.needTelegram}
         type="text"
         title="Telegram"
-        subtitle={i18n_general.optional}
+        subtitle={i18n.optional}
         value={telegram}
-        placeholder={i18n_customer.username_telegram}
+        placeholder={i18n.username_telegram}
         onChange={(s) => setTelegram(s)}
         disabled={processing}
         error={errors.telegram}
@@ -112,7 +92,7 @@ export function CustomerSingUp( {lang}: Props  ) {
           onClick={() => singUp({ firstName, lastName, phone, telegram })}
           disabled={!isReadytoSend}
         >
-          <span className={clsx({ invisible: processing })}>{i18n_customer.save_customer}</span>
+          <span className={clsx({ invisible: processing })}>{i18n.save_customer}</span>
           <span
             className={clsx('loading loading-ring loading-sm absolute', { invisible: !processing })}
           />

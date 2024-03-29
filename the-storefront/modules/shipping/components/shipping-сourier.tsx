@@ -6,15 +6,15 @@ import { useI18n } from "config-and-i18n/react"
 import { Autocomplete } from "components/autocomplete"
 import { OptionsInput } from "components/options-input"
 import { TextArea } from "components/textarea"
-import { useState } from "react"
 
 type Props = {
+    If: boolean
     useCourierShipping: TCourierShippingStore
     lang: string
 }
 
-export function ShippingCourier( { lang, useCourierShipping }: Props ){
-const [a, setA] = useState("")
+export function ShippingCourier( { If, lang, useCourierShipping }: Props ){
+
     const address = useCourierShipping(s => s.address);
     const setAddress = useCourierShipping(s => s.setAddress);
     const receintAddresses = useCourierShipping(s => s.receintAddresses);
@@ -25,6 +25,9 @@ const [a, setA] = useState("")
 
     const i18n = useI18n(lang, i18nShipping);
 
+    if(!If)
+        return (null);
+    
     return (
             <div className="w-full flex flex-col gap-4">
                 <div className="my-form-section-title">
@@ -35,10 +38,10 @@ const [a, setA] = useState("")
 
                     <Autocomplete 
                         title={i18n.address}
-                        curSelected={a}
+                        curSelected={address}
                         items={receintAddresses}
                         placeholder={i18n.input_address}
-                        onChangeQeury={setA}
+                        onChangeQeury={setAddress}
                         onSelectItem={setAddress}
                     />
 

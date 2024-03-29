@@ -14,6 +14,8 @@ export const config = {
     "house": "House",
     "novaposhta_weahouse": "Nova Poshta warehouse",
     "comment": "Comment",
+    "recipient": "Recipient",
+    "use_another_recipient": "The recipient is another person",
     "desirable_time": {
         "title":"Desired delivery time",
         "time_options": [

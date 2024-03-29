@@ -3,14 +3,15 @@
 import HeroConf from "./en/hero.json"
 import DI18nGeneral from "./en/i18n-general.json"
 import TI18nCart from "./en/i18n-cart.json"
-import TI18nCustomer from "./en/i18n-customer.json"
+import DI18nCustomer from "./en/i18n-customer.json"
 import { TShippingConfig } from "./en/i18n-shipping"
-
 import * as T from "./types"
 
-export type TI18nGeneral = typeof DI18nGeneral;
 
+export type TI18nGeneral = typeof DI18nGeneral;
+export type TI18nCustomer = typeof DI18nCustomer;
 export type Langs = keyof typeof config;
+
  
 const config = {
   en: (section: string) => import(`./en/${section}.json`, { assert: { type: 'json' } }),
@@ -28,7 +29,7 @@ export const i18nCart = async (locale: string) => config[locale as Langs]('i18n-
 });
 
 export const i18nCustomer = async (locale: string) => config[locale as Langs]('i18n-customer').then( m => {
-    return m.default as typeof TI18nCustomer;
+    return m.default as typeof DI18nCustomer;
 });
 
 

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { AsyncResult, Result, pipe } from 'commons';
-import { TI18nGeneral } from 'config-and-i18n'; 
+import { TI18nGeneral, TI18nCustomer } from 'config-and-i18n'; 
 import * as Requsets from "./requests"
 import * as T from "./type"
 import { readThesoulCookie } from 'lib/thesoul-cookie';
@@ -103,7 +103,7 @@ export const useCustomerStore = create(
                             }
                             case "userWithPhoneNotExists": {
                                 const _phone = res.error.phone;
-                                set({ globalError: (i18n: TI18nGeneral) =>  i18n.no_useraccount_for_phone.replace('{phone}', _phone)});
+                                set({ globalError: (i18n: TI18nCustomer) =>  i18n.no_useraccount_for_phone.replace('{phone}', _phone)});
                                 break;
                             }
                             case "unknownError":
@@ -135,7 +135,7 @@ export const useCustomerStore = create(
                             }
                             case "userWithPhoneNotExists": {
                                 const _phone = res.error.phone;
-                                set({ globalError: (i18n: TI18nGeneral) =>  i18n.no_useraccount_for_phone.replace('{phone}', _phone)});
+                                set({ globalError: (i18n: TI18nCustomer) =>  i18n.no_useraccount_for_phone.replace('{phone}', _phone)});
                                 break;
                             }
                             case "unknownError":

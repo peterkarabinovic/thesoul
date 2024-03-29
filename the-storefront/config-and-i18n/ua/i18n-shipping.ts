@@ -11,6 +11,8 @@ export const config = {
     "house": "Будинок",
     "novaposhta_weahouse": "Відділення Нової Пошти",
     "comment": "Коментар",
+    "recipient": "Одержувач",
+    "use_another_recipient": "одержувач інша людина",
     "desirable_time": {
         "title": "Бажаний час доставки",
         "time_options": [
