@@ -18,6 +18,12 @@ export function ShippingOptions({ lang, shippingStore, cartId }: Props ){
     const selectedOption = shippingStore.useShipping( state => state.selectedOption );
     const selectOption = shippingStore.useShipping( state => state.selectOption );
     const i18n = useI18n(lang, i18nShipping)
+
+    const optionNames = {
+        "shipping-to-warehouse": i18n.nv_shipping_to_warehouse,
+        "shipping-to-door": i18n.nv_shipping_to_door,
+        "сourier-delivery": i18n.courier_shipping
+    }
     
 
     useEffect(() =>  {
@@ -48,7 +54,7 @@ export function ShippingOptions({ lang, shippingStore, cartId }: Props ){
                             onChange={() => selectOption(option)}
                         />
                         <span className="ml-2">
-                            {option.name}
+                            {optionNames[option.dataId] || ""}
                         </span>
                     </label>
                 ))}

@@ -2,8 +2,12 @@ import { Router } from "express"
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa"
 import NovaposhtaFulfillmentService from "../services/novaposhta-fulfillment";
 
+const cors = require('cors')
+
 export default function (): Router {
     const app = Router();
+
+    app.use(cors({  origin: true, credentials: true  }));
 
     app.get("/store/np/cities", async (req: MedusaRequest, res: MedusaResponse) => {
 

@@ -39,10 +39,13 @@ export async function NpApi(apiKey: string, looger: any) {
                     if(!success)
                         return { error: "Сервер Нової Пошти наразі недоступний." };
                     const addresses = d[0]?.Addresses || []
-                    const cities = addresses.map( (it: any) => ({
-                        name: it.Present,
-                        id: it.Ref
-                    }));
+                    const cities = addresses
+                        .filter( (it: any) => !!it.DeliveryCity)
+                        .map( (it: any) => ({
+                            name: it.Present,
+                            id: it.DeliveryCity
+                        })
+                    );
                     return { cities };
 
                 })
@@ -54,13 +57,12 @@ export async function NpApi(apiKey: string, looger: any) {
         },
 
         warehouses: async (cityRef: string, query = ""): Promise<T.WarehouseResponse> => {
-
             return cache.wrap(`np-warehouses-${cityRef}-${query}`, async () => {
                 const warehouseId = parseInt(query) || 0;
                 const findByString = warehouseId ? "" : query
                 return _npApi.post("/", {
                     apiKey,
-                    modelName: "AddressGeneral",
+                    modelName: "Address",
                     calledMethod: "getWarehouses",
                     methodProperties: {
                         CityRef: cityRef,
@@ -72,10 +74,8 @@ export async function NpApi(apiKey: string, looger: any) {
                 })
                 .then( ({data}) => {
                     const  {data: d, success} = data;
-                    if(!success)
-                        return { error: "Сервер Нової Пошти наразі недоступний." };
                     const warehouses = (d || []).map( (it: any) => ({
-                        name: it.Description,
+                        name: `${it.CityDescription}, ${it.Description}`,
                         id: it.Ref
                     }));
                     return { warehouses };

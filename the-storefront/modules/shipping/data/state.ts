@@ -221,7 +221,7 @@ type NpCity = CommonState & {
     cityQuery: string;
     cityList: City[];
     searchCity: (q: string) => void;
-    selectCity: (city: City) => void;
+    selectCity: (city?: City) => void;
 }
 
 function npCityState(set: Parameters<StateCreator<NpCity>>[0], get: Parameters<StateCreator<NpCity>>[1] ){
@@ -233,11 +233,16 @@ function npCityState(set: Parameters<StateCreator<NpCity>>[0], get: Parameters<S
         cityQuery: "",
         cityList: [],
         searchCity: debounce((q: string) => {
-            set({ processing: true, cityQuery: q });
-            if (get().cityQuery.trim() == q.trim() || q.trim().length < 2)
+
+            if (get().cityQuery.trim() == q.trim() )
                 return;
+
+            if( q.trim().length <= 2 ) {
+                set({ cityList: [] });
+                return;
+            }
     
-            set({ processing: true, globalError: null })
+            set({ processing: true, globalError: null, cityQuery: q })
             pipe(
                 R.getCity(q),
                 AsyncResult.tap(res => {
@@ -253,7 +258,7 @@ function npCityState(set: Parameters<StateCreator<NpCity>>[0], get: Parameters<S
             );
         }, 300),
     
-        selectCity: (city: City) =>  set({ city })
+        selectCity: (city?: City) =>  set({ city, cityQuery: city?.name || ""})
     }
 } 
 
@@ -264,27 +269,28 @@ type NpWarehouse = NpCity & AdditionalInfo & {
     warehouseQuery: string;
     warehouseList: Warehouse[];
     searchWarehouse: (q: string) => void;
-    selectWarehouse: (warehouse: Warehouse) => void;
+    selectWarehouse: (warehouse?: Warehouse) => void;
+    isWarehouseDisabled: () => boolean;
 }
 
-type TNpWarehouseStore = ReturnType<typeof createNpWarehouseState>;
+export type TNpWarehouseStore = ReturnType<typeof createNpWarehouseState>;
 
 export function createNpWarehouseState(state: Partial<NpWarehouse> = {}){
 
     return create(persist<NpWarehouse>(
-        (set, get) => ({
+        (set, get, store) => ({
             ...npCityState(set, get),
             ...additionalInfoState(set),
             warehouse: undefined,
             warehouseQuery: "",
             warehouseList: [],
             searchWarehouse: debounce((q: string) => {
-                const { warehouseQuery, city } = get();
-                if (warehouseQuery.trim() == q.trim())
-                    return;
+                const { warehouseQuery, city, warehouseList } = get();
                 if (!city)
                     return;
-                set({ processing: true, globalError: null });
+                if (warehouseQuery.trim() == q.trim() && warehouseList.length > 0)
+                    return;
+                set({ processing: true, globalError: null, warehouseQuery: q });
                 pipe(
                     R.getWarehouses(city.id, q),
                     AsyncResult.tap(res => {
@@ -299,8 +305,15 @@ export function createNpWarehouseState(state: Partial<NpWarehouse> = {}){
                     AsyncResult.then(() => set({ processing: false }))
                 )
             }, 300),
+
+            selectCity: function (city?: City)  {
+                set({ city, cityQuery: city?.name || ""})
+                store.getState().searchWarehouse("")
+            },
         
             selectWarehouse: (warehouse) => set({ warehouse }),
+
+            isWarehouseDisabled: () => !get().city,
 
             ...state
         }),{

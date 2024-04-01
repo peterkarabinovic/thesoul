@@ -35,7 +35,7 @@ export async function getCity(q: string): Promise<Result<CityResponse, RequestEr
     return pipe(
         await medusaRequest<CityResponse>({
             method: 'GET',
-            path: `np/cities?q=${q}`
+            path: `/np/cities?q=${q}`
         }),
     );
 }
@@ -44,7 +44,7 @@ export async function getWarehouses(cityRef: string, q: string): Promise<Result<
     return pipe(
         await medusaRequest<WarehouseResponse>({
             method: 'GET',
-            path: `np/warehouses?cityRef=${cityRef}?q=${q}`
+            path: `/np/warehouses?cityRef=${cityRef}&q=${q}`
         }),
     );
 }

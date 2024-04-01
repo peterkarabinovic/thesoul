@@ -4,6 +4,7 @@ import { TShippingStore, createUseShipping } from "../data/state"
 import { ShippingOptions } from "./shipping-options";
 import { ShippingCourier } from "./shipping-сourier";
 import { ShippingContact } from "./shipping-contact";
+import { ShippingToWarehouse } from "./shipping-to-warehouse";
 
 type Props = {
     shippingStore?: TShippingStore;
@@ -19,6 +20,12 @@ export function ShippingView({ cartId, shippingStore = createUseShipping(), lang
 
     return (
         <div className="flex flex-col w-full gap-10">
+            
+            <ShippingContact 
+                If={logedIn}
+                lang={lang} 
+                shippingStore={shippingStore}
+            />
 
             <ShippingOptions 
                 lang={lang} 
@@ -26,16 +33,17 @@ export function ShippingView({ cartId, shippingStore = createUseShipping(), lang
                 shippingStore={shippingStore}
             />
 
-            <ShippingContact 
-                If={logedIn}
-                lang={lang} 
-                shippingStore={shippingStore}
-            />
-
             <ShippingCourier 
                 If={options?.dataId === "сourier-delivery"}
                 lang={lang} 
                 useCourierShipping={shippingStore.useCourierShipping}
+            />
+
+
+            <ShippingToWarehouse 
+                If={options?.dataId === "shipping-to-warehouse"}
+                lang={lang} 
+                useWareShipping={shippingStore.useNpWarehouseShipping}
             />
 
         </div>
