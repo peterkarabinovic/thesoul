@@ -23,7 +23,7 @@ export function CartTotals({lang,  useCart = useCartState }: CartTotalsProps) {
 
 //   const taxExists = parseInt(totalTaxAmount.amount) > 0;
   return (
-        <div className="cart-subtotal max-w-[400px] md:ml-auto m-auto">
+        <div className="cart-subtotal max-w-[400px] m-auto">
             <div className="border border-[#bfbfbf] bg-[#f9f9f9] px-7">
                 <div className="content py-7">
                     <h2 className="text-lg font-medium text-base-content sm:text-lg">{i18n.totlal}</h2>

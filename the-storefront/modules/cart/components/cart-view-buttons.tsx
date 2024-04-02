@@ -29,12 +29,13 @@ export async function HomeAndClearButtons({ lang, onClearCart  } : Props){
             <LocalizedLink
                 lang={lang}
                 href="/"
-                className="hidden tiny:inline-flex items-center bg-secondary text-white h-[46px] md:px-[40px] sm:px-[20px] px-[10px] transition-all hover:bg-primary"
+                className="my-secondary-button"
+                // className="tiny:inline-flex items-center bg-secondary text-white h-[46px] md:px-[40px] sm:px-[20px] px-[10px] transition-all hover:bg-primary"
             >
                 <ArrowLeftIcon className="mr-[5px] h-6 w-6" />
                 {i18n.go_to_home_page}
             </LocalizedLink>
-            <div className="btn-wrap">
+            {/* <div className="btn-wrap">
                 <button
                     onClick={onClearCart}
                     type="button"
@@ -42,7 +43,7 @@ export async function HomeAndClearButtons({ lang, onClearCart  } : Props){
                 >
                     {i18n.clear_cart}
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 }

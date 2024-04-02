@@ -100,8 +100,13 @@ label {
 }
 
 .my-primary-button {
-    @apply bg-secondary text-white h-[46px] leading-[46px] w-full text-center px-[42px] transition-all hover:bg-primary disabled:bg-gray-300;
+    @apply items-center bg-secondary text-white h-[46px] leading-[46px] w-full text-center px-[42px] transition-all hover:bg-primary disabled:bg-gray-300;
 }
+
+.my-secondary-button {
+    @apply inline-flex items-center border border-secondary text-secondary h-[46px] md:px-[40px] sm:px-[20px] px-[10px] transition-all hover:bg-secondary hover:text-white;
+}
+
 .my-secondary-link {
     @apply inline-flex items-center  text-secondary h-[46px] md:px-[40px] sm:px-[20px] px-[10px] transition-all hover:underline;
 }

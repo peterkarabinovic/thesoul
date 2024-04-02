@@ -56,7 +56,7 @@ export function CustomerLoginForm( {lang}: Props ) {
       <PhoneInput
             phoneCode={customerConf.phoneCode}
             onChange={p => setPhone(p)}
-            processing={processing}
+            disabled={processing}
             i18nPhone={i18n_customer.phone}
       />
 

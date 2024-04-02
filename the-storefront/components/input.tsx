@@ -32,7 +32,7 @@ export function InputField(props: InputFieldPros) {
         className={clsx("my-input", { 'border-error': error })}
         placeholder={placeholder || ''}
         value={value}
-        onChange={(e) => onChange(e.target.value.trim())}
+        onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
       />
       {error && (

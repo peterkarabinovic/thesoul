@@ -5,7 +5,7 @@ export const config = {
     "optional": "optional",
     "shipping_options": "Shipping",
     "nv_shipping_to_warehouse": "Shipping to the warehouse of Nova Poshta",
-    "nv_shipping_to_door": "Shipping Nova Poshta to the door",
+    "nv_shipping_to_door": "Shipping Nova Poshta To Door",
     "courier_shipping": "Courier delivery",
     "city": "City",
     "input_city": "Enter the city",

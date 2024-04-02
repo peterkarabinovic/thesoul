@@ -68,7 +68,7 @@ export function CustomerSingUp( {lang}: Props  ) {
         <PhoneInput
             phoneCode={customerConf.phoneCode}
             onChange={p => setPhone(p)}
-            processing={processing}
+            disabled={processing}
             i18nPhone={i18n.phone}
             phone={customer.phone}
         />

@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { AsyncResult, pipe } from 'commons';
 import { i18n_unable_access_store } from 'i18n';
 import { City, Warehouse } from "nv-request-types"
-import { debounce, omitProps } from 'lib/utils';
+import { coalesce, debounce, omitProps } from 'lib/utils';
 import * as R from "./requests"
 import { useCustomerStore } from '@customer/data';
 import { syncProperty } from 'lib/zustand-utils';
@@ -19,6 +19,12 @@ type TShipping = CommonState & {
     anotherLastName: string;
     anotherPhone: string;
     useAnotherContact: boolean;
+
+    city?: City;
+    warehouse?: Warehouse;
+    address?: string;
+    comment?: string;
+
     setAnotherContact: ( firstName: string, secondName: string, phone: string) => void;
     setUseAnotherContact: (b: boolean) => void;
     loadOptions: (cartId: string) => void;
@@ -59,6 +65,24 @@ export function createUseShipping({
                     anotherLastName: "",
                     anotherPhone: "",
                     useAnotherContact: false,
+
+                    city: coalesce(
+                        syncProperty(useNpWarehouseShipping, s => s.city, v => set({ city: v })),
+                        syncProperty(useNpDoorShipping, s => s.city, v => set({ city: v })),
+                    ),
+
+                    warehouse: syncProperty(useNpWarehouseShipping, s => s.warehouse, v => set({ warehouse: v })),
+                    
+                    address: coalesce(
+                        syncProperty(useNpDoorShipping, s => s.address, v => set({ address: v })),
+                        syncProperty(useCourierShipping, s => s.address, v => set({ address: v })),
+                    ),
+
+                    comment: coalesce(
+                        syncProperty(useNpDoorShipping, s => s.comment, v => set({ comment: v })),
+                        syncProperty(useNpWarehouseShipping, s => s.comment, v => set({ comment: v })),
+                        syncProperty(useCourierShipping, s => s.comment, v => set({ comment: v })),
+                    ),
                 
                     setUseAnotherContact: f => set({ useAnotherContact: f }),
                     setAnotherContact: (anotherFirstName, anotherLastName, anotherPhone) => set({ anotherFirstName, anotherLastName, anotherPhone }),
@@ -84,20 +108,20 @@ export function createUseShipping({
                     readyToSaveShipping: () => {
                         const { selectedOption, useAnotherContact, anotherFirstName, anotherLastName, anotherPhone } = get();
                         if(useAnotherContact &&
-                            (anotherFirstName.trim().length == 0 || anotherLastName.trim().length == 0 || anotherPhone.trim().length == 0)
+                            (anotherFirstName.trim().length == 0 || anotherLastName.trim().length == 0 || anotherPhone.trim().length < 12)
                         )
                             return false;
                         switch(selectedOption?.dataId) {
                             case "shipping-to-warehouse": {
-                                const { city, warehouse } = useNpWarehouseShipping.getState();
+                                const { city, warehouse } = get();
                                 return Boolean(city?.id && warehouse?.id);
                             }
                             case "shipping-to-door": {
-                                const { city, address } = useNpDoorShipping.getState();
+                                const { city, address } = get();
                                 return Boolean(city?.id && address && address.length > 0);
                             }
                             case "сourier-delivery": {
-                                const { address } = useCourierShipping.getState();
+                                const { address } = get();
                                 return !!address && address.trim().length > 0;
                             }
                         }
@@ -117,7 +141,7 @@ export function createUseShipping({
                         const d = (() => {
                             switch(selectedOption.dataId){
                                 case "shipping-to-warehouse": {
-                                    const { city, warehouse, comment } = useNpWarehouseShipping.getState();
+                                    const { city, warehouse, comment } = get();
                                     return {
                                         shipping_address: {
                                             city: city?.name || "",
@@ -132,8 +156,8 @@ export function createUseShipping({
                                     }
                                 }
                                 case "shipping-to-door": {
-                                    const { city, address, updateReceintAddresses, comment } = useNpDoorShipping.getState();
-                                    updateReceintAddresses();
+                                    const { city, address, comment } = get();
+                                    useNpDoorShipping.getState().updateReceintAddresses();
                                     return {
                                         shipping_address: {
                                             city: city?.name || "",
@@ -147,7 +171,8 @@ export function createUseShipping({
                                     }
                                 }
                                 case "сourier-delivery": {
-                                    const { address, desirableTime, updateReceintAddresses, comment } = useCourierShipping.getState();
+                                    const { address, comment } = get();
+                                    const { desirableTime, updateReceintAddresses } = useCourierShipping.getState();
                                     updateReceintAddresses();
                                     return {
                                         shipping_address: {
@@ -163,6 +188,7 @@ export function createUseShipping({
                 
                 
                         set({ processing: true, globalError: null });
+
                         return pipe(
                             R.saveShippingAddress(cartId, d.shipping_address ),
                             AsyncResult.chain( () => R.addShippingMethod(cartId, selectedOption.id, d.data) ),
@@ -238,7 +264,7 @@ function npCityState(set: Parameters<StateCreator<NpCity>>[0], get: Parameters<S
                 return;
 
             if( q.trim().length <= 2 ) {
-                set({ cityList: [] });
+                set({ cityList: [], city: undefined, cityQuery: q});
                 return;
             }
     
@@ -329,14 +355,19 @@ export function createNpWarehouseState(state: Partial<NpWarehouse> = {}){
 // ####################################################################################
 type NpDoor = NpCity & AddressState & AdditionalInfo;
 
-type TNpDoorStore = ReturnType<typeof createUseNpDoorState>;
+export type TNpDoorStore = ReturnType<typeof createUseNpDoorState>;
 
 export function createUseNpDoorState(state: Partial<NpDoor> = {}) {
     return create(persist<NpDoor>(
-        (set, get) => ({
+        (set, get, store) => ({
             ...npCityState(set, get),
             ...addressState(set, get),
             ...additionalInfoState(set),
+
+            selectCity: function (city?: City)  {
+                set({ city, cityQuery: city?.name || ""})
+                store.getState().setAddress("")
+            },            
             ...state
         }),{
             name: 'np-door-state',

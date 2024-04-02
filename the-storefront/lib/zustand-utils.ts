@@ -17,3 +17,5 @@ export function syncProperty<STATE, VAL>(
     store.subscribe(state => onChange(getter(state)) );
     return value;
 }
+
+

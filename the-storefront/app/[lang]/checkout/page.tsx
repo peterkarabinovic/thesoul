@@ -19,7 +19,14 @@ export default async function CheckoutPage( { params }: Props ) {
   return (
     <>
       <HeaderOne lang={params.lang} transparent={false}/>
-      <Breadcrumb lang={params.lang} parents={[{ path: '/', title: i18n.home }]} lastTitle={i18n.shipping} />
+      <Breadcrumb 
+        lang={params.lang} 
+        parents={[
+            { path: '/', title: i18n.home },
+            { path: '/cart', title: i18n.cart }
+        ]} 
+        lastTitle={i18n.shipping} 
+      />
       <CheckoutView lang={params.lang}/>
     </>
   );

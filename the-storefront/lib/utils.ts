@@ -70,3 +70,13 @@ export function minMax<T>(xs:T[], fn:(x:T) => number) {
         };
     }, {min: Infinity, max: -Infinity} );
 }
+
+export function coalesce<T>( ...values: (T | undefined)[] ): T | undefined {
+    let value = undefined;
+    for(value of values) {
+        if(value !== null && value !== undefined ) {
+            return value;
+        }
+    }
+    return value;
+}

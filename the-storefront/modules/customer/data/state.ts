@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { StoreApi, UseBoundStore, create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { AsyncResult, Result, pipe } from 'commons';
 import { TI18nGeneral, TI18nCustomer } from 'config-and-i18n'; 
@@ -27,6 +27,8 @@ export type TCustomerState = {
     retriveCustomIdFromCookie: () => void
 } 
 
+export type TCustomerStore = UseBoundStore<StoreApi<TCustomerState>>;
+
 const initState = {
     customerId: null,
     customer: {
@@ -40,6 +42,7 @@ const initState = {
     userWithPhoneAlreadyExists: false,
     processing: false
 };
+
 
 export const useCustomerStore = create( 
     subscribeWithSelector<TCustomerState>( (set, get) => ({

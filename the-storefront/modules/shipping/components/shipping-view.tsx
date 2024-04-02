@@ -5,21 +5,25 @@ import { ShippingOptions } from "./shipping-options";
 import { ShippingCourier } from "./shipping-сourier";
 import { ShippingContact } from "./shipping-contact";
 import { ShippingToWarehouse } from "./shipping-to-warehouse";
+import { ShippingToDoor } from "./shipping-to-door";
 
 type Props = {
-    shippingStore?: TShippingStore;
+    If: boolean;
+    shippingStore: TShippingStore;
     cartId?: string;
     lang?: string;
 };
 
 
-export function ShippingView({ cartId, shippingStore = createUseShipping(), lang = "ua" } : Props){
+export function ShippingView({ If, cartId, shippingStore, lang = "ua" } : Props){
     const options = shippingStore.useShipping( state => state.selectedOption );
     const logedIn = shippingStore.useShipping( state => state.customerPhone.length > 0 );
 
+    if(!If)
+        return (null);
 
     return (
-        <div className="flex flex-col w-full gap-10">
+        <div className="flex flex-col w-full gap-8">
             
             <ShippingContact 
                 If={logedIn}
@@ -44,6 +48,12 @@ export function ShippingView({ cartId, shippingStore = createUseShipping(), lang
                 If={options?.dataId === "shipping-to-warehouse"}
                 lang={lang} 
                 useWareShipping={shippingStore.useNpWarehouseShipping}
+            />
+
+            <ShippingToDoor
+                If={options?.dataId === "shipping-to-door"}
+                lang={lang} 
+                useDoorShipping={shippingStore.useNpDoorShipping}
             />
 
         </div>

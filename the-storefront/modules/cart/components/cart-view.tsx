@@ -35,9 +35,9 @@ export function CartView({ useCart = useCartState, lang = "ua" } : Props){
     }
 
     return (
-        <div className="cart border-b border-[#ededed] lg:py-[60px] md:py-[50px] py-[35px]">
+        <div className="cart border-b border-[#ededed] md:py-8 py-6">
             <div className="container">
-                <div className="flex flex-col w-full gap-8">
+                <div className="flex flex-col w-full md:gap-8 gap-6">
                     <HomeAndClearButtons lang={lang} onClearCart={clearCart}/>
                     <CartDetails lang={lang} useCart={useCart}/>
                     <div className='flex md:flex-row flex-col gap-4'>
