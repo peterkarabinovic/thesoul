@@ -1,4 +1,3 @@
-
 import { Breadcrumb } from 'components/breadcrumb';
 import { HeaderOne } from 'components/header';
 import { Metadata } from 'next';
@@ -16,6 +15,7 @@ type Props = {
 
 export default async function CartPage( { params }: Props ) {
   const i18n = await i18nGeneral(params.lang);  
+
   return (
     <>
       <HeaderOne lang={params.lang} transparent={false}/>

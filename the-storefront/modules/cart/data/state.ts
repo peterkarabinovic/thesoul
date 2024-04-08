@@ -7,6 +7,7 @@ import * as R from './requests';
 
 
 export type TCartState = {
+    storeReady: boolean;
     cart: Cart | null;
     cartId: string | null;
     processedVariants: string[];
@@ -21,7 +22,7 @@ export type TCartState = {
 export type TCartStore = UseBoundStore<StoreApi<TCartState>>;
 
 export const useCartStateProto: StateCreator<TCartState> = (set, get) => ({
-
+    storeReady: false,
     cart: null,
     cartId: null,
     processedVariants: [],
@@ -109,12 +110,12 @@ export const useCartStateProto: StateCreator<TCartState> = (set, get) => ({
             if(cartId !== get().cartId)
                 pipe(
                     R.retrieveCart(cartId),
-                    AsyncResult.tap(cart => set({ cart, cartId })),
+                    AsyncResult.tap(cart => set({ cart, cartId, storeReady: true})),
                     AsyncResult.tapError( () => set({ cart: null, cartId: null }) )
                 );
         }
         else {
-            set({ cart: null, cartId: null });
+            set({ cart: null, cartId: null, storeReady: true });
         }
     }
 });

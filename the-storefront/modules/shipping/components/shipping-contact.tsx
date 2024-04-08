@@ -44,40 +44,40 @@ export function ShippingContact({ If, lang, shippingStore  }: Props ){
                 <CheckCircleIcon className='icon' />
                     <h2>{i18n.recipient}</h2>
             </div>            
-            <div className='flex flex-col md:flex-row gap-4'>
-                <InputField
-                    type="text"
-                    title={i18n.first_name}
-                    value={firstName}
-                    placeholder={i18n.first_name}
-                    onChange={(s) => setContact({fName:s})}
+            <div className="px-4 sm:px-6 w-full flex flex-col gap-4">
+                <div className='flex flex-col md:flex-row gap-4'>
+                    <InputField
+                        type="text"
+                        title={i18n.first_name}
+                        value={firstName}
+                        placeholder={i18n.first_name}
+                        onChange={(s) => setContact({fName:s})}
+                        disabled={processing || !useAnother}
+                    />
+
+                    <InputField
+                        type="text"
+                        title={i18n.last_name}
+                        value={lastName}
+                        placeholder={i18n.last_name}
+                        onChange={(s) =>  setContact({lName:s}) }
+                        disabled={processing || !useAnother}
+                    />
+                </div>
+                <PhoneInput
+                    phone={phone}
+                    onChange={(s) => setContact({phone:s}) }
+                    i18nPhone={i18n.phone}
+                    phoneCode={customerConf.phoneCode}
                     disabled={processing || !useAnother}
                 />
 
-                <InputField
-                    type="text"
-                    title={i18n.last_name}
-                    value={lastName}
-                    placeholder={i18n.last_name}
-                    onChange={(s) =>  setContact({lName:s}) }
-                    disabled={processing || !useAnother}
+                <CheckboxInput
+                    title={i18n.use_another_recipient}
+                    checked={useAnother}
+                    onChange={checked => setUseAnotherContact(checked)}
                 />
             </div>
-            <PhoneInput
-                phone={phone}
-                onChange={(s) => setContact({phone:s}) }
-                i18nPhone={i18n.phone}
-                phoneCode={customerConf.phoneCode}
-                disabled={processing || !useAnother}
-            />
-
-            <CheckboxInput
-                title={i18n.use_another_recipient}
-                checked={useAnother}
-                onChange={checked => setUseAnotherContact(checked)}
-            />
-
-
         </div>
     )
 }

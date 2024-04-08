@@ -34,7 +34,7 @@ export function ShippingCourier( { If, lang, useCourierShipping }: Props ){
                     <CheckCircleIcon className='icon' />
                     <h2>{i18n.courier_shipping}</h2>
                 </div>
-                <div className="flex flex-col gap-5 sm:gap-6">
+                <div className="flex flex-col gap-5 sm:gap-6 px-4 sm:px-6">
 
                     <Autocomplete 
                         title={i18n.address}

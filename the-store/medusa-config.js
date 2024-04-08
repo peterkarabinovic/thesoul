@@ -82,6 +82,7 @@ const projectConfig = {
   store_cors: process.env.STORE_CORS,
   database_url: process.env.DATABASE_URL,
   admin_cors: process.env.STORE_CORS,
+  backendUrl: process.env.BACKEND_URL || "http://localhost:9000",
 //   database_logging: "all"
 };
 

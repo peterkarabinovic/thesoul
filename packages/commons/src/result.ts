@@ -56,6 +56,10 @@ export namespace AsyncResult {
         return Promise.resolve(Result.of(data));
     }
 
+    export function failure<E = never>(error: E): Promise<Failure<E>> {
+        return Promise.resolve(Result.failure(error));
+    }
+
     export function toPromise<A, E>(res: Promise<Result<A, E>>): Promise<A> {
         return res.then( r => r.success ? Promise.resolve(r.data) : Promise.reject(r.error) );
     }

@@ -41,7 +41,7 @@ export function ShippingToWarehouse( { If, lang, useWareShipping }: Props ){
                     <CheckCircleIcon className='icon' />
                     <h2>{i18n.nv_shipping_to_warehouse}</h2>
                 </div>
-                <div className="flex flex-col gap-2 px-4 sm:gap-1">
+                <div className="flex flex-col gap-2 sm:gap-1 px-4 sm:px-6">
 
                     <Autocomplete 
                         title={i18n.city}

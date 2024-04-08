@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Main: Story = {
     args: {
-        useCart: createUseCart({ cart: cartWithTwoItems }),
+        cartId: '123',
     }
 };
 

@@ -13,7 +13,8 @@ type MedusaRequestParams = {
     path: string;
     payload?: Record<string, unknown> | undefined;
     serverSide?: boolean
-    revalidateSec?: number
+    revalidateSec?: number,
+    tags?: string[]
 };
 
 export async function medusaRequest<R>({ serverSide = true, ...params}: MedusaRequestParams): Promise<Result<R, RequestError>> {
@@ -26,18 +27,22 @@ export async function medusaRequest<R>({ serverSide = true, ...params}: MedusaRe
 
 export function requestExec(endpoint: string) {
 
-    return async <R>({ method, path, payload, revalidateSec = 60 }: MedusaRequestParams): Promise<Result<R, RequestError>> => {
+    return async <R>({ method, path, payload, revalidateSec = 60, tags }: MedusaRequestParams): Promise<Result<R, RequestError>> => {
         const options: RequestInit = {
             method,
             headers: {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
-            ...(revalidateSec && { next: { revalidate: revalidateSec } })
+            next: {
+                ...(tags && { tags }),
+                ...(!isNaN(revalidateSec) && { revalidate: revalidateSec } )
+            }
         };
     
         if (path.includes('/carts') || method === 'POST') {
             options.cache = 'no-cache';
+            delete options.next;
         }
     
         if (payload) {

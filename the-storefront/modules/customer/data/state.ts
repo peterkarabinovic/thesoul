@@ -8,6 +8,7 @@ import { readThesoulCookie } from 'lib/thesoul-cookie';
 
 
 export type TCustomerState = {
+    storeReady: boolean,
     customerId: string | null
     customer: T.TCustomer,
     fieldErrors: T.TCustomerErrors,
@@ -47,7 +48,7 @@ const initState = {
 export const useCustomerStore = create( 
     subscribeWithSelector<TCustomerState>( (set, get) => ({
         ...initState,
-        
+        storeReady: false,
         singUpRecently: () => get().customer.firstName.length > 0 && (Date.now() - (get().singedUpAt || 0)) < 1000 * 60 * 5,
         
         sendToServer: (cus) => {
@@ -173,11 +174,11 @@ export const useCustomerStore = create(
             if( customerId ) {
                 const d = await Requsets.me();
                 if( d.success && !("error" in d.data)) {
-                    set({ customer: d.data, customerId });
+                    set({ customer: d.data, customerId, storeReady: true });
                     return;
                 }    
             }
-            set(initState);
+            set({ ...initState,  storeReady: true });
         }
     }))
 );

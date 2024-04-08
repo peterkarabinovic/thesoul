@@ -9,10 +9,9 @@ import { CustomerLoginForm } from './customer-login-form';
 import { CustomerGreeting } from './customer-greeting';
 
 
-export function CustomerSignUpOrSignIn({ lang }: {lang: string}) {
+export function CustomerSignUpOrSignIn({ lang, customerId }: {lang: string, customerId: string | null}) {
   const [singupOrLogin, setSingupOrLogin] = useState<'login' | 'signup'>('signup');
   const singUpRecently = useCustomerStore((state) => state.singUpRecently());
-  const customerId = useCustomerStore((state) => state.customerId);
   const customer = useCustomerStore((state) => state.customer);
 
   if (singUpRecently)

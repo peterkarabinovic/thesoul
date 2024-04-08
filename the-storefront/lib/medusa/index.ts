@@ -126,7 +126,6 @@ export const reshapeCart = (cart: MedusaCart): Cart => {
       currencyCode: currencyCode
     }
   };
-console.log({cost})  
 
   return {
     ...cart,
@@ -404,17 +403,13 @@ export async function getCategoryProducts(
     return [];
   }
   
-  const body = res.body;
-console.log({body});
 
   const category = res.body.product_categories[0];
 
-  console.log({category});
   if(!category)
     return [];
 
   const category_products = await getProducts({ reverse, sortKey, categoryId: category.id });
-console.log({category_products});
   return category_products;
 }
 

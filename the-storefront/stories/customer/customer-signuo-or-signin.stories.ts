@@ -18,5 +18,6 @@ export const Mobile: Story = {
   }
   ,args: {
     lang: "en",
+    customerId: "123"
   }
 };

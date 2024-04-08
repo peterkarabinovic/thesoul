@@ -1,3 +1,4 @@
+"use client";
 import { formatPrice } from 'lib/formaters';
 import { cartConf } from "config-data/cart"
 import { TCartStore, useCartState } from "../data"

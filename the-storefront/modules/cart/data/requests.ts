@@ -4,11 +4,11 @@ import * as T from "data/types"
 
 
 export async function retrieveCart(cartId: string): Promise<Result<T.Cart, RequestError>> {
-
+console.log("retrieveCart")
     return pipe(
         await medusaRequest<{cart:T.MedusaCart}>({
             method: 'GET',
-            path: `/carts/${cartId}`
+            path: `/carts/${cartId}`,
         }),
         Result.map(res => T.medusaCartToCart(res.cart))
     );

@@ -42,10 +42,10 @@ export function ShippingOptions({ lang, shippingStore, cartId }: Props ){
                 <CheckCircleIcon className='icon' />
                     <h2>{i18n.shipping_options}</h2>
             </div>
-            <div className="flex flex-col gap-2 px-4 sm:gap-1">
+            <div className="flex flex-col gap-2 px-4 sm:px-6 sm:gap-1">
                 { options.map( (option) => (
 
-                    <label key={option.id} className="flex" htmlFor={option.dataId}>
+                    <label key={option.id} className="flex items-center" htmlFor={option.dataId}>
                         <input 
                             type="radio" 
                             id={option.dataId} 

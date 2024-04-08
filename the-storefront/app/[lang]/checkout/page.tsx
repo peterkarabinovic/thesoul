@@ -16,6 +16,7 @@ type Props = {
 
 export default async function CheckoutPage( { params }: Props ) {
   const i18n = await i18nGeneral(params.lang);  
+  
   return (
     <>
       <HeaderOne lang={params.lang} transparent={false}/>
@@ -27,7 +28,9 @@ export default async function CheckoutPage( { params }: Props ) {
         ]} 
         lastTitle={i18n.shipping} 
       />
-      <CheckoutView lang={params.lang}/>
+      <CheckoutView 
+        lang={params.lang} 
+      />
     </>
   );
 }

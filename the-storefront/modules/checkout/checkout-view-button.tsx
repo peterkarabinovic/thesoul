@@ -1,7 +1,6 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { LocalizedLink } from "components";
 import { i18nGeneral } from 'config-and-i18n';
-import { TShippingStore } from 'modules/shipping/data/state';
 
 
 export async function BackToCartBtn( {lang}: { lang: string} ) {

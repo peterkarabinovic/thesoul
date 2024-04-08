@@ -13,7 +13,7 @@ export const config = {
     "input_address": "Enter the address",
     "house": "House",
     "novaposhta_weahouse": "Nova Poshta warehouse",
-    "comment": "Comment",
+    "comment": "Order Comment",
     "recipient": "Recipient",
     "use_another_recipient": "The recipient is another person",
     "desirable_time": {

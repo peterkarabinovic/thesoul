@@ -200,7 +200,7 @@ export function createUseShipping({
                     ...state,
                 })),{
                     name: 'shipping-state',
-                    partialize: s => omitProps(s, "options", "anotherFirstName", "anotherLastName", "anotherPhone"),
+                    partialize: s => omitProps(s, "options", "useAnotherContact", "anotherFirstName", "anotherLastName", "anotherPhone"),
                     storage: createJSONStorage(() => localStorage),
                 }
             ))

@@ -20,7 +20,7 @@ export function CheckboxInput(props: Pros) {
   return (
     <div className='flex flex-col w-full gap-1'>
 
-        <label className='flex flex-row gap-2'>
+        <label className='flex flex-row items-center gap-2'>
             <input
                 type="checkbox"
                 className={clsx("", { 'border-error': error })}

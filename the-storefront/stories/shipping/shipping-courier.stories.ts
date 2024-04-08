@@ -21,6 +21,7 @@ export const Mobile: Story = {
     nextjs: { appDirectory: true }
   },
   args: {
+    If: true,
     lang: "en",
     useCourierShipping: createUseCourierShipping({
         receintAddresses: [

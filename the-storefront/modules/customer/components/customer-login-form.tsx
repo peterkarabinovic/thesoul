@@ -51,8 +51,7 @@ export function CustomerLoginForm( {lang}: Props ) {
   return (
     <div className="m-auto flex w-full flex-col gap-4">
       {/* <h1 className="text-center text-xl font-bold">{i18n_login}</h1> */}
-      {globalError && <div className="text-xs text-error">{globalError({...i18n_general, ...i18n_customer})}</div>}
-
+      {globalError && <div className="text-xs text-blue-500">{globalError({...i18n_general, ...i18n_customer})}</div>}
       <PhoneInput
             phoneCode={customerConf.phoneCode}
             onChange={p => setPhone(p)}

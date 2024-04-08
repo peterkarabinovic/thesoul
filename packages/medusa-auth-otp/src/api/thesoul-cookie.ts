@@ -5,8 +5,12 @@ import { MedusaResponse, MedusaRequest } from "@medusajs/medusa";
 import { getConfigFile } from "medusa-core-utils"
 
 export function TheSoulCookie() {
-    const { configModule: { projectConfig: { cookie_secret = "45 baba яготка опять" } } } = getConfigFile<any>(process.cwd(), "medusa-config")
+    const { configModule: { projectConfig: { 
+        cookie_secret = "45 baba яготка опять", 
+        backendUrl = "http://localhost:9000" } } 
+    } = getConfigFile<any>(process.cwd(), "medusa-config")
 
+    const domain = new URL(backendUrl).hostname.split(".").slice(-2).join(".")
     return {
         read: (req: MedusaRequest): { customerId?: string, cartId?: string } => {
             const cookie = req.cookies.thesoul;
@@ -31,7 +35,11 @@ export function TheSoulCookie() {
                     .digest('base64')
                     .replace(/\=+$/, '');
                 const cookie = `${customerId}:${cartId}:${signature}`;
-                res.cookie("thesoul", cookie, { maxAge: 1000 * 60 * 60 * 24 * 30 }); // 30 days
+                res.cookie("thesoul", cookie, 
+                        { 
+                            maxAge: 1000 * 60 * 60 * 24 * 30,
+                            domain
+                        }); // 30 days
             }
             else {
                 res.clearCookie("thesoul");

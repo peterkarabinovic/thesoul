@@ -195,7 +195,7 @@ class AuthOtpService extends TransactionBaseService {
                         return rows[0];
                 })
                 .then(otp_data => {
-                    this.logger.debug("checkOtp: " + JSON.stringify(otp_data));
+                    this.logger.debug("confirmOtp: " + JSON.stringify(otp_data));
 
                     // Check if attempts are not exceeded
                     const { id, attemp_timestamp, code_1, code_2, code_3 } = otp_data;
@@ -217,7 +217,7 @@ class AuthOtpService extends TransactionBaseService {
                         // choose a more current cart version
                         return manager.query(`
                             WITH carts AS (
-                                SELECT ca.id
+                                SELECT ca.id, ca.shipping_address_id, ca.billing_address_id
                                 FROM cart AS ca 
                                 WHERE ca.id = $1 OR ca.customer_id = $2
                                 ORDER BY ca.updated_at DESC 
@@ -226,13 +226,21 @@ class AuthOtpService extends TransactionBaseService {
                                 DELETE FROM line_item
                                 WHERE cart_id IN (SELECT id FROM carts OFFSET 1)
                             ),
-                            shippingAddressDeleting AS (
+                            addressToDelete AS (
+                                SELECT address_id 
+                                FROM ( 
+                                      SELECT UNNEST( ARRAY[shipping_address_id, billing_address_id] ) as address_id
+                                      FROM (SELECT * FROM carts OFFSET 1)
+                                 )
+                                 WHERE address_id IS NOT NULL
+                            ),
+                            addressDeleting AS (
                                 DELETE FROM address
-                                WHERE id IN (SELECT id FROM carts OFFSET 1)  
+                                WHERE id IN ( SELECT address_id FROM addressToDelete )
                             ),
                             cartDeleting AS (
                                 DELETE FROM cart 
-                                WHERE id = ( SELECT id FROM carts OFFSET 1)
+                                WHERE id IN ( SELECT id FROM carts OFFSET 1)
                             )
                             UPDATE cart
                             SET customer_id = $2

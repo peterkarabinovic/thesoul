@@ -19,7 +19,7 @@ export async function CheckoutButton( {lang}: { lang: string} ) {
 
 type Props = {
     lang: string;
-    onClearCart: () => void;
+    onClearCart?: () => void;
 }
 
 export async function HomeAndClearButtons({ lang, onClearCart  } : Props){

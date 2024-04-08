@@ -4,15 +4,20 @@ import * as z from "zod"
 import { Response } from "express"
 import { Logger, MedusaRequest } from "@medusajs/medusa"
 import AuthOtpService from "../services/auth-otp";
+import { wrapWithLogger } from "commons"
 import { Customer, Otp } from "../types";
 import * as T from "../types";
 import * as RT from "./response-types"
 import { TheSoulCookie } from "./thesoul-cookie"
 
+
+
 export default function (_:any, options: Record<string,string>): Router {
 
     const app = Router();
     const theSoulCookie = TheSoulCookie();
+
+    const logWrapper = wrapWithLogger(console);
 
     app.use(json());
     app.use(cors({  origin: true, credentials: true  }));
@@ -23,7 +28,7 @@ export default function (_:any, options: Record<string,string>): Router {
             res.status(404).json({ error: new T.UserNotFound() });
             return;
         }
-        const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
+        const authOtpService = logWrapper( req.scope.resolve<AuthOtpService>("authOtpService") );
         const d = await authOtpService.customer(req.user.id);
         if(d.success)
             res.json({...d.data, customerId: req.user.id});
@@ -41,7 +46,7 @@ export default function (_:any, options: Record<string,string>): Router {
             return;
         }
 
-        const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
+        const authOtpService = logWrapper(req.scope.resolve<AuthOtpService>("authOtpService"));
         
         const d = await authOtpService.singUp(customer.data, req.cart_id);
         if(!d.success) {
@@ -79,7 +84,7 @@ export default function (_:any, options: Record<string,string>): Router {
             return;
         }
 
-        const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
+        const authOtpService = logWrapper(req.scope.resolve<AuthOtpService>("authOtpService"));
 
         const d = await authOtpService.update(customer_id, customer.data);
         if(!d.success) {
@@ -107,7 +112,7 @@ export default function (_:any, options: Record<string,string>): Router {
             return;
         }
 
-        const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
+        const authOtpService = logWrapper(req.scope.resolve<AuthOtpService>("authOtpService"));
 
         const d = await authOtpService.login(phone.data.phone);
         if(!d.success) {
@@ -135,7 +140,7 @@ export default function (_:any, options: Record<string,string>): Router {
             return;
         }
 
-        const authOtpService = req.scope.resolve<AuthOtpService>("authOtpService");
+        const authOtpService = logWrapper(req.scope.resolve<AuthOtpService>("authOtpService"));
 
         const r = await authOtpService.confirmOtp(d.data.phone, d.data.code, req.cart_id);
         if("error" in r) {
@@ -154,7 +159,6 @@ export default function (_:any, options: Record<string,string>): Router {
             } 
         }
         else  {
-console.log("authOtpService.confirmOtp RESULT", r.data)            
             theSoulCookie.write(res, r.data);
             res.json(r.data);
         }

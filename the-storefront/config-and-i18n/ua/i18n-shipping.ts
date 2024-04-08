@@ -10,7 +10,7 @@ export const config = {
     "input_address": "Вкажіть адресу",
     "house": "Будинок",
     "novaposhta_weahouse": "Відділення Нової Пошти",
-    "comment": "Коментар",
+    "comment": "Коментар до замовлення",
     "recipient": "Одержувач",
     "use_another_recipient": "одержувач інша людина",
     "desirable_time": {

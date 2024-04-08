@@ -20,7 +20,6 @@ const config = {
 } 
  
 export const i18nGeneral = async (locale: string) => config[locale as Langs]('i18n-general').then( m => {
-    console.log("i18nGeneral call")
     return m.default as typeof DI18nGeneral;
 });
 

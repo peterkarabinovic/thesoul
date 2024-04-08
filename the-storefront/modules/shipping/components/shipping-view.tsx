@@ -1,6 +1,6 @@
 "use client"
 
-import { TShippingStore, createUseShipping } from "../data/state"
+import { TShippingStore, shippingStore } from "../data/state"
 import { ShippingOptions } from "./shipping-options";
 import { ShippingCourier } from "./shipping-сourier";
 import { ShippingContact } from "./shipping-contact";
@@ -9,15 +9,14 @@ import { ShippingToDoor } from "./shipping-to-door";
 
 type Props = {
     If: boolean;
-    shippingStore: TShippingStore;
+    useShipping?: TShippingStore;
     cartId?: string;
     lang?: string;
 };
 
 
-export function ShippingView({ If, cartId, shippingStore, lang = "ua" } : Props){
-    const options = shippingStore.useShipping( state => state.selectedOption );
-    const logedIn = shippingStore.useShipping( state => state.customerPhone.length > 0 );
+export function ShippingView({ If, cartId,  useShipping = shippingStore, lang = "ua" } : Props){
+    const options = useShipping.useShipping( state => state.selectedOption );
 
     if(!If)
         return (null);
@@ -26,7 +25,7 @@ export function ShippingView({ If, cartId, shippingStore, lang = "ua" } : Props)
         <div className="flex flex-col w-full gap-8">
             
             <ShippingContact 
-                If={logedIn}
+                If={true}
                 lang={lang} 
                 shippingStore={shippingStore}
             />
