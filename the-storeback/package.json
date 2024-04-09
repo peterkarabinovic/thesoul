@@ -1,0 +1,35 @@
+{
+  "name": "the-storeback",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "scripts": {
+    "check": "tsc --noEmit",    
+    "build": "tsc",
+    "dev": "ts-node -r dotenv/config ./src/main.ts dotenv_config_path=./.env | pino-pretty",
+    "op:migrate": "ts-node -r dotenv/config ./src/ops/migration.ts dotenv_config_path=./.env  | pino-pretty",
+    "op:drop": "ts-node -r dotenv/config ./src/ops/drop.ts dotenv_config_path=./.env  | pino-pretty",
+    "test": "mocha --require ts-node/register --require ./test/global-setup.ts --timeout 60000 --exit --recursive ./test/*/*.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.6",
+    "@types/pg": "^8.11.5",
+    "docker-compose": "^0.24.8",
+    "dotenv": "^16.4.5",
+    "mocha": "^10.4.0",
+    "pino-pretty": "^11.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.4"
+  },
+  "dependencies": {
+    "pg": "^8.11.5",
+    "pino": "^8.20.0",
+    "postgraphile": "^4.13.0",
+    "postgrator": "5.0.1",
+    "zod": "^3.22.4"
+  }
+}

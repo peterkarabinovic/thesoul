@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+    posgres:
+        image: postgres:16-alpine
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -p 5432 -d thesoul -U postgres"]
+            interval: 5s
+            timeout: 5s
+            retries: 5            
+        #
+        # 👇 fsync=off means don't wait for disc acknowledgement
+        #
+        command: postgres -c fsync=off -c synchronous_commit=off -c full_page_writes=off -c random_page_cost=1.0            
+        ports:
+            - "${DB_PORT}:5432"
