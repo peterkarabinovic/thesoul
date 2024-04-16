@@ -38,6 +38,7 @@
     "react-dom": "18.2.0",
     "react-international-phone": "^4.2.6",
     "swiper": "^8.4.7",
+    "urql": "^4.0.7",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

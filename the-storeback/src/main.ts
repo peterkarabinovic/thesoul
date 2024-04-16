@@ -2,7 +2,7 @@ import { config } from "./config";
 import { logger } from "./infra";
 import { startServer, stopServer } from "./server";
 
-
+console.log("MAIN.TS")
 startServer(config.PORT, logger)
         .then( () => logger.info(`TheStoreBack started`) );
 

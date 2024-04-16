@@ -46,8 +46,8 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang={SITE_LANG} className="scroll-smooth">
-      <body className={`${roboto.className} ${libre.className} ${prate.className} ${mrDeHaviland.className}`}>
+    <html lang={SITE_LANG} className="scroll-smooth" >
+      <body className={`${roboto.className} ${libre.className} ${prate.className} ${mrDeHaviland.className} antialiased`}>
         <Suspense>
           <main>{children}</main>
         </Suspense>

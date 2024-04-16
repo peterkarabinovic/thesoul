@@ -10,10 +10,11 @@ type InputFieldPros = {
   disabled?: boolean;
   placeholder?: string;
   error?: string;
+  optional?: boolean;
 };
 
 export function InputField(props: InputFieldPros) {
-  const { If = true, title, subtitle, disabled, value, onChange, error, placeholder } = props;
+  const { If = true, optional, title, subtitle, disabled, value, onChange, error, placeholder } = props;
 
   if(!If)
     return (null);
@@ -23,7 +24,7 @@ export function InputField(props: InputFieldPros) {
   return (
     <div className='flex flex-col w-full gap-[5px]'>
       <div className="flex items-center justify-between">
-        <label className="my-label">{title}</label>
+        <label className={optional ? "text-neutral-500" : "my-label"}>{title}</label>
         {subtitle && <label className={'text-xs text-neutral-500'}>{subtitle}</label>}
       </div>
 

@@ -43,6 +43,7 @@ services:
     environment:
       - SITE_NAME=TheSoul
       - NEXT_PUBLIC_MEDUSA_BACKEND_API=http://localhost:9000
+      - NEXT_PUBLIC_BACKEND_GRAPHQL_API=http://localhost:3003/graphql
       - NEXT_INTERNAL_MEDUSA_BACKEND_API=http://store:9000
     working_dir: /app
     ports:

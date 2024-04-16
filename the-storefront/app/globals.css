@@ -100,7 +100,7 @@ label {
 }
 
 .my-primary-button {
-    @apply items-center bg-secondary text-white h-[46px] leading-[46px] w-full text-center px-[42px] transition-all hover:bg-primary disabled:bg-gray-300;
+    @apply items-center bg-secondary text-white h-[46px] leading-[46px] text-center px-[42px] transition-all hover:bg-primary disabled:bg-gray-300;
 }
 
 .my-secondary-button {
